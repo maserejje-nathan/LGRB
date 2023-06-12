@@ -1,0 +1,325 @@
+{% extends 'client/base.html'%}
+{% load static %}
+{% block content %}
+ 
+
+<div class="py-4">
+</div>
+
+{% comment %} 
+total_approved_by_inspector 
+total_rejected_by_inspector
+new_pplications {% endcomment %}
+
+<div class="row">
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                     <i class="far fa-thumbs-up"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-success mb-0">Approved</h2>
+                     <h3 class="fw-extrabold mb-2"> {{total_approved_by_inspector}}</h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
+                     <i class="far fa-clock"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-warning mb-0">Pending </h2>
+                     <h3 class="fw-extrabold mb-2">{{ new_pplications }}</h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-tertiary rounded me-4 me-sm-0">
+                     <div> <i class="fa fa-ban"> </i> </div>
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-danger  mb-0"> Rejected</h2>
+                     <h3 class="fw-extrabold mb-2"> {{ total_rejected_by_inspector }} </h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+
+   <div class="card-body">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+            <li class="breadcrumb-item">
+               <a href="#">
+                  <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+               </a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Users </li>
+            <li class="breadcrumb-item active" aria-current="page">Companies </li>
+         </ol>
+      </nav>
+   </div>
+
+
+
+
+
+
+   <div class="card-header">
+      <div class="row align-items-center">
+            <div class="col">
+               <h2 class="fs-5 fw-bold mb-0"> Betting Comapnies</h2>
+            </div>
+
+            <div class="col text-end">
+                 
+                  <a href="#" type="button" class="btn btn-sm btn-primary">Users </a>
+                  <a href="#" type="button" class="btn btn-sm btn-secondary">Companies </a>
+
+            </div>
+
+      </div>
+   </div>
+
+      <div class="table-responsive">
+         <!--end task -->
+         <div class="card card-body shadow border-0 table-wrapper table-responsive">
+            <div class="d-flex   mb-3">
+               <div class="col-xs-3"> 
+                  <input type="search" class="form-control col-xl-3 " placeholder="search by licence name" id="exampleInputIconRight" >
+               </div>
+               <button class="btn btn-sm px-3 btn-secondary ms-3">search</button>
+            </div>
+            <!-- Tab -->
+
+            <div class="tab-content" id="nav-tabContent">
+               <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="table-responsive">
+                          <table class="table user-table table-hover align-items-center">
+               <thead>
+                  <tr>
+                     <th class="border-bottom">
+                        ID
+                     </th>
+                     <th class="border-bottom">Name</th>
+                     <th class="border-bottom">Email</th>
+                     <th class="border-bottom">Role</th>
+                     <th class="border-bottom">Status</th>
+                     <th class="border-bottom">Action</th>
+                  </tr>
+               </thead>
+               <tbody>
+               {% for admin in companies %}
+                  <tr>
+                     <td>
+                        {{admin.id}}
+                     </td>
+                     <td>
+                        <a href="{% url 'administrator:admin-detail' %}" class="d-flex align-items-center">
+                           <span class="fw-bold">{{admin.first_name}} {{admin.last_name}}</span>
+                        </a>
+                     </td>
+                     <td><span class="fw-normal">{{admin.email}}</span></td>
+                     <td>
+                        <span class="fw-normal d-flex align-items-center">
+                           <svg class="icon icon-xxs text-success me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                           </svg>
+                           {{admin.role}}
+                        </span>
+                     </td>
+                     <td><span class="fw-normal text-success">Active</span></td>
+                     <td>
+                           <a class="btn btn-success text-white" href="#"> View Details  </a>    
+                     </td>
+                  </tr>
+               {% endfor %}
+               </tbody>
+            </table>
+           
+            <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+               <nav aria-label="Page navigation example">
+                  
+                  {% if companies.has_other_pages %}
+                     <ol class="pagination mb-0">
+                        {% if companies.has_previous %}
+                           <li class="page-item"><a class="page-link" href="?page={{ companies.previous_page_number }}">Previous</a></li>
+                        {% else %}
+                           <li class="page-item disabled"> <a href="#" class="page-link"> Previous &nbsp; </a> </li>
+                        {% endif %}
+                        {% for i in companies.paginator.page_range %}
+                           {% if companies.number == i %}
+                           <li class="page-item active"> <a class="page-link" href="#">  {{ i }} </a> </li>
+
+                           {% else %}
+                           <li class="page-item" ><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                           {% endif %}
+                        {% endfor %}
+                        {% if companies.has_next %}
+                           <li class="page-item"><a class="page-link" href="?page={{ companies.next_page_number }}">Next</a></li>
+                        {% else %}
+                        
+                           <li class="page-item disabled"> <a href="#" class="page-link"> Next &nbsp; </a> </li>
+                        
+                        {% endif %}
+                        
+                     </ol>
+                  {% endif %}
+               </nav>
+             
+            </div>
+            </div>
+         </div>
+         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                  <thead class="thead-light">
+                     <tr>
+                        <th class="border-0">ID</th>
+                        <th class="border-0 ">Name of the company</th>
+                        <th class="border-0">Number of the premises</th>
+                        <th class="border-0">Fee</th>
+                        <th class="border-0">Date applied</th>
+                        <th class="border-0">Application Fee Prn</th>
+                        <th class="border-0">Payment Status</th>
+                        <th class="border-0">Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <!-- Item -->
+                     {% for licence in new_premise_licence_assignment %}
+                     <tr>
+                        <td> {{licence.id}} </td>
+                        <td> {{licence.name_of_the_company}} </td>
+                        <td> {{licence.number_of_premises}} </td>
+                        <td> {{licence.licence_fee}} </td>
+                        <td> {{licence.date_applied}} </td>
+                        <td>
+                           <a href="{% url 'new:new_premise_prn_pdf_view' licence.id %}" target="_blank" class="btn btn-primary">View </a> 
+                           <a href="{% url 'new:new_premise_prn_pdf_download_view' licence.id %}"  class="btn btn-success">Download </a> 
+                        </td>
+                        <td class="border-0 fw-bold">
+                           {% if  licence.payment_description == "AVAILABLE"  %}
+                           <b class="badge bg-warning">  Payment Recieved and Pending Processing  </b>
+                           {% elif licence.payment_description == "EXPIRED" %}
+                           <b class="badge bg-danger"> Prn Expired  </b>
+                           {% elif licence.payment_description == "RECEIVED AND CREDITED" %}
+                           <b class="badge bg-success"> Paid   </b>
+                           {% else %}
+                           <b class="badge bg-warning"> Pending Payment   </b>
+                           {% endif %}
+                        </td>
+                        <td>  </td>
+                        {% endfor %}
+                     </tr>
+                     <!-- End of Item -->
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                  <thead class="thead-light">
+                     <tr>
+                        <th class="border-0 rounded-start">Id</th>
+                        <th class="border-0">Name of the Employee</th>
+                        <th class="border-0">Name of the Company</th>
+                        <th class="border-0">Type of the Licence</th>
+                        <th class="border-0">Date Applied</th>
+                        <th class="border-0">Payment Status</th>
+                        <th class="border-0">Assignment  </th>
+                        <th class="border-0 rounded-end">Assigned to </th>
+                        <th class="border-0 rounded-end">Detail</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <!-- Item -->
+                     {% for licence in new_keyemployee_licence_assignment %}
+                     <tr>
+                        <td>{{licence.id}} </td>
+                        <td> {{licence.name_of_the_employee}} </td>
+                        <td> {{licence.name_of_the_company}} </td>
+                        <td> {{licence.licence_type}} </td>
+                        <td> {{licence.date_created}}</td>
+  
+                        <td> 
+                           {% if  licence.payment_description == "AVAILABLE"  %}
+                           <b class="badge bg-warning">  Payment Recieved and Pending Processing  </b>
+                           {% elif licence.payment_description == "EXPIRED" %}
+                           <b class="badge bg-danger"> Prn Expired  </b>
+                           {% elif licence.payment_description == "RECEIVED AND CREDITED" %}
+                           <b class="badge bg-success"> Paid   </b>
+                           {% else %}
+                           <b class="badge bg-warning"> Pending Payment   </b>
+                           {% endif %}
+                        </td>
+
+                         <td class="text-success">
+                              <a href="{% url 'new:employee-update'  licence.id %}" class=" btn btn-primary text-light"> assign </a>                                         
+                        </td>
+
+                        <td> {{licence.assigned_to_inspector}} </td>
+
+                        <td> 
+                           <a href="{% url 'new:employee-detail'  licence.id %}" class=" btn btn-warning text-light"> view </a>
+                        </td>
+                     </tr>
+                     <!-- End of Item -->
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+            </div>
+            <!-- End of tab -->
+            <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            </div>
+         </div>
+         <!--end task -->
+      </div>
+
+
+
+{% endblock content %}
+
+
+     

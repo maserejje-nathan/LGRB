@@ -1,0 +1,756 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="LGRB Licensing System">
+      <meta name="author" content="Lotteries and Gaming Regulatory Board">
+      <link rel="shortcut icon" type="image/x-icon" href="https://els.lgrb.go.ug//static/images/favicon.png">
+      <title>National Gaming Board Licencing System (ELS) - Create An Account</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Overpass&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'account/cassie.css' %}">
+      <link rel="stylesheet" href="{% static 'account/fontawesome-free/all.min.css' %}" >
+      <link rel="stylesheet" href="{% static 'account/custom.css' %}">
+      <style>
+         .error{color:red; border-color: red !important}
+         .readonly1 input ,.readonly select {
+         background-color:#eec !important;
+         }
+         .text-success{
+         color: green !important
+         }
+      </style>
+   </head>
+   <body>
+      <div class="signbg" style="background-image: url({% static '' %});background-position: inherit; background-repeat: no-repeat; background-size: cover; ">
+         <div class="row">
+            <div class="col-md-6" style="background:white;padding:40px">
+               <div class="signup-sidebar1">
+                  <div class="signup-sidebar-body">
+                     <a href="https://els.lgrb.go.ug/" class="sidebar-logo mg-b-40"><img style="height:5rem; width:18rem;" class="img-fluid"  src="{% static 'assets/img//brand/logo.png' %}" /></a>
+                     <div class="ui horizontal divider"></div>
+                     <h4 class="signup-title">LGRB  Licencing System</h4>
+                     <div id="feedback"></div>
+                     <form method="POST"  action="" enctype="multipart/form-data"  id="createAccountForm" class="ui form">
+                        {% csrf_token %}
+                        {{registration_form.errors}} 
+                        <br>
+
+                        <div class="required field">
+                           <label>{{registration_form.legalStatus.label}}</label>
+                           {{registration_form.legalStatus}}
+                           <div class="legalerror error"></div>
+                        </div>
+
+                        <div class="field" id="citizenshipRow">
+                           <div class=" field" id="citizenship-div">
+                              <label>{{registration_form.citizenship.label}}</label>
+                              {{registration_form.citizenship}}
+                              <div class="citizenshiperror error"></div>
+                           </div>
+                        </div>
+
+                        <div class="two fields" id="nin-div">
+
+                            <div class=" field">
+                                <label id="ninLabel">{{registration_form.nin.label}}</label>
+                                <div class="ui icon input"> {{registration_form.nin}} </div>
+                                <div class="ninerror error"></div>
+                            </div>
+
+                            
+                            <div class=" field">
+                                <label id="cardNumberLabel">{{registration_form.card_number.label}}</label>
+                                <div class="ui icon input"> {{registration_form.card_number}} </div>
+                                <div class="card_numbererror error"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="field" id="brn-div">
+                           <label id="brnLabel">{{registration_form.brn.label}}</label>
+                           <div class="ui icon input">
+                              {{registration_form.brn}}
+                           </div>
+                           <div class="identificationNumbererror error"></div>
+                        </div>
+                        
+                        
+                        
+                        <div id="foreigner-div">
+                            <div class="" >
+
+                                <div class="two fields " id="">
+                                    <div class="required field " id="wpn-div">
+                                        <label>{{registration_form.wpn.label}}</label>
+                                        {{registration_form.wpn}}
+                                        <div class="wpnError error"></div>
+                                    </div>
+
+                                    <div class="required field" id="ppn-div">
+                                        <label>{{registration_form.ppn.label}}</label>
+                                        <div class="ui icon input">
+                                            {{registration_form.ppn}}
+                                        </div>
+                                        <div class="ppnError error"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div id="name-div">
+                           
+                           <div id="blablabla">
+                              <div class="two fields " id="Director1">
+                                 
+                                 <div class="required field" id="first_name-div" >
+                                    <label id="first_name_label">{{registration_form.first_name.label}}</label>
+                                    {{registration_form.first_name}}
+                                    <div class="firstnameError error"></div>
+                                 </div>
+
+                                 <div class="required field" id="last_name-div">
+                                    <label id="last_name_label"> {{registration_form.last_name.label}}</label>
+                                    <div class="ui icon input">
+                                       {{registration_form.last_name}}
+                                    </div>
+                                    <div class="lastnameError error"></div>
+                                 </div>
+
+                             <div class="required field" id="business_type_div">
+                                 <label>  {{registration_form.business_registration_date.label}} </label>
+                                 {{registration_form.business_registration_date }}
+                                 <div class="business_registration_date error"></div>
+                              </div>
+                              
+                              </div>
+                           </div>
+                        </div>
+
+
+                        <div id="business-div">
+                           <div class="two fields">
+                              <div class="required field">
+                                 <label> {{registration_form.busines_name.label}}</label>
+                                 {{registration_form.busines_name}}
+                                 <div class="surnameerror error"></div>
+                              </div>
+                              <div class="required field">
+                                 <label> {{registration_form.business_type.label}} </label>
+                                 {{registration_form.business_type}}
+                                 <div class="given_nameserror error"></div>
+                              </div>
+                              <div class=" field">
+                                 <label>  {{registration_form.business_registration_date.label}} </label>
+                                 {{registration_form.business_registration_date }}
+                                 <div class="business_registration_date error"></div>
+                              </div>
+                           </div>
+
+                        </div>
+                        
+                        <div id="Individualnames">
+                           <div class="two fields">
+
+                              <div class="required field">
+                                 <label> {{registration_form.email.label}}</label>
+                                 {{registration_form.email}}
+                                 <div class="emailError error"></div>
+                              </div>
+
+                              <div class="required field">
+                                 <label> {{registration_form.phone_number.label}} </label>
+                                 {{registration_form.phone_number}}
+                                 <div class="phone_numberError error"></div>
+                              </div>
+
+                              <div class=" field" id="sex-div">
+                                 <label>  {{registration_form.sex.label}} </label>
+                                 {{registration_form.sex }}
+                                 <div class="sexError error"></div>
+                              </div>
+
+                           </div>
+                        </div>
+  
+                        <h4 class="ui horizontal divider header">Location Information</h4>
+                        <div id="Individualnames">
+                           <div class="two fields">
+                              <div class="required field">
+                                 <label> {{registration_form.District.label}}</label>
+                                 {{registration_form.District}}
+                                 <div class="surnameerror error"></div>
+                              </div>
+
+                              <div class="required field">
+                                 <label> {{registration_form.County.label}} </label>
+                                 {{registration_form.County}}
+                                 <div class="given_nameserror error"></div>
+                              </div>
+
+                              <div class=" field">
+                                 <label>  {{registration_form.Subcounty.label}} </label>
+                                 {{registration_form.Subcounty }}
+                                 <div class="other_nameserror error"></div>
+                              </div>
+
+                           </div>
+                        </div>
+                        <div class="two fields">
+                           <div class="required field " >
+                              <label>{{registration_form.Parish.label}}</label>
+                              {{registration_form.Parish}}
+                              <div class="director4Nameerror error"></div>
+                           </div>
+                           <div class="required field">
+                              <label>{{registration_form.Village.label}}</label>
+                              <div class="ui icon input">
+                                 {{registration_form.Village}}
+                              </div>
+                              <div class="director4Tinnumbererror error"></div>
+                           </div>
+                        </div>
+                        <h4 class="ui horizontal divider header">Login Information</h4>
+                        <div class="field">
+                           <div class="two even fields">
+                              <div class="required field">
+                                 <label> {{registration_form.password1.label}} </label>
+                                 {{registration_form.password1}}
+                                 <div class="password1error error"></div>
+                              </div>
+                              <div class="required field">
+                                 <label>{{registration_form.password2.label}}</label>
+                                 {{registration_form.password2}}
+                                 <div class="password2error error"></div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="ui hidden divider"></div>
+                        <div class="ui divider"></div>
+                        <div class="ui hidden divider"></div>
+                        <button id="submitBtn"  type="submit" name="submitBtn" class="ui fluid green button"><i class="check circle icon"></i>  Register </button>
+                     </form>
+                     <p class="mg-t-auto mg-b-0 tx-color-03">Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+                  </div>
+                  <!-- signup-sidebar-body --> 
+               </div>
+               <div class="col-md-6"></div>
+            </div>
+         </div>
+      </div>
+      </div><!-- signup-panel -->
+      <script type="text/javascript" src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+      <script src="https://bims.go.ug/static/lib/feather-icons/feather.min.js"></script>
+      <script src="https://bims.go.ug/static/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+      <script type = "text/javascript" >
+         $(document).ready(function() {
+             console.log("working");
+             
+             $("#nin-div").hide();
+             $("#brn-div").hide();
+             $("#name-div").hide();
+             $("#foreigner-div").hide();
+             $("#business-div").hide();
+             $("#sex-div").hide();
+             $("#citizenship-div").hide();
+         
+         
+             $("select[name=legalStatus]").change( function (e) {
+               const legalStatus = $(this).val();
+               console.log(legalStatus)
+               if (legalStatus == "Individual") {
+                 $("#citizenship-div").show();
+                  
+                $("#sex-div").show();
+                 
+                $("#first_name_label").text("First Name");
+                $("#last_name_label").text("Last Name");
+
+                // $("#first_name_label").attr('readonly','readonly');
+                // $("#last_name_label").attr('readonly','readonly');
+                
+                 $("#brn-div").hide();
+                 $("#business-div").hide();
+                $("#business_type_div").hide();
+
+         
+                 
+               } else if(legalStatus == "Company") {
+                 $("#brn-div").show();
+                 // $("#business-div").show();
+
+                $("#first_name_label").text("Business Name");
+                $("#last_name_label").text("Business Type");
+                $("#business_registration_date_label").text("Business Registration Date");
+                
+                // $("#first_name").attr('readonly','readonly');
+                // $("#last_name").attr('readonly','readonly');
+
+                 
+                 $("#business_type_div").show();
+                 
+                 $("#name-div").show();
+
+                 $("#foreigner-div").hide();
+              
+                 $("#sex-div").hide(); 
+                 $("#nin-div").hide();
+                 $("#citizenship-div").hide();
+         
+                 $("#busines_name").attr('readonly','readonly');
+                 $("#business_type").attr('readonly','readonly');
+                 $("#business_registration_date").attr('readonly','readonly');
+         
+               }
+             });
+         
+             $("select[name=citizenship]").change( function (e) {
+               const citizenshipType = $(this).val();
+              
+               if (citizenshipType == "Ugandan") {
+                 $("#nin-div").show();
+                 $("#foreigner-div").hide();
+                 $("#name-div").show();
+                 
+                 // $("#first_name").attr('readonly','readonly');
+                 // $("#last_name").attr('readonly','readonly');
+         
+               }else {
+                 $("#nin-div").hide();
+                 $("#foreigner-div").show();
+                 $("#name-div").show();
+                 
+                 //$("#first_name").removeAttr('readonly','readonly');
+                 //$("#last_name").removeAttr('readonly','readonly');
+               }
+             });    
+         
+             $("#last_name").blur( function () {
+
+                var nin  = $('#nin').val();
+                var card_number  = $('#card_number').val();
+                var first_name  = $('#first_name').val();
+                var last_name  = $('#last_name').val();
+
+                const nira_verification_url = "{% url 'auth-nira' %}"
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+
+                var postData = JSON.stringify({
+                    "nin": nin,
+                    "card_number": card_number,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                })
+         
+                $.ajax({
+                  url: nira_verification_url, 
+                  type: "post",
+                  dataType: "json",
+                  data: postData,
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    console.log(response)
+                     var status = response['return']['transactionStatus']
+                     niraResponse = {
+                         'national_id': response['return']['nationalId'],
+                         'surname': response['return']['surname'],
+                         'givenNames': response['return']['givenNames'],
+                         'dateOfBirth': response['return']['dateOfBirth'],
+                         'gender': response['return']['gender'],
+                         'nationality': response['return']['nationality'],
+                         'livingStatus': response['return']['livingStatus'],
+                     }
+                     
+                     if (status = "Ok") {
+         
+                         $("#tSx").remove();
+                         $("#first_name").val(niraResponse.surname);
+                         $("#last_name").val(niraResponse.givenNames);
+                         $("<i id='tSx' class='green circular check mark icon'></i>" ).appendTo($("#nin").parent());
+                         $('.ninerror').html('');
+         
+                         
+                     } else if(status = "error") {
+         
+                         $("#nin").val("");
+                         $("#first_name").val("");
+         
+                         $("#tSx").remove();
+                         $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#nin").parent());
+                         $('.ninerror').html("Invalid NIN details");
+         
+                         $("#nin").val("");
+                         $("#last_name").val("");
+         
+                         $("#tSx").remove();
+                         $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#nin").parent());
+                         $('.ninerror').html("Invalid NIN details");
+         
+                     }
+         
+                  },
+                  error: function(response) {
+                      console.log(response);
+                        $('.ninerror').html("Sorry an error has occurred. Try later");
+                        console.log(response)
+                   },
+         
+                  complete: function (response) {},
+         
+                });
+         
+             });
+         
+             $("#brn").blur( function () {
+                var brn  = $('#brn').val();
+                
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+         
+                $.ajax({
+                  url: "/accounts/ursb", 
+                  type: "post",
+                  data: {'brn': brn},
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                     var status = response['entity']['error_code']
+                     ursbResponse = {
+                         'entity_name': response['entity']['entity_name'],
+                         'cert_number': response['entity']['cert_number'],
+                         'reg_date': response['entity']['reg_date'],
+                         'company_type': response['entity']['company_type']
+                         
+                     }
+                 
+                     if (status = "Ok") {
+         
+                         $("#tSx").remove();
+                         
+                         
+                         $("#first_name").val(ursbResponse.entity_name);
+                         $("#last_name").val(ursbResponse.company_type);
+                         $("#business_registration_date").val(ursbResponse.reg_date);
+                        
+                         $("<i id='tSx' class='green circular check mark icon'></i>" ).appendTo($("#brn").parent());
+                         $('.brnError').html('');
+         
+                         
+                     } else if(status = "ENTITY_NOT_FOUND") {
+         
+                         $("#brn").val("");
+                         $("#first_name").val("");
+                         $("#last_name").val("");
+                         $("#business_registration_date").val("");
+                         
+                     
+                         $("#tSx").remove();
+                         $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#brn").parent());
+                         $('.brnError').html("Business Not Found");
+         
+                     }
+         
+                  },
+                  error: function(response) {
+                      console.log(response);
+                        $('.brnError').html("Invalid BRN. Try later");
+                        console.log(response)
+                   },
+         
+                  complete: function (response) {},
+         
+                });
+         
+             });
+         
+             $("#submitBtn").click(function(event) {
+                 console.log("working");
+                 
+                 event.preventDefault();
+                 var element = {};
+                 var errors = [];
+                 var token = $('#createAccountForm select[name=token]').val();
+                 var legalStatus = $('#createAccountForm select[name=legalStatus]').val();
+                 var citizenship = $('#createAccountForm select[name=citizenship]').val();
+                 var address = $('#createAccountForm input[name=address]').val();
+                 var surname = $('#createAccountForm input[name=surname]').val();
+                 var first_name = $('#createAccountForm input[name=first_name]').val();
+                 var last_name = $('#createAccountForm input[name=last_name]').val();
+                 var card_number = $('#createAccountForm input[name=card_number]').val();
+
+                 var brn = $('#createAccountForm input[name=brn]').val();
+
+                 var ppn = $('#createAccountForm input[name=ppn]').val();
+                 var wpn = $('#createAccountForm input[name=wpn]').val();
+
+                 var busines_name = $('#createAccountForm input[name=busines_name]').val();
+                 var business_type = $('#createAccountForm input[name=business_type ]').val();
+                 var business_registration_date = $('#createAccountForm input[name=business_registration_date]').val();
+                 
+                 var identificationNumber = $('#createAccountForm input[name=identificationNumber]').val();
+                 var email = $('#createAccountForm input[name=email]').val();
+                 var phone_number = $('#createAccountForm input[name=phone_number]').val();
+                 var password1 = $('#createAccountForm input[name=password1]').val();
+                 var password2 = $('#createAccountForm input[name=password2]').val();
+                 
+                 var form = document.querySelector('#createAccountForm');
+                 
+                 if (legalStatus == "") {
+                     element.legalStatus = "Select Legal Status";
+                     errors.push(element);
+                 }
+
+                  if (citizenship == "Non-Ugandan") {
+                
+                        if (wpn == "") {
+                            element.wpn = "This field can not be blank";
+                            errors.push(element);
+                        }
+
+                        if (ppn == "") {
+                            element.ppn = "This field can not be blank";
+                            errors.push(element);
+                        }
+
+                  }
+
+                  else if (citizenship == "Ugandan") {
+                
+                        if (nin == "") {
+                            element.nin = "This field can not be blank";
+                            errors.push(element);
+                        }
+
+                        if (card_number == "") {
+                            element.card_number = "This Field is required";
+                            errors.push(element);
+                        }
+
+                  }
+
+                 if (legalStatus == "Company") {
+              
+                     if (brn == "") {
+                         element.brn = "This Field is required";
+                         errors.push(element);
+                     }
+
+                 } 
+                 
+                 else if (legalStatus == "Individual") {
+                     
+                     if (citizenship == "") {
+                        element.citizenship = "Select Appropriate Citizenship Status";
+                        errors.push(element);
+                     }
+                     
+                 } 
+                
+                
+                if (first_name == "") {
+                    element.first_name = "This field can not be blank";
+                    errors.push(element);
+                }
+
+                if (last_name == "") {
+                    element.last_name = "This field can not be blank";
+                    errors.push(element);
+                }
+
+                 if (email == "") {
+                     element.email = "Enter Email";
+                     errors.push(element);
+                 }
+
+                 if (phone_number == "") {
+                     element.phone_number = "Enter Mobile";
+                     errors.push(element);
+                 }
+
+                 if (address == "") {
+                     element.address = "Enter Address";
+                     errors.push(element);
+                 }
+                 if (password1 == "") {
+                     element.password1 = "Enter Password";
+                     errors.push(element);
+                 }
+
+                 if (password2 == "") {
+                     element.password2 = "Confirm Password";
+                     errors.push(element);
+                 }
+
+                 if (errors.length > 0){
+         
+                     if (errors[0]['legalStatus']) {
+                         $("#createAccountForm  #legalStatus").addClass("error");
+                         $('.legalerror').html(errors[0]['legalStatus']);
+                     } else {
+                         $('#createAccountForm  #legalStatus').removeClass("error");
+                         $('.legalerror').html('');
+                     }
+
+                     if (errors[0]['wpn']) {
+                         $("#createAccountForm  #wpn").addClass("error");
+                         $('.wpnError').html(errors[0]['wpn']);
+                     } else {
+                         $('#createAccountForm  #wpn').removeClass("error");
+                         $('.wpnError').html('');
+                     }
+
+                     if (errors[0]['ppn']) {
+                         $("#createAccountForm  #ppn").addClass("error");
+                         $('.ppnError').html(errors[0]['ppn']);
+                     } else {
+                         $('#createAccountForm  #ppn').removeClass("error");
+                         
+                         $('.ppnError').html('');
+                     }
+
+                    if (errors[0]['card_number']) {
+                         $("#createAccountForm  #card_number").addClass("error");
+                         $('.card_numbererror').html(errors[0]['card_number']);
+                     } else {
+                         $('#createAccountForm  #card_number').removeClass("error");
+                         $('.card_numbererror').html('');
+                     }
+
+                    if (errors[0]['nin']) {
+                         $("#createAccountForm  #nin").addClass("error");
+                         $('.ninerror').html(errors[0]['nin']);
+                     } else {
+                         $('#createAccountForm  #nin').removeClass("error");
+                         $('.ninerror').html('');
+                     }
+
+
+         
+                     //business name error 
+                     if (errors[0]['busines_name']) {
+                         $("#createAccountForm  #busines_name").addClass("error");
+                         $('.busines_nameError').html(errors[0]['busines_name']);
+                     } else {
+                         $('#createAccountForm  #busines_name').removeClass("error");
+                         $('.busines_nameError').html('');
+                     }
+                     //business type error 
+                     if (errors[0]['business_type']) {
+                         $("#createAccountForm  #business_type").addClass("error");
+                         $('.business_typeError').html(errors[0]['business_type']);
+                     } else {
+                         $('#createAccountForm  #business_type').removeClass("error");
+                         $('.business_typeError').html('');
+                     }
+                     //business registration date error 
+                     if (errors[0]['business_registration_date']) {
+                         $("#createAccountForm  #business_registration_date").addClass("error");
+                         $('.business_registration_dateError').html(errors[0]['business_registration_date']);
+                     } else {
+                         $('#createAccountForm  #business_registration_date').removeClass("error");
+                         $('.business_registration_dateError').html('');
+                     }
+
+                     //business registration date error 
+                     if (errors[0]['brn']) {
+                         $("#createAccountForm  #brn").addClass("error");
+                         $('.identificationNumbererror').html(errors[0]['business_registration_date']);
+                     } else {
+                         $('#createAccountForm  #brn').removeClass("error");
+                         $('.identificationNumbererror').html('');
+                     }
+
+                     
+                     if (errors[0]['first_name']) {
+                         $("#createAccountForm  #first_name").addClass("error");
+                         $('.firstnameError').html(errors[0]['first_name']);
+                     } else {
+                         $('#createAccountForm  #first_name').removeClass("error");
+                         $('.firstnameError').html('');
+                     }
+                     if (errors[0]['last_name']) {
+                         $("#createAccountForm  #last_name").addClass("error");
+                         $('.lastnameError').html(errors[0]['last_name']);
+                     } else {
+                         $('#createAccountForm  #last_name').removeClass("error");
+                         $('.lastnameError').html('');
+                     }
+                     if (errors[0]['citizenship']) {
+                         $("#createAccountForm  #citizenship").addClass("error");
+                         $('.citizenshiperror').html(errors[0]['citizenship']);
+                     } else {
+                         $('#createAccountForm  #citizenship').removeClass("error");
+                         $('.citizenshiperror').html('');
+                     }
+                     if (errors[0]['identificationNumber']) {
+                         $("#createAccountForm  #identificationNumber").addClass("error");
+                         $('.identificationNumbererror').html(errors[0]['identificationNumber']);
+                     } else {
+                         $('#createAccountForm  #identificationNumber').removeClass("error");
+                         $('.identificationNumbererror').html('');
+                     }
+         
+                     if (errors[0]['email']) {
+                         $("#createAccountForm  #email").addClass("error");
+                         $('.emailError').html(errors[0]['email']);
+                     } else {
+                         $('#createAccountForm  #emailAddress').removeClass("error");
+                         $('.emailError').html('');
+                     }
+         
+                     if (errors[0]['phone_number']) {
+                         $("#createAccountForm  #phone_number").addClass("error");
+                         $('.phone_numberError').html(errors[0]['phone_number']);
+                     } else {
+                         $('#createAccountForm  #phone_number').removeClass("error");
+                         $('.mobilePhoneerror').html('');
+                     }
+                     if (errors[0]['address']) {
+                         $("#createAccountForm  #address").addClass("error");
+                         $('.addresserror').html(errors[0]['address']);
+                     } else {
+                         $('#createAccountForm  #address').removeClass("error");
+                         $('.addresserror').html('');
+                     }
+                     if (errors[0]['password1']) {
+                         $("#createAccountForm  #password1").addClass("error");
+                         $('.password1error').html(errors[0]['password1']);
+                     } else {
+                         $('#createAccountForm  #password1').removeClass("error");
+                         $('.password1error').html('');
+                     }
+                     if (errors[0]['password2']) {
+                         $("#createAccountForm  #password2").addClass("error");
+                         $('.password2error').html(errors[0]['password2']);
+                     } else {
+                         $('#createAccountForm  #password2').removeClass("error");
+                         $('.password2error').html('');
+                     }
+         
+                     return false;
+                 } else {
+                     
+                 }
+                 console.log(form);
+                 form.submit();
+         
+             });
+         
+         
+         }); 
+         
+         
+      </script>
+   </body>
+</html>

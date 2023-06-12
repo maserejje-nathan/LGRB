@@ -1,0 +1,91 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="py-4">
+</div>
+<div class="row">
+
+   <div class="col-12 col-sm-6 col-xl-6 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                     <i class="far fa-thumbs-up"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-success mb-0">Total Incoming applications </h2>
+                     <h3 class="fw-extrabold mb-2"> {{total_licence_at_verification}} </h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-6 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
+                     <i class="far fa-clock"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-warning mb-0">Defered </h2>
+                     <h3 class="fw-extrabold mb-2">{{ total_defered_by_verifier }}</h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+  
+
+</div>
+</div>
+   
+<div class="row">
+   <div class="col-12 ">
+      <div class="row">
+         <div class="col-12 mb-4">
+            <div class="card border-0 shadow">
+               
+               <div class="table-responsive">
+                  <!--end task -->
+                    {% if request.user.role == "inspector" %}
+                        {% include 'administrator/tasks/new_inspecting_officer_tasks.html' %}
+
+                     {% elif request.user.role == "verifier" %}
+                        {% include 'administrator/tasks/new_verification_officer_tasks.html' %}
+
+                     {% elif request.user.role == "approver" %}
+                        {% include 'administrator/tasks/new_approving_officer_tasks.html' %}
+
+                     {% endif %}
+                  <!--end task -->
+               </div>
+            </div>
+         </div>
+         <div class="col-12 col-xxl-6 mb-4">
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+<script type="text/javascript">
+  
+</script> 
+{% endblock content %}

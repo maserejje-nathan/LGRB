@@ -1,0 +1,143 @@
+{% extends 'client/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="py-4">
+</div>
+<div class="row">
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                     <i class="far fa-thumbs-up"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-success mb-0">Approved</h2>
+                     <h3 class="fw-extrabold mb-2"> {{total_approved_by_approver}} </h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
+                     <i class="far fa-clock"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-warning mb-0">Defered </h2>
+                     <h3 class="fw-extrabold mb-2">{{ total_defered_by_approver }}</h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-tertiary rounded me-4 me-sm-0">
+                     <div> <i class="fa fa-ban"> </i> </div>
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-danger  mb-0"> Rejected</h2>
+                     <h3 class="fw-extrabold mb-2"> {{ total_rejected_by_approver }} </h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+
+   <div class="row">
+      <div class="col-12 ">
+         <div class="row">
+            <div class="col-12 mb-4">
+               <div class="card border-0 shadow">
+               
+                  <div class="table-responsive">
+                     <!--end task -->
+                     {% include 'administrator/tasks/new_approving_officer_tasks.html' %}
+                     <!--end task -->
+                  </div>
+               </div>
+            </div>
+            <div class="col-12 col-xxl-6 mb-4">
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+   var Prn  = $('#Prn').val();
+   console.log(Prn);
+       var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+       
+   
+       $.ajax({
+            url: "/accounts/prn/status", 
+            type: "POST",
+            data : {"Prn": Prn },
+            dataType: "json",
+            headers: {'X-CSRFToken': csrftoken },
+            mode: 'same-origin',  
+   
+            beforeSend: function () {},
+   
+            success: function (response) {
+                console.log(response)
+                var status = response['CheckPRNStatusResult'].ErrorDesc
+                console.log(status);
+                var statusCode = response['CheckPRNStatusResult'].ErrorCode
+                
+                if (statusCode = "T" ) {
+                    $("#PrnStatus").text(status);
+                    
+                } else if(statusCode = "APPOO1"){
+                    $("#PrnStatus").text(status);
+                    
+                }
+   
+            },
+            error: function(response) {
+                console.log(response);
+                  $('.brnError').html("Invalid BRN. Try later");
+                  console.log(response)
+             },
+   
+            complete: function (response) {},
+          
+   
+   })
+   
+     
+</script> 
+{% endblock content %}

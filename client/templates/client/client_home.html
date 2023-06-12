@@ -1,0 +1,1412 @@
+
+{% extends 'client/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="py-4">
+</div>
+
+{% comment %} 
+total_approved_by_inspector 
+total_rejected_by_inspector
+new_pplications {% endcomment %}
+
+
+             
+<div class="row">
+
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                     <i class="far fa-thumbs-up"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-success mb-0">Approved</h2>
+                     <h3 class="fw-extrabold mb-2"> {{total_approved_by_inspector}}</h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href="{% url 'new:new_certificate_list' %}"> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
+                     <i class="far fa-clock"></i> 
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm"> Pending</h6>
+                                       
+                                    </div>
+                     <h3 class="fw-extrabold mb-2">{{ new_pplications }}</h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12 col-sm-6 col-xl-4 mb-4">
+      <div class="card border-0 shadow">
+         <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+               <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                  <div class="icon-shape icon-shape-tertiary rounded me-4 me-sm-0">
+                     <div> <i class="fa fa-ban"> </i> </div>
+                  </div>
+               </div>
+               <div class="col-12 col-xl-7 px-xl-0">
+                  <div class="d-none d-sm-block">
+                     <h2 class="h6 text-danger  mb-0"> Rejected</h2>
+                     <h3 class="fw-extrabold mb-2"> {{ total_rejected_by_inspector }} </h3>
+                  </div>
+                  <div class="small d-flex mt-1">
+                     <div> <a href=""> View More Details </a> <i class="fas fa-arrow-right"></i> </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
+
+<div class="card-body">
+   <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+      <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+         <li class="breadcrumb-item">
+            <a href="#">
+               <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+               </svg>
+            </a>
+         </li>
+         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+         <li class="breadcrumb-item active" aria-current="page">Tracking </li>
+         <li class="breadcrumb-item active" aria-current="page">New Licence </li>
+      </ol>
+   </nav>
+</div>
+
+
+<div class="card-header">
+   <div class="row align-items-center">
+         <div class="col">
+            <h2 class="fs-5 fw-bold mb-0">Licence Tracker</h2>
+         </div>
+
+         <div class="col text-end">
+               
+               <a href="{% url 'new:new_prn_list' %}" type="button" class="btn btn-sm btn-primary">New licences</a>
+
+         </div>
+
+   </div>
+</div>
+
+<div class="table-responsive">
+   <!--end task -->
+   <div class="card card-body shadow border-0 table-wrapper table-responsive">
+      
+      <div class="d-flex   mb-3">
+         <div class="col-xs-3"> 
+            <input type="search" class="form-control col-xl-3 " placeholder="search by licence name" id="exampleInputIconRight" >
+         </div>
+         <button class="btn btn-sm px-3 btn-secondary ms-3">search</button>
+      </div>
+      <!-- Tab -->
+      <nav>
+         <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Principle Licence</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Premise Licence</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Key Employee Licence</a>
+         </div>
+      </nav>
+
+      <div class="tab-content" id="nav-tabContent">
+   
+         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                  <thead class="thead-light">
+                     <tr>
+                        <th class="border-0 ">Reference ID</th>
+                        <th class="border-0">Name of the Company</th>
+                        <th class="border-0">Purpose  </th>
+                        <th class="border-0">Type of the licence</th>
+                        <th class="border-0">Date Applied</th>
+                        <th class="border-0">Approval Status</th>
+                        <th class="border-0">Application Fee </th>
+                        <th class="border-0">Licence Fee </th>
+                        <th class="border-0">Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <!-- Item -->
+                     {% for licence in new_principle_principle_licence_track %}
+                     <tr>
+                        <td> {{licence.certificate_number}}  </td>
+                        <td> {{licence.applicant.first_name}}  {{licence.applicant.last_name}} </td>
+                        <td> {{licence.purpose_of_application}} </td>
+                        <td> {{licence.licence_type}} </td>
+                        <td> {{licence.date_applied}} </td>
+                       
+                        <td class="{% if licence.approving_authority_status == "Rejected" %} text-danger {% else %} text-success {% endif %}">
+                        
+                           
+                           {% if  licence.approving_authority_status == "Approved" and licence.bank_guarantee.approving_authority_status == "Approved" %}
+                  
+                                 <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex ">
+                                          <i class="fas fa-check" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                         <h6 class="mb-1 text-dark text-sm"> Approved</h6>
+                                           <span class="text-xs">On{{licence.date_approved}} </span>
+                                       </div>
+                                    </div>
+                                 </li>
+
+                           {% else %}
+                                 
+
+                                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                       <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                          <i class="fas fa-clock" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                          <h6 class="mb-1 text-dark text-sm">Pending </h6>
+                                          
+                                       </div>
+                                    </div>
+                                 </li>
+
+
+                           {% endif %}
+                          
+                          
+                        </td>
+
+                        <td>
+                                     
+                           {% if licence.purpose_of_application == "Renewal" %}
+                                <div class="text-center">  Does not apply  </div>
+                           {% else %}
+
+                              {% if licence.applicationfeepayments %}
+
+                                 {% if  licence.applicationfeepayments.payment_description == "AVAILABLE"  %}
+                                                                  
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-clock" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment registration accepted </h6>
+                                             
+                                          </div>
+                                       </div>
+                                    </li>
+
+                                 {% elif licence.applicationfeepayments.payment_description == "EXPIRED" %}
+                                    
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-times" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment Registration Expired</h6>
+                                             <span class="text-xs">Expired on {{licence.payment_expiry_date}}</span>
+                                          </div>
+                                       </div>
+                                    </li>
+                                    
+                                 {% elif licence.applicationfeepayments.payment_description == "RECEIVED AND CREDITED" %}
+                                    
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                             <span class="text-xs"></span>
+                                          </div>
+                                       </div>
+                                    </li>
+
+                                 {% elif licence.applicationfeepayments.payment_description == "" %}
+                                    
+                                    <li class="list-group-item border-0 "> 
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                             <span class="text-xs">Generated on {{object.payment_generation_date}}, by {{object.payment_made_by}}</span>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 
+                                 {% else %}
+
+                                    {% comment %} <div class="d-flex align-items-justify ml-3 mr-3">                                                   
+                                       <div> 
+                                          <a href="{% url 'new:new_principle_prn_pdf_view'  licence.id %}" target="_blank" class="ml-3 mr-3 "> 
+                                                <span data-toggle="tooltip" data-placement="top" title="view prn slip">
+                                                <i class="far fa-eye"></i>    &nbsp;  &nbsp; &nbsp; 
+                                             </span>
+                                          </a>
+                                       </div>
+                                       
+                                       <div>
+                                          <a href="{% url 'new:new_principle_prn_pdf_download_view'  licence.id %}" class="ml-3 mr-3 "> 
+                                             <span data-toggle="tooltip" data-placement="top" title="download prn slip">
+                                                <i class="fas fa-download"></i>    
+                                             </span>
+                                          </a>
+                                       </div> 
+
+                                    </div> {% endcomment %}
+                                    
+                                 {% endif %} 
+
+                              {% else %}
+
+                                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form-application-fee" onclick="populatePaymentForm('{{ licence.id }}', '{{ licence.application_fee }}')">Pay Application Fees</button>
+                             
+                              {% endif %}
+
+                           {% endif %}
+                           
+                        </td>
+
+                        <td>
+
+                         {% if licence.purpose_of_application == "New" %}
+                               
+                           {% if licence.approved == True and licence.approving_authority_status == "Approved" and licence.purpose_of_application == "New" %}
+                                 
+                                 {% if licence.licencefeepayments %}
+
+                                    {% if   licence.licencefeepayments.payment_description == "AVAILABLE"  %}
+                                       
+                                       <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                          <div class="d-flex align-items-center">
+                                             <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-clock" aria-hidden="true"></i>
+                                             </button>
+                                             <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">Payment registration accepted </h6>
+                                                
+                                             </div>
+                                          </div>
+                                       </li>
+
+                                    {% elif  licence.licencefeepayments.payment_description == "EXPIRED" %}
+                                       
+                                       <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                          <div class="d-flex align-items-center">
+                                             <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-times" aria-hidden="true"></i>
+                                             </button>
+                                             <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">Payment Registration Expired</h6>
+                                                <span class="text-xs">Expired on {{licence.payment_expiry_date}}</span>
+                                             </div>
+                                          </div>
+                                       </li>
+                                       
+                                    {% elif licence.licencefeepayments.payment_description == "RECEIVED AND CREDITED" %}     
+                                       <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                          <div class="d-flex align-items-center">
+                                             <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                             </button>
+                                             <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                                <span class="text-xs">Made on {{licence.payment_made_on}}</span>
+                                             </div>
+                                          </div>
+                                       </li>
+
+                                    {% elif  licence.licencefeepayments.payment_description == "" %}
+                                    
+                                       <li class="list-group-item border-0 "> 
+                                          <div class="d-flex align-items-center">
+                                             <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                             </button>
+                                             <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                                <span class="text-xs">Generated on {{object.payment_generation_date}}, by {{object.payment_made_by}}</span>
+                                             </div>
+                                          </div>
+                                       </li>
+                                    
+                                    {% else %}
+                                       <div class="d-flex align-items-justify ml-3 mr-3">                                                   
+                                          <div> 
+                                       
+                                             <a href="{% url 'new:new_principle_prn_pdf_view'  licence.id %}" target="_blank" class="ml-3 mr-3 "> 
+                                                <span data-toggle="tooltip" data-placement="top" title="view prn slip">
+                                                   <i class="far fa-eye"></i>    &nbsp;  &nbsp; &nbsp; 
+                                                </span>
+                                             </a>
+                                          </div>
+                                          
+                                          <div>
+                                             <a href="{% url 'new:new_principle_prn_licence_fee_pdf_download_view'  licence.id %}" class="ml-3 mr-3 "> 
+                                                <span data-toggle="tooltip" data-placement="top" title="download prn slip">
+                                                   <i class="fas fa-download"></i>    
+                                                </span>
+                                             </a>
+                                          </div> 
+
+                                       </div>
+                                       
+                                    {% endif %}
+
+
+                                 {% else %}
+                                    <div class="mt-3 ">
+                                       <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modal-form-licence-fee" onclick="populateLicenceFeeData('{{ licence.id }}', '{{ licence.licence_fee }}')">Pay Licence Fee</button>
+                                    </div>
+                                 {% endif %}
+
+                           {% else %}
+
+                              <li class="list-group-item border-0 "> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm"> Pending </h6>
+                                       
+                                    </div>
+                                 </div>
+                              </li>
+
+                           {% endif %}
+                        
+                        {% else %}
+
+                              {% if licence.licencefeepayments %}
+
+                                 {% if  licence.licencefeepayments.payment_description == "AVAILABLE"  %}
+                                                                  
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-clock" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment registration accepted </h6>
+                                             
+                                          </div>
+                                       </div>
+                                    </li>
+
+                                 {% elif licence.licencefeepayments.payment_description == "EXPIRED" %}
+                                    
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-times" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment Registration Expired</h6>
+                                             <span class="text-xs">Expired on {{licence.payment_expiry_date}}</span>
+                                          </div>
+                                       </div>
+                                    </li>
+                                    
+                                 {% elif licence.licencefeepayments.payment_description == "RECEIVED AND CREDITED" %}
+                                    
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                             <span class="text-xs"></span>
+                                          </div>
+                                       </div>
+                                    </li>
+
+                                 {% elif licence.licencefeepayments.payment_description == "" %}
+                                    
+                                    <li class="list-group-item border-0 "> 
+                                       <div class="d-flex align-items-center">
+                                          <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                          </button>
+                                          <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                             <span class="text-xs">Generated on {{object.payment_generation_date}}, by {{object.payment_made_by}}</span>
+                                          </div>
+                                       </div>
+                                    </li>
+                                 
+                                 {% else %}
+
+                                    {% comment %} <div class="d-flex align-items-justify ml-3 mr-3">                                                   
+                                       <div> 
+                                          <a href="{% url 'new:new_principle_prn_pdf_view'  licence.id %}" target="_blank" class="ml-3 mr-3 "> 
+                                                <span data-toggle="tooltip" data-placement="top" title="view prn slip">
+                                                <i class="far fa-eye"></i>    &nbsp;  &nbsp; &nbsp; 
+                                             </span>
+                                          </a>
+                                       </div>
+                                       
+                                       <div>
+                                          <a href="{% url 'new:new_principle_prn_pdf_download_view'  licence.id %}" class="ml-3 mr-3 "> 
+                                             <span data-toggle="tooltip" data-placement="top" title="download prn slip">
+                                                <i class="fas fa-download"></i>    
+                                             </span>
+                                          </a>
+                                       </div> 
+
+                                    </div> {% endcomment %}
+                                    
+                                 {% endif %} 
+
+                              {% else %}
+
+                                 <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modal-form-licence-fee" onclick="populateLicenceFeeData('{{ licence.id }}', '{{ licence.licence_fee }}')">Pay Licence Fee</button>
+                             
+                              {% endif %}
+
+
+                        {% endif %}
+
+
+                           
+                        </td>
+
+                        <td class="text-success">
+                           <a href="{% url 'new:principle-detail'  licence.id %}" class=" text-success"> <i class="far fa-eye"></i>  </a>                                                 
+                        </td>
+
+                     </tr>
+                     <!-- End of Item -->
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         
+         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                     <thead class="thead-light">
+                        <tr>
+                           <th class="border-0">ID</th>
+                           <th class="border-0 ">Operator Name</th>
+                           <th class="border-0">Premise Name</th>
+                           <th class="border-0">Region </th>
+                           <th class="border-0">Date applied </th>
+                           <th class="border-0">District</th>
+                           <th class="border-0">Approval status </th>
+                           <th class="border-0">Inspection fees</th>
+                           <th class="border-0 ">Action</th>
+                        </tr>
+
+                     </thead>
+                     <tbody>
+                        <!-- Item -->
+                           {% for licence in new_premise_licence_track %}
+                        <tr>
+                           <td> {{licence.id}}</td>
+                           <td> {{licence.operator_name}} </td>
+                           <td> {{licence.premise_name}} </td>
+                           <td> {{licence.region}}</td>
+                           <td> {{licence.date_applied}}</td>
+                           <td> {{licence.district}} </td>
+                           <td>
+                     {% if  licence.approving_authority_status == "Approved" %}
+                              
+
+                           <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                              <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex ">
+                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm"> Approved</h6>
+                                       <span class="text-xs"> On {{licence.date_approved}} </span>
+                                 </div>
+                              </div>
+                           </li>
+
+                     {% else %}
+                           
+
+                                 <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm">Pending </h6>
+                                    
+                                 </div>
+                              </div>
+                           </li>
+
+
+                     {% endif %}
+
+
+                           </td>
+                           <td> 
+                                 {% if  licence.payment_description == "AVAILABLE"  %}
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                       <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment registration accepted</h6>
+                                             
+                                       </div>
+                                    </div>
+                                    </li>
+                                 {% elif licence.payment_description == "EXPIRED" %}
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                       <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-times" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment Registration Expired</h6>
+                                          
+                                       </div>
+                                    </div>
+                                    </li>
+                                 {% elif licence.payment_description == "RECEIVED AND CREDITED" %}
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                       <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                          
+                                       </div>
+                                    </div>
+                                    </li>
+                                 {% else %}
+                                    <li class="list-group-item border-0 "> 
+                                    <div class="d-flex align-items-center">
+                                       <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                             <i class="fas fa-check" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                             <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                             
+                                       </div>
+                                    </div>
+                                    </li>
+                                 {% endif %}
+                           </td>
+                           
+                           <td>
+                              {% if request.user.role == "inspector" %}
+                                    <a href="{% url 'new:premise-detail'  licence.id %}" class=" text-dark">
+                                    <i class="fa fa-eye"></i> 
+                                 </a>
+
+                              {% elif request.user.role == "verifier" %}
+                                 <a href="{% url 'administrator:PremiseVerifiersUpdate'  licence.id %}" class=" btn btn-warning text-light"> Verify </a>   
+
+                              {% elif request.user.role == "approver" %}
+                                 <a href="{% url 'administrator:PremiseApproversUpdate'  licence.id %}" class=" btn btn-warning text-light"> Approve </a>
+                              {% elif request.user.role == "client" %}
+                                 
+                                 <a href="{% url 'new:premise-detail'  licence.id %}" class="   text-success"> 
+                                    <i class="far fa-eye"></i>
+                                 </a>
+
+                              {% endif %} 
+                                 
+                        </td>
+                           {% endfor %}
+                        </tr>
+                        <!-- End of Item -->
+                     </tbody>
+               </table>
+            </div>
+         </div>
+
+
+         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                  <thead class="thead-light">
+                     <tr>
+                        <th class="border-0 rounded-start">Id</th>
+                        <th class="border-0">Name of the Employee</th>
+                        <th class="border-0">Name of the Company</th>
+                        <th class="border-0">Purpose </th>
+                        <th class="border-0">Type of the Licence</th>
+                        <th class="border-0">Date Applied</th>
+                        <th class="border-0">Approval Status </th>
+                        <th class="border-0 rounded-end">Payment </th>
+                        <th class="border-0 rounded-end">action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <!-- Item -->
+                     {% for licence in new_keyemployee_licence_track %}
+                     <tr>
+                        <td>{{licence.id}} </td>
+                        <td> {{licence.name_of_the_employee}} </td>
+                        <td> {{licence.name_of_the_company}} </td>
+                        <td> {{licence.purpose_of_application}} </td>
+                        <td> {{licence.licence_type}} </td>
+                        <td> {{licence.date_applied}}</td>
+                        <td>
+
+                           {% if  licence.approving_authority_status == "Approved"  %}
+                               <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex ">
+                                          <i class="fas fa-check" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                         <h6 class="mb-1 text-dark text-sm"> Approved</h6>
+                                           <span class="text-xs">On{{licence.date_approved}} </span>
+                                       </div>
+                                    </div>
+                                 </li>
+                           {% else %}
+                                 
+                                 <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                                    <div class="d-flex align-items-center">
+                                       <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                          <i class="fas fa-clock" aria-hidden="true"></i>
+                                       </button>
+                                       <div class="d-flex flex-column">
+                                          <h6 class="mb-1 text-dark text-sm">Pending </h6>
+                                          
+                                       </div>
+                                    </div>
+                                 </li>
+
+                           {% endif %}
+                        </td>
+
+                        <td>
+                           
+                           {% if  licence.payment_description == "AVAILABLE"  %}
+                              <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment registration accepted</h6>
+                                       
+                                 </div>
+                              </div>
+                              </li>
+                           {% elif licence.payment_description == "EXPIRED" %}
+                              <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-times" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment Registration Expired</h6>
+                                    
+                                 </div>
+                              </div>
+                              </li>
+                           {% elif licence.payment_description == "RECEIVED AND CREDITED" %}
+                              <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-0 border-radius-lg">
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                    
+                                 </div>
+                              </div>
+                              </li>
+                           {% else %}
+                              <li class="list-group-item border-0 "> 
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                       
+                                 </div>
+                              </div>
+                              </li>
+                           {% endif %}
+
+                        </td>
+
+                        <td> 
+                           <a href="{% url 'new:employee-detail'  licence.id %}" class="   text-success"> 
+                              <i class="far fa-eye"></i>
+                           </a>
+                        </td>
+                     </tr>
+                     <!-- End of Item -->
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+
+      </div>
+      <!-- End of tab -->
+      <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+      </div>
+   </div>
+   <!--end task -->
+</div>
+          
+<div class="col-lg-4">
+  <div class="modal fade" id="modal-form-application-fee" tabindex="-1" role="dialog" aria-labelledby="modal-form-application-fee" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card p-3 p-lg-4">
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="text-center text-md-center mb-4 mt-md-0">
+              <h1 class="mb-0 h4">Prn Generation Form</h1>
+            </div>
+            <form id="application-fees-payment-form" >
+              {% csrf_token %}
+              <div class="mt-4">
+                <input type="hidden" name="licence_id" id="licence_id" value="">
+                {{ application_fees_form }}
+                
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-gray-800">Submit Payment</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-4">
+  <div class="modal fade" id="modal-form-licence-fee" tabindex="-1" role="dialog" aria-labelledby="modal-form-licence-fee" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card p-3 p-lg-4">
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="text-center text-md-center mb-4 mt-md-0">
+              <h1 class="mb-0 h4">Licence Fee Prn Generation Form</h1>
+            </div>
+            <form id="licence-fees-payment-form" >
+              {% csrf_token %}
+              <div class="mt-4">
+                <input type="hidden" name="licence_id_id" id="licence_id_id" value="">
+                {{ licence_fees_form }}
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-gray-800">Submit Payment</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+   $(document).ready(function() {
+   });
+
+   // applicattion fee payment
+
+   function populatePaymentForm(licenceId, applicationFee) {
+      console.log('Licence ID:', licenceId);
+      console.log('Application Fee:', applicationFee);
+
+      var modal = $('#modal-form-application-fee');
+      modal.find('#licence_id').val(licenceId);
+      modal.find('#prn').val('');
+      modal.find('#application_fee').val(applicationFee);
+   }
+
+   $('#application-fees-payment-form').submit(function(e) {
+
+      e.preventDefault();   
+      var  csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      var licence_id = $('#licence_id').val()
+      var tin = $('#tin').val()
+      var application_fee = $('#application_fee').val()
+      var error_code = $('#error_code').val()
+      var error_desc = $('#error_desc').val()
+      var search_code = $('#search_code').val()
+      var payment_expiry_date = $('#payment_expiry_date').val()
+      var generate_prn = $('#generate_prn').val()
+      var prn = $('#prn').val()
+
+      var formData = {
+         licence_id: licence_id,
+         tin:tin,
+         application_fee: application_fee,
+         error_code:error_code,
+         error_desc:error_desc,
+         search_code: search_code,
+         payment_expiry_date: payment_expiry_date,
+         generate_prn: generate_prn,
+         prn: prn
+      };
+
+      console.log(formData);
+
+      
+      $.ajax({
+         type: 'post',
+         url: '{% url "payments:application_fee_payment" %}',
+         headers: {'X-CSRFToken': csrftoken },
+         data: JSON.stringify(formData),
+         dataType: 'json',
+         contentType: 'application/json',
+         success: function(response) {
+            if (response.success) {
+               
+               Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: response.message,
+                  showConfirmButton: true,
+               }).then(function() {
+                  // Redirect to another view
+                  window.location.href = '{% url "new:new_prn_list" %}';
+                   $('#modal-form-application-fee').modal('hide');
+               });
+
+                // $('#modal-form-application-fee').modal('hide');
+               // Perform any additional actions or updates on the page
+            } else {
+               console.log('Error: ' + response.errors);
+            }
+         },
+
+         error: function(xhr, textStatus, errorThrown) {
+            console.log('Error: ' + errorThrown);
+         }
+
+
+      });
+   });
+
+   const application_fee_switch = document.getElementById('generate_prn');
+   application_fee_switch.addEventListener("click",  function applicationFeePrnGeneration(e){
+   
+      const generate_prn  = document.getElementById('generate_prn').value
+      const prn  = document.getElementById('prn').value
+      const error_code  = document.getElementById('error_code').value
+      const error_desc  = document.getElementById('error_desc').value
+      const payment_expiry_date  = document.getElementById('payment_expiry_date').value
+      const search_code  = document.getElementById('search_code').value
+      const tin = document.getElementById('tin').value
+      const application_fee = document.getElementById("application_fee").value
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const application_fee_url = "{% url 'payments:get_prn_application_fee' %}"
+   
+      if( tin === ''){
+         Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'TIN field can not be empty',
+               showConfirmButton: true,
+         })
+   
+         document.getElementById("generate_prn").checked = false;
+   
+      }
+   
+   
+      if(application_fee_switch.checked == true){
+   
+            $.ajax({
+                  url: application_fee_url, 
+                  type: "post",
+                  data: {
+                     "application_fee": application_fee,
+                     "tin": tin,
+                  },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {
+                     
+                      $('#spinner').show();
+                      $("#loading").addClass("loading")
+                      
+                  },
+                  
+                  success: function (ura_response) {
+                     
+                     const response = ura_response
+                     let val = response[ Object.keys( response )[ 0 ] ]
+   
+                     if( Object.keys( val )[ 0 ] === "GetPRNResult" ) {
+                        
+                        console.log( '1',val[ 'GetPRNResult' ] )
+   
+                        tin_response = {
+                           'status': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'prn': response.GetPRNResponse.GetPRNResult.PRN,
+                           'error_code': response.GetPRNResponse.GetPRNResult.ErrorCode,
+                           'error_desc': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'payment_expiry_date': response.GetPRNResponse.GetPRNResult.ExpiryDate,
+                           'search_code': response.GetPRNResponse.GetPRNResult.SearchCode
+                        }
+                        console.log(tin_response)
+   
+                        if(tin_response.status === "SUCCESS"){
+                           $("#prn").val(tin_response.prn)
+                           $("#error_code").val(tin_response.error_code)
+                           $("#error_desc").val(tin_response.error_desc)
+                           $("#payment_expiry_date").val(tin_response.payment_expiry_date)
+                           $("#search_code").val(tin_response.search_code)
+                           $('#prnError').html('');
+                           console.log("now ")
+   
+                  
+                        } else if (tin_response.status === "INVALID TIN") {
+                              $("#tin").val('');
+                              $('#gernerate_prn').prop('checked', false)
+                              $("#prn").val('');
+                              swal.fire(status);
+                              $('.prnError').html('');
+                        } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                              swal.fire(tin_response.status);
+                              $("#prn").val("");
+                              $("#error_code").val("");
+                              $("#error_desc").val("");
+                              $("#payment_expiry_date").val("");
+                              $("#search_code").val("");
+                              // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                              $('.prnError').html('');
+                              console.log("invalid tin number");
+                        } else{
+                              $("#prn").val("");
+                              $("#error_code").val("");
+                              $("#error_desc").val("");
+                              $("#payment_expiry_date").val("");
+                              $("#search_code").val("");
+                              $("#tSx").remove();
+                              $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                              $('.prnError ').html("Failed to generate PRN");
+                              console.log("failed to generate PRN");
+   
+                        }
+                        
+                     } 
+                     else {
+                           console.log( '2', val )
+                           
+                           tin_response = {
+                              'status': val.ErrorDesc,
+                              'prn': val.PRN,
+                              'ErrorCode': val.ErrorCode,
+                              'ErrorDesc': val.ErrorDesc,
+                              'ExpiryDate': val.ExpiryDate,
+                              'SearchCode': val.SearchCode
+                           }
+                           console.log(tin_response)
+   
+                           if(tin_response.status === "SUCCESS"){
+                              $("#prn").val(tin_response.prn)
+                              $("#error_code").val(tin_response.ErrorCode)
+                              $("#error_desc").val(tin_response.ErrorDesc)
+                              $("#payment_expiry_date").val(tin_response.ExpiryDate)
+                              $("#search_code").val(tin_response.SearchCode)
+                              $('.prnError').html('');
+   
+                           } else if (tin_response.status === "INVALID TIN") {
+                                 $("#tin").val('');
+                                 $('#gernerate_prn').prop('checked', false)
+                                 $("#prn").val('');
+                                 swal.fire(status);
+                                 $('.prnError').html('');
+                           } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                                 swal.fire(tin_response.status);
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                                 $('.prnError').html('');
+                                 console.log("invalid tin number");
+                           } else{
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 $("#tSx").remove();
+                                 $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                                 $('.prnError ').html("Failed to generate PRN");
+                                 console.log("failed to generate PRN");
+   
+                           }
+                           
+                     }
+   
+                  },
+   
+                  error: function(response) {
+                     console.log(response);
+                     $('.prnError').html("Invalid PRN. Try later");
+                     
+                     console.log(response)
+                  },
+   
+                  complete: function (response) {
+                    
+                      $('#spinner').hide();
+                      $("#loading").removeClass("loading")
+                  },
+   
+            });
+   
+   
+      } else{
+         document.getElementById("prn").value = ''
+         document.getElementById("error_code").value = ''
+         document.getElementById("error_desc").value = ''
+         document.getElementById("search_code").value = ''
+         document.getElementById("payment_expiry_date").value = ''
+      }    
+   
+   });
+    
+   // licence fee payment 
+
+   function populateLicenceFeeData(licenceId, licenceFee) {
+      console.log('Licence ID:', licenceId);
+      console.log('licence Fee:', licenceFee);
+
+      var modal = $('#modal-form-licence-fee');
+      modal.find('#licence_id_id').val(licenceId);
+      modal.find('#prn').val('');
+      modal.find('#licence_fee').val(licenceFee);
+   } 
+
+   $('#licence-fees-payment-form').submit(function(e) {
+      e.preventDefault();   
+      var  csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      var licence_id = $('#licence_id_id').val()
+      
+      var licence_fee = $('#licence_fee').val()
+
+      var licence_fee_prn = $('#licence_fee_prn').val()
+      var licence_fee_tin = $('#licence_fee_tin').val()
+      var licence_fee_error_code = $('#licence_fee_error_code').val()
+      var licence_fee_error_desc = $('#licence_fee_error_desc').val()
+      var licence_fee_search_code = $('#licence_fee_search_code').val()
+
+      var payment_expiry_date = $('#payment_expiry_date').val()
+      var generate_prn = $('#generate_prn').val()
+      
+      var postData = {
+         licence_id: licence_id,
+         licence_fee: licence_fee,
+
+         licence_fee_prn:licence_fee_prn,
+         licence_fee_tin: licence_fee_tin,
+         licence_fee_error_code:licence_fee_error_code,
+         licence_fee_error_desc:licence_fee_error_desc,
+         licence_fee_search_code: licence_fee_search_code,
+
+         payment_expiry_date: payment_expiry_date,
+         generate_prn: generate_prn,
+      };
+
+      console.log(postData);
+
+      
+      $.ajax({
+         type: 'post',
+         url: '{% url "payments:licence_fee_payment" %}',
+         headers: {'X-CSRFToken': csrftoken },
+         data: JSON.stringify(postData),
+         dataType: 'json',
+         contentType: 'application/json',
+         success: function(response) {
+            if (response.success) {
+               
+               Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: response.message,
+                  showConfirmButton: true,
+
+               }).then(function() {
+                  // Redirect to another view
+                  window.location.href = '{% url "new:new_prn_list" %}';
+                  $('#modal-form-application-fee').modal('hide');
+               });
+
+                // $('#modal-form-application-fee').modal('hide');
+               // Perform any additional actions or updates on the page
+            } else {
+               console.log('Error: ' + response.errors);
+            }
+         },
+
+         error: function(xhr, textStatus, errorThrown) {
+            console.log('Error: ' + errorThrown);
+         }
+
+
+      });
+   });
+
+   const licence_fee_switch = document.getElementById('generate_prn_licence_fee');
+   licence_fee_switch.addEventListener("click",  function licenceFeePrnGeneration(e){
+   
+      const generate_prn_licence_fee  = document.getElementById('generate_prn_licence_fee').value
+      
+      const licence_fee_tin = document.getElementById('licence_fee_tin').value
+      const licence_fee = document.getElementById("licence_fee").value
+      const licence_fee_prn  = document.getElementById('licence_fee_prn').value
+      const licence_fee_error_code  = document.getElementById('licence_fee_error_code').value
+      const licence_fee_error_desc  = document.getElementById('licence_fee_error_desc').value
+      const licence_fee_search_code  = document.getElementById('licence_fee_search_code').value
+      const payment_expiry_date  = document.getElementById('payment_expiry_date').value
+      
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const licence_fee_url = "{% url 'payments:get_prn_licence_fee' %}"
+      
+      if( licence_fee_tin === ''){
+         Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'TIN field can not be empty',
+               showConfirmButton: true,
+         })
+   
+         document.getElementById("generate_prn_licence_fee").checked = false;
+   
+      }
+   
+      if(licence_fee_switch.checked == true){
+   
+            $.ajax({
+                  url: licence_fee_url , 
+                  type: "post",
+                  data: {
+                     "licence_fee": licence_fee,
+                     "licence_fee_tin": licence_fee_tin,
+                  },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {
+                     
+                      $('#spinner').show();
+                      $("#loading").addClass("loading")
+                      
+                  },
+                  
+                  success: function (ura_response) {
+                     
+                     const response = ura_response
+                     let val = response[ Object.keys( response )[ 0 ] ]
+   
+                     if( Object.keys( val )[ 0 ] === "GetPRNResult" ) {
+                        
+                        console.log( '1',val[ 'GetPRNResult' ] )
+   
+                        tin_response = {
+                           'status': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'licence_fee_prn': response.GetPRNResponse.GetPRNResult.PRN,
+                           'licence_fee_error_code': response.GetPRNResponse.GetPRNResult.ErrorCode,
+                           'licence_fee_error_desc': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'payment_expiry_date': response.GetPRNResponse.GetPRNResult.ExpiryDate,
+                           'licence_fee_search_code': response.GetPRNResponse.GetPRNResult.SearchCode
+                        }
+                        console.log(tin_response)
+   
+                        if(tin_response.status === "SUCCESS"){
+
+                              $("#licence_fee_prn").val(tin_response.licence_fee_prn)
+                              $("#licence_fee_error_code").val(tin_response.licence_fee_error_code)
+                              $("#licence_fee_error_desc").val(tin_response.licence_fee_error_desc)
+                              $("#payment_expiry_date").val(tin_response.payment_expiry_date)
+                              $("#licence_fee_search_code").val(tin_response.licence_fee_search_code)
+                              $('#prnError').html('');
+   
+                  
+                        } else if (tin_response.status === "INVALID TIN") {
+                              
+                              $("#licence_fee_tin").val('');
+                              $('#generate_prn_licence_fee').prop('checked', false)
+                              $("#licence_fee_prn").val('');
+                              $('.prnError').html('');
+                              Swal.fire({
+                                 icon: 'error',
+                                 title: 'Error',
+                                 text: "Invalid TIN ",
+                                 showConfirmButton: true,
+                              })
+               
+                        } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                              
+                              $("#licence_fee_prn").val('')
+                              $("#licence_fee_error_code").val('')
+                              $("#licence_fee_error_desc").val('')
+                              $("#payment_expiry_date").val('')
+                              $("#licence_fee_search_code").val('')
+                              $('#prnError').html('');
+                              Swal.fire({
+                                 icon: 'error',
+                                 title: 'Error',
+                                 text: "Tax Identification Number too short",
+                                 showConfirmButton: true,
+                              })
+                        
+                        } else{
+                              
+                              $("#licence_fee_prn").val('')
+                              $("#licence_fee_error_code").val('')
+                              $("#licence_fee_error_desc").val('')
+                              $("#payment_expiry_date").val('')
+                              $("#licence_fee_search_code").val('')
+                              $('#prnError').html('');
+
+                              $("#tSx").remove();
+
+                              $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                              $('.prnError ').html("Failed to generate PRN");
+                              console.log("failed to generate PRN");
+   
+                        }
+                        
+                     } 
+                     else {
+                           console.log( '2', val )
+                           
+                           tin_response = {
+                              'status': val.ErrorDesc,
+                              'prn': val.PRN,
+                              'ErrorCode': val.ErrorCode,
+                              'ErrorDesc': val.ErrorDesc,
+                              'ExpiryDate': val.ExpiryDate,
+                              'SearchCode': val.SearchCode
+                           }
+                           console.log(tin_response)
+   
+                           if(tin_response.status === "SUCCESS"){
+                              $("#prn").val(tin_response.prn)
+                              $("#error_code").val(tin_response.ErrorCode)
+                              $("#error_desc").val(tin_response.ErrorDesc)
+                              $("#payment_expiry_date").val(tin_response.ExpiryDate)
+                              $("#search_code").val(tin_response.SearchCode)
+                              $('.prnError').html('');
+   
+                           } else if (tin_response.status === "INVALID TIN") {
+                                 $("#tin").val('');
+                                 $('#gernerate_prn').prop('checked', false)
+                                 $("#prn").val('');
+                                 swal.fire(status);
+                                 $('.prnError').html('');
+                           } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                                 swal.fire(tin_response.status);
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                                 $('.prnError').html('');
+                                 console.log("invalid tin number");
+                           } else{
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 $("#tSx").remove();
+                                 $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                                 $('.prnError ').html("Failed to generate PRN");
+                                 console.log("failed to generate PRN");
+   
+                           }
+                           
+                     }
+   
+                  },
+   
+                  error: function(response) {
+                     $('.prnError').html("Invalid PRN. Try later");
+                     console.log(response)
+                  },
+   
+                  complete: function (response) {
+                    
+                      $('#spinner').hide();
+                      $("#loading").removeClass("loading")
+                  },
+   
+            });
+   
+   
+      } else{
+
+         document.getElementById("licence_fee_prn").value = ''
+         document.getElementById("licence_fee_error_code").value = ''
+         document.getElementById("licence_fee_error_desc").value = ''
+         document.getElementById("licence_fee_search_code").value = ''
+         document.getElementById("payment_expiry_date").value = ''
+
+      }    
+   
+   });
+
+</script>
+
+<script> 
+</script>
+
+
+{% endblock content %}

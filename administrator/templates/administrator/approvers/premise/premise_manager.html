@@ -1,0 +1,40 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+  
+
+<div class="">  
+
+   <form method="POST" enctype="multipart/form-data" id="update-task">
+      {% csrf_token %}
+      {{form.errors}}
+
+         <div class="ml-3 col-sm-6 mb-3" id="admin">
+            {{form.assigned_to_inspector | as_crispy_field}}
+            {{form.manager_remarks | as_crispy_field}} 
+         </div>
+         
+         <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+     
+   </form>
+
+</div>
+
+
+<script type="text/javascript">
+
+    var role = "{{ request.user.role }}"
+    console.log(role)
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

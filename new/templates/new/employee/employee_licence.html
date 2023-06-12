@@ -1,0 +1,1341 @@
+{% extends 'client/base.html' %} 
+{% load crispy_forms_tags %}
+{% block content%}
+<style>
+   .error{
+   color:red; 
+   border-color: red !important
+   }
+   .readonly1 input ,.readonly select {
+   background-color:#eec !important;
+   }
+   .btn-red{
+   background-color: red;
+   color: white;
+   border: 1px solid red;
+   }
+   @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+   :root {
+   --error-color: #dc3545;
+   --success-color: #28a745;
+   --warning-color: #ffc107;
+   }
+   .form-field input {
+   border: solid 2px #f0f0f0;
+   border-radius: 3px;
+   padding: 10px;
+   margin-bottom: 5px;
+   font-size: 14px;
+   display: block;
+   width: 100%;
+   }
+   .form-field input:focus {
+   outline: none;
+   }
+   .form-field.error input {
+   border-color: var(--error-color);
+   }
+   .form-field.success input {
+   border-color: var(--success-color);
+   }
+
+   .form-group .required .control-label:after {
+      content:"*";
+      color:red;
+   }
+   .loading{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.7);
+      z-index: 9999;
+   }
+
+</style>
+<!-- main content -->
+<div class=" card mt-3 mb-3 ">
+   <div class="card-body">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+            <li class="breadcrumb-item">
+               <a href="#">
+                  <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+               </a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Applications </li>
+            <li class="breadcrumb-item active" aria-current="page">Key employee application  </li>
+         </ol>
+      </nav>
+   </div>
+</div>
+
+<div id="loading" class=" text-center d-flex justify-content-center align-items-center" >
+   <div id="spinner" class="spinner-border m-5" role="status" style="display:none; " >
+      <span class="sr-only">Loading...</span>
+   </div>   
+</div>
+
+
+<div class="row">
+<div class="col-12 mb-4">
+<div class="mb-5 p-4 bg-white shadow-sm">
+   <h4>Key Employee Licence Form </h4>
+   <div id="stepper3" class="bs-stepper">
+      <div class="bs-stepper-header" role="tablist">
+         <div class="step" data-target="#test-nlf-1">
+            <button type="button" class="step-trigger" role="tab" id="stepper3trigger1" aria-controls="test-nlf-1">
+            <span class="bs-stepper-circle">
+            <span class="fas fa-user" aria-hidden="true"></span>
+            </span>
+            <span class="bs-stepper-label">Licence Particulars</span>
+            </button>
+         </div>
+         <div class="bs-stepper-line"></div>
+         <div class="step" data-target="#test-nlf-2">
+            <button type="button" class="step-trigger" role="tab" id="stepper3trigger2" aria-controls="test-nlf-2">
+            <span class="bs-stepper-circle">
+            <span class="fas fa-map-marked" aria-hidden="true"></span>
+            </span>
+            <span class="bs-stepper-label">Attachments</span>
+            </button>
+         </div>
+         <div class="bs-stepper-line"></div>
+         <div class="step" data-target="#test-nlf-3">
+            <button type="button" class="step-trigger" role="tab" id="stepper3trigger3" aria-controls="test-nlf-3">
+            <span class="bs-stepper-circle">
+            <span class="fas fa-save" aria-hidden="true"></span>
+            </span>
+            <span class="bs-stepper-label">Finish </span>
+            </button>
+         </div>
+      </div>
+      <div class="bs-stepper-content">
+         <form method="POST" action="" enctype="multipart/form-data" id="createAccountForm">
+            {% csrf_token %}
+            {{ form.errors }}
+            <!--step 1 body -->
+            <div id="test-nlf-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="stepper3trigger1">
+               <div class="form-group">
+                  <h6 class="text-success"><b> PARTICULARS OF THE APPLICANT  </b></h6>
+                  <div class="row">
+                     <div class="col-sm">
+                        <div class="mb-4 ">
+                           <label class="control-label">  {{form.purpose_of_application.label }} </label> 
+                           {{form.purpose_of_application}}
+                           <div class="purpose_of_applicationError error"></div>
+                        </div>
+
+                        <div class="" id="previous_licence_div">
+                           <div class="mb-4 " id="">
+                              {{form.previous_licence_number.label }} 
+                              {{form.previous_licence_number}}
+                              <div class="previous_licence_numberError error"></div>
+                           </div> 
+                        </div>                 
+
+                        <div class="mb-4">
+                           {{form.tin.label }}
+                           {{form.tin}}
+                           <div class="tinError error"></div>
+                        </div>
+
+                        <div class="mb-4">
+                           {{form.name_of_the_company.label }}
+                           {{form.name_of_the_company }}
+                           <div class="name_of_the_companyError error"></div>
+                        </div>
+
+                        <div  id="address_div">
+                           {{form.ura_district }}
+                           {{form.ura_county }}
+                           {{form.ura_subcounty }}
+                           {{form.ura_village }}
+                        </div>
+
+
+                        <div class="mb-4">
+                           {{form.nationality.label }}
+                           {{form.nationality }}
+                           <div class="nationalityError error"></div>
+                        </div>
+                        <div class="mb-4">
+                           {{form.name_of_the_employee.label }}
+                           {{form.name_of_the_employee }}
+                           <div class="name_of_the_employeeError error"></div>
+                        </div>
+                        <div id="citizen-div">
+                           <div class="mb-4 " >
+                              {{form.national_id.label}}
+                              {{form.national_id}}
+                              <div class="national_idError error"></div>
+                           </div>
+                        </div>
+                        <div id="non-cititzen-div">
+                           <div class="mb-4">
+                              {{form.passport.label}}
+                              {{form.passport}}
+                              <div class="passportError error"></div>
+                           </div>
+                           <div class="mb-4">
+                              {{form.work_permit.label}}
+                              {{form.work_permit}}
+                              <div class="work_permitError error"></div>
+                           </div>
+                           <div class="mb-4">
+                              {{form.country.label }}
+                              {{form.country }}
+                              <div class="countryError error"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm">
+                        <div class="mb-4">
+                           {{form.address.label}}
+                           {{form.address }}
+                           <div class="addressError error"></div>
+                        </div>
+                         <div class="mb-4">
+                           {{form.postal_code.label }}
+                           {{ form.postal_code }}
+                           <div class="postal_codeError error"></div>
+                        </div>
+                        <div class="mb-4">
+                           {{form.mobile_phone.label }}
+                           {{form.mobile_phone }}
+                           <div class="mobile_phoneError error"></div>
+                        </div>
+                        <div class="mb-4">
+                           {{form.office_phone.label }}
+                           {{form.office_phone }}
+                           <div class="office_phoneError error"></div>
+                        </div>
+                       
+                     </div>
+                  </div>
+               </div>
+               
+               <button class="btn btn-primary" onclick="stepper3.next()">Next</button>
+            </div>
+            <!--step 2 body -->
+            <div id="test-nlf-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="stepper3trigger2">
+               <div class="form-group">
+                  <div class="row">
+                     <div class="col-sm">
+                        <h6 class="text-success"><b> PARTICULARS OF THE LICENCE  </b></h6>
+                        <div class="mb-4">
+                           {{form.occupation.label }}
+                           {{form.occupation }}
+                           <div class="office_phoneError error"></div>
+                        </div>
+                        <div class="mb-4">
+                           {{form.qualification.label }}
+                           {{form.qualification }}
+                           <div class="qualificationError error"></div>
+                        </div>
+                        <div class="mb-4">
+                           {{form.application_fee.label }}
+                           {{form.application_fee }}
+                        </div>
+                      
+                        <div class="mb-4 email">
+                           {{form.email.label }} 
+                           {{form.email }}
+                        </div>
+                     </div>
+                     <div class="col-sm">
+
+                     <div class="mb-4"> </div>
+                        <div class="mb-4">
+                           {{ form.cv.label}} <small>(only pdfs are allowed ) </small>
+                           {{ form.cv}}
+                           <div class="cvError error"></div>
+                           
+                        </div>
+                        <div class="mb-4">
+                           {{ form.interpoal_clearance.label}} <small>(only pdfs are allowed ) </small>
+                           {{ form.interpoal_clearance}}
+                           <div class="interpoal_clearanceError error"></div>
+                        </div>
+
+                        <div class="mb-4">
+                           {{form.professional_membership.label }} 
+                           {{form.professional_membership }}
+                           <div class="professional_membershipError error"></div>
+                        </div>
+
+                     </div>
+                  </div>
+               </div>
+               <button class="btn btn-primary" onclick="stepper3.previous()">Previous</button>
+               <button class="btn btn-primary" onclick="stepper3.next()">Next</button>
+            </div>
+            <!-- end step 3 body -->
+            <div id="test-nlf-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="stepper3trigger3">
+               <div class="form-group">
+                  <div class="col-lg-4 col-sm-6">
+                     <h6 class="text-success"><b>SUITABILITY OF THE APPLICANT</b></h6>
+                     <div class="mb-4" id="">
+                        {{form.previous_business_engagement.label}}
+                        {{form.previous_business_engagement}}
+                        <div class="previous_business_engagementError error"></div>
+                     </div>
+                     <div class="mb-4" id="name_of_the_employer_div">
+                        {{form.name_of_the_employer.label}}
+                        {{form.name_of_the_employer}}
+                        <div class="name_of_the_employerError error"></div>
+                     </div>
+                     <div class="mb-4">
+                        {{form.crime_engagement.label}}
+                        {{form.crime_engagement}}
+                        <div class="crime_engagementrror error"></div>
+                     </div>
+                     <div class="mb-4" id="crime_details_div">
+                        {{form.crime_details.label}}
+                        {{form.crime_details}}
+                        <div class="crime_detailsError error"></div>
+                     </div>
+                     <div class="mb-4">
+                           <div class="mb-4 ">
+                              <div class="form-check form-switch">
+                                 {{form.generate_prn}}
+                                 <label class="form-check-label" for="flexCheckChecked"> {{form.generate_prn.label}} </label>
+                              </div>
+                           </div>
+                           <div class="mb-4"> 
+                                 {{form.prn}} 
+                                 <div class="prnError error"></div>  
+                           </div>
+                           <div class="">
+                                 {{form.error_code}}
+                                 {{form.error_desc}}
+                                 {{form.payment_expiry_date}}
+                                 {{form.search_code}}
+                           </div> 
+                     </div>
+                  </div>
+               </div>
+              
+               <button class="btn btn-primary" onclick="stepper3.previous()">Previous</button>
+               <button class="btn btn-primary" type="submit" id="submitBtn">submit application</button>
+
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<script type="text/javascript">
+   
+   document.addEventListener("DOMContentLoaded", function(event) {
+      console.log("working ");
+   
+      stepper3 = new Stepper(document.querySelector('#stepper3'), {
+         linear: false,
+         animation: true
+      })
+      
+      $("#address_div").hide();
+      $("#Name").prop("readonly", true);
+      $("#email").prop("readonly", true);
+      var email = "{{request.user.email}}"
+      $('#email').val(email);
+      $('.email').hide();
+      
+      $("#name_of_the_employer_div").hide();
+      $("#crime_details_div").hide();
+   
+      $("#citizen-div").hide();
+      $("#non-cititzen-div").hide();
+      $("#previous_licence_div").hide();
+      
+      
+   });
+   
+   
+   $("select[name=nationality]").change( function (e) {
+      const nationality = $(this).val();
+      
+      if (nationality == "Ugandan") {
+         console.log(nationality)
+         $("#citizen-div").show();
+         $("#non-cititzen-div").hide();
+   
+      }else if(nationality == "") {
+        $("#citizen-div").hide();
+        $("#non-cititzen-div").hide();
+   
+      }else{
+        $("#citizen-div").hide();
+        $("#non-cititzen-div").show();
+      }
+   
+   });
+
+
+   $("select[name=purpose_of_application]").change( function (e) {
+
+      const purpose_of_application = $(this).val();
+      
+      if (purpose_of_application == "Renewal") {
+         console.log(purpose_of_application)
+         $("#previous_licence_div").show();
+   
+      }else if(purpose_of_application == "") {
+        $("#previous_licence_div").hide();
+       
+      }else{
+        $("#previous_licence_div").hide();
+      
+      }
+   
+   }); 
+
+   
+   $("select[name=previous_business_engagement]").change( function (e) {
+      const choice = $(this).val();
+      
+      if (choice == "Yes") {
+           $("#name_of_the_employer_div").show();
+      }else{
+        $("#name_of_the_employer_div").hide();
+      }
+   
+   });
+   
+   
+   $("select[name=crime_engagement]").change( function (e) {
+      const choice = $(this).val();
+      
+      if (choice == "Yes") {
+         $("#crime_details_div").show();
+      }else{
+         $("#crime_details_div").hide();
+      }
+   
+   });
+   
+   
+   const tin = document.getElementById('tin');
+   tin.addEventListener("change",  function getClientregistration(e){ 
+     
+        var tin = $("#tin").val();
+        var  csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      
+        $.ajax({
+                url: "{% url 'payments:verify_tin' %}", 
+                type: "post",
+                data: {
+                    "tin": tin,
+                },
+                dataType: "json",
+                headers: {'X-CSRFToken': csrftoken },
+                mode: 'same-origin',  
+                beforeSend: function () {
+                    
+                    $('#spinner').show();
+                    $("#loading").addClass("loading")
+                
+                },
+
+                success: function (ura_response) {
+                     
+                  const response = ura_response
+            
+                  let val = response[ Object.keys( response )[ 0 ] ]
+
+                  if( Object.keys( val )[ 0 ] === "GetClientRegistrationResult" ) {
+                     console.log( '1',val[ 'GetClientRegistrationResult' ] )
+
+                     var status = response.GetClientRegistrationResponse.GetClientRegistrationResult.ErrorDesc
+                     var status = response.GetClientRegistrationResponse.GetClientRegistrationResult.ErrorDesc
+
+                     console.log(status)
+                     tin_response = {
+                        'status': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerName,
+                        'TaxPayerName': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerName,
+                        'ContactNumber': response.GetClientRegistrationResponse.GetClientRegistrationResult.ContactNumber,
+                        'MobileNumber': response.GetClientRegistrationResponse.GetClientRegistrationResult.MobileNumber,
+                        'TaxPayerEmail': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerEmail,
+
+                        'ura_district': response.GetClientRegistrationResponse.GetClientRegistrationResult.District,
+                        'ura_county': response.GetClientRegistrationResponse.GetClientRegistrationResult.County,
+                        'ura_subcounty': response.GetClientRegistrationResponse.GetClientRegistrationResult.SubCounty,
+                        'ura_village': response.GetClientRegistrationResponse.GetClientRegistrationResult.Village,
+
+                     }
+
+                     console.log(response);
+
+                     if(status === "SUCCESS"){
+
+                           $("#name_of_the_company").val(tin_response.TaxPayerName);
+
+                           $("#ura_district").val(tin_response.ura_district);
+                           $("#ura_county").val(tin_response.ura_county);
+                           $("#ura_subcounty").val(tin_response.ura_subcounty);
+                           $("#ura_village").val(tin_response.ura_village);
+
+
+                     } else if (status === "INVALID TIN") {
+                  
+                           $("#tin").val('');
+                           $('#gernerate_prn').prop('checked', false)
+                           $("#prn").val('');
+                           swal.fire(status);
+                           $('.prnError').html('');
+
+                     } else if(status === "Invalid Length of TIN Entered, please try again"){
+
+                           swal.fire(status);
+
+                     } else{
+
+                           $("#tin").val('');
+                           $("#name_of_the_company").val('');
+
+                     }
+                     
+                  } 
+                  else {
+                        console.log( '2',val )
+                        console.log( '2',val[ 'GetClientRegistrationResult' ] )
+                   
+                        tin_response = {
+                           'status': val.ErrorDesc,
+                           'TaxPayerName': val.TaxPayerName,
+                           'ContactNumber': val.ContactNumber,
+                           'MobileNumber': val.MobileNumber,
+                           'TaxPayerEmail': val.TaxPayerEmail,
+
+                          
+                        }
+
+                        console.log(tin_response);
+
+                        if(tin_response.status === "SUCCESS"){
+
+                              $("#name_of_the_company").val(tin_response.TaxPayerName);
+
+                        } else if (status === "INVALID TIN") {
+                     
+                              $("#tin").val('');
+                              $('#gernerate_prn').prop('checked', false)
+                              $("#prn").val('');
+                              swal.fire(status);
+                              $('.prnError').html('');
+
+                        } else if(status === "Invalid Length of TIN Entered, please try again"){
+
+                              swal.fire(status);
+
+                        } else{
+
+                              $("#tin").val('');
+                              $("#name_of_the_company").val('');
+
+                        }
+                     
+                  }
+ 
+                
+                },
+
+                error: function(response) {
+                    console.log(response);
+                    $('.prnError').html("Invalid PRN. Try later");
+                    console.log(response)
+                },
+
+                complete: function (response) {
+
+                    $('#spinner').hide();
+                    $("#loading").removeClass("loading")
+                
+                },
+
+        });
+   });
+   
+   
+   const generateprn = document.getElementById('generate_prn');
+   generateprn.addEventListener("click", async function generatePaymentRegistrationNumber(e){
+
+      const principle_licence_certificate_number  = document.getElementById('principle_licence_certificate_number');
+      const purpose_of_application = document.getElementById('purpose_of_application').value
+      const generate_prn  = document.getElementById('generate_prn').value
+      const prn  = document.getElementById('prn').value
+      const error_code  = document.getElementById('error_code').value
+      const error_desc  = document.getElementById('error_desc').value
+      const payment_expiry_date  = document.getElementById('payment_expiry_date').value
+      const search_code  = document.getElementById('search_code').value
+      const tin = document.getElementById('tin').value
+      const application_fee = document.getElementById("application_fee").value
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const application_fee_url = "{% url 'payments:get_prn_application_fee' %}"
+      const licence_fee_url = "{% url 'payments:get_prn_licence_fee' %}"
+
+      
+      const server_payload = JSON.stringify({
+         "generate_prn" : generate_prn,
+         "prn" : prn,
+         "error_code" : error_code,
+         "error_desc" : error_desc,
+         "payment_expiry_date" : payment_expiry_date,
+         "search_code" : search_code,
+      })
+
+      const ura_payload = JSON.stringify({
+         "application_fee" : application_fee,
+         "tin" : tin,
+      })
+
+      if( tin === ''){
+         Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'TIN field can not be empty',
+               showConfirmButton: true,
+         })
+
+         document.getElementById("generate_prn").checked = false;
+
+      }
+
+
+      if(generateprn.checked == true){
+         console.log(purpose_of_application)
+
+         if(purpose_of_application == "Renewal"){
+            // licence fees
+
+            $.ajax({
+                  url: licence_fee_url, 
+                  type: "post",
+                  data: {
+                     "licence_fee": licence_fee,
+                     "tin": tin,
+                  },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {
+                     
+                      $('#spinner').show();
+                      $("#loading").addClass("loading")
+                      
+                  },
+                  
+                  success: function (ura_response) {
+                     
+                     const response = ura_response
+                     let val = response[ Object.keys( response )[ 0 ] ]
+
+                     if( Object.keys( val )[ 0 ] === "GetPRNResult" ) {
+                        
+                        console.log( '1',val[ 'GetPRNResult' ] )
+
+                        tin_response = {
+                           'status': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'prn': response.GetPRNResponse.GetPRNResult.PRN,
+                           'error_code': response.GetPRNResponse.GetPRNResult.ErrorCode,
+                           'error_desc': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'payment_expiry_date': response.GetPRNResponse.GetPRNResult.ExpiryDate,
+                           'search_code': response.GetPRNResponse.GetPRNResult.SearchCode
+                        }
+                        console.log(tin_response)
+
+                        if(tin_response.status === "SUCCESS"){
+                           $("#prn").val(tin_response.prn)
+                           $("#error_code").val(tin_response.error_code)
+                           $("#rror_desc").val(tin_response.error_desc)
+                           $("#payment_expiry_date").val(tin_response.payment_expiry_date)
+                           $("#search_code").val(tin_response.search_code)
+                           $('#prnError').html('');
+                           console.log("now ")
+
+                           
+
+                        } else if (tin_response.status === "INVALID TIN") {
+                              $("#tin").val('');
+                              $('#gernerate_prn').prop('checked', false)
+                              $("#prn").val('');
+                              swal.fire(status);
+                              $('.prnError').html('');
+                        } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                              swal.fire(tin_response.status);
+                              $("#prn").val("");
+                              $("#error_code").val("");
+                              $("#error_desc").val("");
+                              $("#payment_expiry_date").val("");
+                              $("#search_code").val("");
+                              // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                              $('.prnError').html('');
+                              console.log("invalid tin number");
+                        } else{
+                              $("#prn").val("");
+                              $("#error_code").val("");
+                              $("#error_desc").val("");
+                              $("#payment_expiry_date").val("");
+                              $("#search_code").val("");
+                              $("#tSx").remove();
+                              $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                              $('.prnError ').html("Failed to generate PRN");
+                              console.log("failed to generate PRN");
+
+                        }
+                        
+                     } 
+                     else {
+                           console.log( '2', val )
+                           
+                           tin_response = {
+                              'status': val.ErrorDesc,
+                              'prn': val.PRN,
+                              'ErrorCode': val.ErrorCode,
+                              'ErrorDesc': val.ErrorDesc,
+                              'ExpiryDate': val.ExpiryDate,
+                              'SearchCode': val.SearchCode
+                           }
+                           console.log(tin_response)
+
+                           if(tin_response.status === "SUCCESS"){
+                              $("#prn").val(tin_response.prn)
+                              $("#error_code").val(tin_response.ErrorCode)
+                              $("#error_desc").val(tin_response.ErrorDesc)
+                              $("#payment_expiry_date").val(tin_response.ExpiryDate)
+                              $("#search_code").val(tin_response.SearchCode)
+                              $('.prnError').html('');
+
+                           } else if (tin_response.status === "INVALID TIN") {
+                                 $("#tin").val('');
+                                 $('#gernerate_prn').prop('checked', false)
+                                 $("#prn").val('');
+                                 swal.fire(status);
+                                 $('.prnError').html('');
+                           } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                                 swal.fire(tin_response.status);
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                                 $('.prnError').html('');
+                                 console.log("invalid tin number");
+                           } else{
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 $("#tSx").remove();
+                                 $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                                 $('.prnError ').html("Failed to generate PRN");
+                                 console.log("failed to generate PRN");
+
+                           }
+                           
+                     }
+   
+                  },
+
+                  error: function(response) {
+                     console.log(response);
+                     $('.prnError').html("Invalid PRN. Try later");
+                     
+                     console.log(response)
+                  },
+
+                  complete: function (response) {
+                    
+                      $('#spinner').hide();
+                      $("#loading").removeClass("loading")
+                  },
+
+            });
+
+         }else{
+            //licencing fees  
+            $.ajax({
+                  url: application_fee_url, 
+                  type: "post",
+                  data: {
+                     "application_fee": application_fee,
+                     "tin": tin,
+                  },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {
+                    
+                     $('#spinner').show();
+                     $("#loading").addClass("loading")
+                  },
+                  
+                  success: function (ura_response) {
+                     const response = ura_response
+                     let val = response[ Object.keys( response )[ 0 ] ]
+
+                     if( Object.keys( val )[ 0 ] === "GetPRNResult" ) {
+                        
+                        console.log( '1',val[ 'GetPRNResult' ] )
+
+                        tin_response = {
+                           'status': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'prn': response.GetPRNResponse.GetPRNResult.PRN,
+                           'error_code': response.GetPRNResponse.GetPRNResult.ErrorCode,
+                           'error_desc': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                           'payment_expiry_date': response.GetPRNResponse.GetPRNResult.ExpiryDate,
+                           'search_code': response.GetPRNResponse.GetPRNResult.SearchCode
+                        }
+                        console.log(tin_response)
+
+                        if(tin_response.status === "SUCCESS"){
+                           $("#prn").val(tin_response.prn)
+                           $("#error_code").val(tin_response.error_code)
+                           $("#rror_desc").val(tin_response.error_desc)
+                           $("#payment_expiry_date").val(tin_response.payment_expiry_date)
+                           $("#search_code").val(tin_response.search_code)
+                           $('#prnError').html('');
+
+                        } else if (tin_response.status === "INVALID TIN") {
+                              $("#tin").val('');
+                              $('#gernerate_prn').prop('checked', false)
+                              $("#prn").val('');
+                              swal.fire(status);
+                              $('.prnError').html('');
+                        } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                              swal.fire(tin_response.status);
+                              $("#prn").val("");
+                              $("#error_code").val("");
+                              $("#error_desc").val("");
+                              $("#payment_expiry_date").val("");
+                              $("#search_code").val("");
+                              // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                              $('.prnError').html('');
+                              console.log("invalid tin number");
+                        } else{
+                              $("#prn").val("");
+                              $("#error_code").val("");
+                              $("#error_desc").val("");
+                              $("#payment_expiry_date").val("");
+                              $("#search_code").val("");
+                              $("#tSx").remove();
+                              $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                              $('.prnError ').html("Failed to generate PRN");
+                              console.log("failed to generate PRN");
+
+                        }
+                        
+                     } 
+                     else {
+                           console.log( '2', val )
+                           
+                           tin_response = {
+                              'status': val.ErrorDesc,
+                              'prn': val.PRN,
+                              'ErrorCode': val.ErrorCode,
+                              'ErrorDesc': val.ErrorDesc,
+                              'ExpiryDate': val.ExpiryDate,
+                              'SearchCode': val.SearchCode
+                           }
+                           console.log(tin_response)
+
+                           if(tin_response.status === "SUCCESS"){
+                              $("#prn").val(tin_response.prn)
+                              $("#error_code").val(tin_response.ErrorCode)
+                              $("#error_desc").val(tin_response.ErrorDesc)
+                              $("#payment_expiry_date").val(tin_response.ExpiryDate)
+                              $("#search_code").val(tin_response.SearchCode)
+                              $('.prnError').html('');
+
+                           } else if (tin_response.status === "INVALID TIN") {
+                                 $("#tin").val('');
+                                 $('#gernerate_prn').prop('checked', false)
+                                 $("#prn").val('');
+                                 swal.fire(status);
+                                 $('.prnError').html('');
+                           } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                                 swal.fire(tin_response.status);
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                                 $('.prnError').html('');
+                                 console.log("invalid tin number");
+                           } else{
+                                 $("#prn").val("");
+                                 $("#error_code").val("");
+                                 $("#error_desc").val("");
+                                 $("#payment_expiry_date").val("");
+                                 $("#search_code").val("");
+                                 $("#tSx").remove();
+                                 $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                                 $('.prnError ').html("Failed to generate PRN");
+                                 console.log("failed to generate PRN");
+
+                           }
+                           
+                     }
+   
+                  },
+
+                  error: function(response) {
+                     console.log(response);
+                     $('.prnError').html("Invalid PRN. Try later");
+                     console.log(response)
+                  },
+
+                  complete: function (response) {
+                    
+                     $('#spinner').hide();
+                     $("#loading").removeClass("loading")
+                  },
+
+            });
+
+         }
+
+      } else{
+         document.getElementById("prn").value = ''
+         document.getElementById("error_code").value = ''
+         document.getElementById("error_desc").value = ''
+         document.getElementById("payment_expiry_date").value = ''
+         document.getElementById("search_code").value = ''
+      }    
+
+   });
+   
+   
+   $("#submitBtn").click(function(event) {
+         console.log("working");
+         
+         event.preventDefault();
+         var element = {}; var errors = [];
+   
+         var form = document.querySelector('#createAccountForm');
+          
+         var token = $('#createAccountForm select[name=token]').val();
+         
+         var tin = $('#createAccountForm input[name=tin]').val();
+         var purpose_of_application = $('#createAccountForm select[name=purpose_of_application]').val();
+         var previous_licence_number = $('#createAccountForm input[name=previous_licence_number]').val();
+         var name_of_the_company = $('#createAccountForm input[name=name_of_the_company]').val();
+         var name_of_the_employee = $('#createAccountForm input[name=name_of_the_employee]').val();
+         var nationality = $('#createAccountForm select[name=nationality]').val();
+         var country = $('#createAccountForm input[name=country]').val();
+         var passport = $('#createAccountForm input[name=passport]').val();
+         var work_permit = $('#createAccountForm input[name=work_permit]').val();
+         var national_id = $('#createAccountForm input[name=national_id]').val();
+          
+         var address = $('#createAccountForm input[name=address]').val();
+         var mobile_phone = $('#createAccountForm input[name=mobile_phone]').val();
+         var office_phone = $('#createAccountForm input[name=office_phone]').val();
+         var postal_code = $('#createAccountForm input[name=postal_code]').val();
+         
+       
+         var occupation = $('#createAccountForm input[name=occupation]').val();
+         var qualification = $('#createAccountForm input[name=qualification]').val();
+         var application_fee = $('#createAccountForm input[name=application_fee]').val();
+      
+         var professional_membership = $('#createAccountForm input[name=professional_membership ]').val();
+         var interpoal_clearance = $('#createAccountForm input[name=interpoal_clearance ]').val();
+         var cv = $('#createAccountForm input[name=cv ]').val();
+       
+         var email = $('#createAccountForm input[name=email]').val();
+   
+         var previous_business_engagement = $('#createAccountForm select[name=previous_business_engagement]').val();
+         var name_of_the_employer = $('#createAccountForm input[name=name_of_the_employer]').val();
+         var crime_engagement = $('#createAccountForm select[name=crime_engagement]').val();
+         var crime_details = $('#createAccountForm input[name=crime_details]').val();
+
+         var ura_district = $('#createAccountForm input[name=ura_district]').val()
+         var ura_county=  $('#createAccountForm input[name=ura_county]').val()
+         var ura_subcounty = $('#createAccountForm input[name=ura_subcounty]').val()
+         var ura_village = $('#createAccountForm input[name=ura_village]').val()
+
+         
+         if (tin == "") {
+            element.tin = "this field can not be blank";
+            errors.push(element);
+         }
+
+         if (purpose_of_application == "") {
+            element.purpose_of_application = "this field can not be blank";
+            errors.push(element);
+         }
+
+          if (purpose_of_application == "Renewal") {
+            
+            if (previous_licence_number == "") {
+                  element.previous_licence_number = "this field can not be blank";
+                  errors.push(element);
+               }
+            
+         } 
+
+
+   
+         if (name_of_the_company == "") {
+            element.name_of_the_company = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (name_of_the_employee == "") {
+            element.name_of_the_employee = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (nationality == "") {
+            element.nationality = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (nationality == "Ugandan") {
+   
+            if (national_id == "") {
+               element.national_id = "upload national id";
+               errors.push(element);
+            }
+            
+            if (professional_membership == "") {
+               element.professional_membership = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+   
+         } else if (nationality == "Non-Ugandan") {
+   
+            if (passport == "") {
+               element.passport = "upload passport";
+               errors.push(element);
+            }
+   
+            if (work_permit == "") {
+               element.work_permit = "upload work permit ";
+               errors.push(element);
+            }
+   
+            if (country == "") {
+               element.country = "this field can not be blank";
+               errors.push(element);
+            }
+   
+         
+         } 
+          
+         if (interpoal_clearance == "") {
+            element.interpoal_clearance = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (address == "") {
+            element.address = "this field can not be blank";
+            errors.push(element);
+         }
+          
+         if (address == "") {
+            element.address = "upload work permit ";
+            errors.push(element);
+         }
+   
+         if (mobile_phone == "") {
+            element.mobile_phone = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (office_phone == "") {
+            element.office_phone = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (postal_code == "") {
+            element.postal_code = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (occupation == "") {
+            element.occupation = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (qualification == "") {
+            element.qualification = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (cv == "") {
+            element.cv = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (email == "") {
+            element.email = "Enter Email";
+            errors.push(element);
+         }
+   
+         // nothing 
+         if (previous_business_engagement == "") {
+            element.previous_business_engagement = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (previous_business_engagement == "Yes") {
+            
+            if (name_of_the_employer == "") {
+                  element.name_of_the_employer = "this field can not be blank";
+                  errors.push(element);
+               }
+            
+         } 
+   
+         if (crime_engagement == "") {
+            element.crime_engagement = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (crime_engagement == "Yes") {
+            
+            if (crime_details == "") {
+               element.crime_details = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+   
+         } 
+   
+         if (errors.length > 0){
+   
+   
+            //tin  error 
+             if (errors[0]['tin']) {
+                  $("#createAccountForm  #tin").addClass("error");
+                  $('.tinError').html(errors[0]['tin']);
+            } else {
+                  $('#createAccountForm  #tin').removeClass("error");
+                  $('.tinError').html('');
+            }
+
+            //pupose   error 
+             if (errors[0]['purpose_of_application']) {
+                  $("#createAccountForm  #purpose_of_application").addClass("error");
+                  $('.purpose_of_applicationError').html(errors[0]['purpose_of_application']);
+            } else {
+                  $('#createAccountForm  #purpose_of_application').removeClass("error");
+                  $('.purpose_of_applicationError').html('');
+            }
+
+            //previouse licence number error 
+             if (errors[0]['previous_licence_number']) {
+                  $("#createAccountForm  #previous_licence_number").addClass("error");
+                  $('.previous_licence_numberError').html(errors[0]['previous_licence_number']);
+            } else {
+                  $('#createAccountForm  #previous_licence_number').removeClass("error");
+                  $('.previous_licence_numberError').html('');
+            }
+   
+   
+            if (errors[0]['name_of_the_company']) {
+                  $("#createAccountForm  #name_of_the_company").addClass("error");
+                  $('.name_of_the_companyError').html(errors[0]['name_of_the_company']);
+            } else {
+                  $('#createAccountForm  #name_of_the_company').removeClass("error");
+                  $('.name_of_the_companyError').html('');
+            }
+   
+            if (errors[0]['name_of_the_employee']) {
+                  $("#createAccountForm  #name_of_the_employee").addClass("error");
+                  $('.name_of_the_employeeError').html(errors[0]['name_of_the_employee']);
+            } else {
+                  $('#createAccountForm  #name_of_the_employee').removeClass("error");
+                  $('.name_of_the_employeeError').html('');
+            }
+   
+            
+            if (errors[0]['nationality']) {
+                  $("#createAccountForm  #nationality").addClass("error");
+                  $('.nationalityError').html(errors[0]['nationality']);
+            } else {
+                  $('#createAccountForm  #nationality').removeClass("error");
+                  $('.nationalityError').html('');
+            }
+   
+   
+            if (errors[0]['country']) {
+                  $("#createAccountForm  #country").addClass("error");
+                  $('.countryError').html(errors[0]['country']);
+            } else {
+                  $('#createAccountForm  #country').removeClass("error");
+                  $('.countryError').html('');
+            }
+   
+   
+      
+             //national id error 
+            if (errors[0]['national_id']) {
+                  $("#createAccountForm  #national_id").addClass("error");
+                  $('.national_idError').html(errors[0]['national_id']);
+            } else {
+                  $('#createAccountForm  #national_id').removeClass("error");
+                  $('.national_idError').html('');
+            }
+   
+   
+            //passport error 
+            if (errors[0]['passport']) {
+                  $("#createAccountForm  #passport").addClass("error");
+                  $('.passportError').html(errors[0]['passport']);
+            } else {
+                  $('#createAccountForm  #passport').removeClass("error");
+                  $('.passportError').html('');
+            }
+            // work permit error 
+            if (errors[0]['work_permit']) {
+                  //$('#createAccountForm  #legalStatus').addClass("error");
+                  $("#createAccountForm  #work_permit").addClass("error");
+                  $('.work_permitError').html(errors[0]['work_permit']);
+            } else {
+                  $('#createAccountForm  #work_permit').removeClass("error");
+                  $('.work_permitError').html('');
+            } 
+   
+              //address error 
+            if (errors[0]['address']) {
+                  $("#createAccountForm  #address").addClass("error");
+                  $('.addressError').html(errors[0]['address']);
+            } else {
+                  $('#createAccountForm  #address').removeClass("error");
+                  $('.addressError').html('');
+            }
+   
+            //mobile phone error 
+            if (errors[0]['mobile_phone']) {
+                  $("#createAccountForm  #mobile_phone").addClass("error");
+                  $('.mobile_phoneError').html(errors[0]['mobile_phone']);
+            } else {
+                  $('#createAccountForm  #mobile_phone').removeClass("error");
+                  $('.mobile_phoneError').html('');
+            }
+   
+            //office phone error 
+            if (errors[0]['office_phone']) {
+                  $("#createAccountForm  #office_phone").addClass("error");
+                  $('.office_phoneError').html(errors[0]['office_phone']);
+            } else {
+                  $('#createAccountForm  #office_phone').removeClass("error");
+                  $('.office_phoneError').html('');
+            }
+   
+              //postal_code  error 
+            if (errors[0]['postal_code']) {
+                  $("#createAccountForm  #postal_code").addClass("error");
+                  $('.postal_codeError').html(errors[0]['postal_code']);
+            } else {
+                  $('#createAccountForm  #postal_code').removeClass("error");
+                  $('.postal_codeError').html('');
+            }     
+            
+            //qualification  error 
+            if (errors[0]['occupation']) {
+                  $("#createAccountForm  #occupation").addClass("error");
+                  $('.occupationError').html(errors[0]['occupation']);
+            } else {
+                  $('#createAccountForm  #occupation').removeClass("error");
+                  $('.occupationError').html('');
+            }
+   
+   
+            //qualification  error 
+            if (errors[0]['qualification']) {
+                  $("#createAccountForm  #qualification").addClass("error");
+                  $('.qualificationError').html(errors[0]['qualification']);
+            } else {
+                  $('#createAccountForm  #qualification').removeClass("error");
+                  $('.qualificationError').html('');
+            }
+   
+   
+              //membership  error 
+            if (errors[0]['professional_membership']) {
+                  $("#createAccountForm  #professional_membership").addClass("error");
+                  $('.professional_membershipError').html(errors[0]['professional_membership']);
+            } else {
+                  $('#createAccountForm  #professional_membership').removeClass("error");
+                  $('.professional_membershipError').html('');
+            }
+   
+   
+            //interpol  error 
+            if (errors[0]['interpoal_clearance']) {
+                  $("#createAccountForm  #interpoal_clearance").addClass("error");
+                  $('.interpoal_clearanceError').html(errors[0]['interpoal_clearance']);
+            } else {
+                  $('#createAccountForm  #interpoal_clearance').removeClass("error");
+                  $('.interpoal_clearanceError').html('');
+            }
+   
+   
+            //cv error 
+            if (errors[0]['cv']) {
+                  $("#createAccountForm  #cv").addClass("error");
+                  $('.cvError').html(errors[0]['cv']);
+            } else {
+                  $('#createAccountForm  #cv').removeClass("error");
+                  $('.cvError').html('');
+            }
+   
+            //previous_business_engagement error 
+            if (errors[0]['previous_business_engagement']) {
+                  $("#createAccountForm  #previous_business_engagement").addClass("error");
+                  $('.previous_business_engagementError').html(errors[0]['previous_business_engagement']);
+            } else {
+                  $('#createAccountForm  #previous_business_engagement').removeClass("error");
+                  $('.previous_business_engagementError').html('');
+            }
+   
+            //name_of_the_employer error 
+            if (errors[0]['name_of_the_employer']) {
+                  $("#createAccountForm  #name_of_the_employer").addClass("error");
+                  $('.name_of_the_employerError').html(errors[0]['name_of_the_employer']);
+            } else {
+                  $('#createAccountForm  #name_of_the_employer').removeClass("error");
+                  $('.name_of_the_employerError').html('');
+            }
+   
+            
+            //crime_engagement error 
+            if (errors[0]['crime_engagement']) {
+                  $("#createAccountForm  #crime_engagement").addClass("error");
+                  $('.crime_engagementError').html(errors[0]['crime_engagement']);
+            } else {
+                  $('#createAccountForm  #crime_engagement').removeClass("error");
+                  $('.crime_engagementError').html('');
+            }
+   
+            //crime_details error 
+            if (errors[0]['crime_details']) {
+                  $("#createAccountForm  #crime_details").addClass("error");
+                  $('.crime_detailsError').html(errors[0]['crime_details']);
+            } else {
+                  $('#createAccountForm  #crime_details').removeClass("error");
+                  $('.crime_detailsError').html('');
+            }
+   
+            return false;
+         } else {
+            
+         }
+   
+         console.log(form);
+         form.submit();
+   
+   });
+   
+</script>
+{% endblock content %}

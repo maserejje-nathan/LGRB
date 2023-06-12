@@ -1,0 +1,32 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="py-4"> </div>
+<div class="row">
+   <div class="col-12 ">
+      <div class="row">
+         <div class="col-12 mb-4">
+            <div class="card border-0 shadow">
+               {% if request.user.role == "inspector" %}
+                  {% include 'administrator/tasks/new_inspecting_officer_tasks.html' %}
+
+               {% elif request.user.role == "verifier" %}
+                  {% include 'administrator/tasks/new_verification_officer_tasks.html' %}
+
+               {% elif request.user.role == "approver" %}
+                   {% include 'administrator/tasks/new_approving_officer_tasks.html' %}
+
+               {% endif %}
+            </div>
+         </div>
+         <div class="col-12 col-xxl-6 mb-4">
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+<script type="text/javascript">
+  
+</script> 
+{% endblock content %}

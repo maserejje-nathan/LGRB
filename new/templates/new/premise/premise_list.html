@@ -1,0 +1,145 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+
+<div class="py-4"> </div>
+
+   <div class="card-body">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+            <li class="breadcrumb-item">
+               <a href="#">
+                  <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+               </a>
+            </li>
+            <li class="breadcrumb-item"><a href="{% url 'client:client_home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Premise Licence </li>
+            <li class="breadcrumb-item active" aria-current="page">View </li>
+         </ol>
+      </nav>
+   </div>
+
+
+
+
+
+<div class="modal fade" id="modal-book">
+    <div class="modal-dialog">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+
+   <div class="card-header">
+      <div class="row align-items-center">
+            <div class="col">
+               <h2 class="fs-5  mb-0"> Premises List  </h2>
+            </div>
+            
+
+            <div class="col text-end">
+                  {% comment %} <a class="btn btn btn-sm btn-primary show-form"  data-url="{% url 'new:create_premise' %}" > add premises </a> {% endcomment %}
+                  <a class="btn btn btn-sm btn-primary show-form"  href="{% url 'new:create_premise' %}" > add premises </a>
+                  {% comment %} <a class="btn btn btn-sm btn-success show-form"  href="{% url 'payments:payment-premise' %}" > pay for premise </a>
+                  <a class="btn btn btn-sm btn-success show-form"  href="{% url 'payments:client_premise_payment_list' %}" > view payment records </a>
+                  <a class="btn btn btn-sm btn-warning show-form"  href="{% url 'payments:premise_pdf_download' %}" > download premises </a> {% endcomment %}
+
+            </div>
+
+      </div>
+   </div>
+
+      <div class="table-responsive">
+         <!--end task -->
+         <div class="col-12 mb-4">
+            <div class="card card-body shadow border-0 table-wrapper table-responsive">
+               
+                <div class="row mb-4">
+                        {{form.errors}}
+
+                       <div class="">
+                            <div class="d-flex   mb-3">
+                                <div class="col-xs-3"> 
+                                    <input type="search" class="form-control col-xl-3 " placeholder="search by licence name" id="exampleInputIconRight" >
+                                </div>
+                                <button class="btn btn-sm px-3 btn-secondary ms-3">search</button>
+                            </div>
+                       </div>
+
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush" id="book-table">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th> operator name  </th>
+                                    <th> premise name </th>
+                                    <th> region </th>
+                                    <th> district </th>
+                                    <th> municipality </th>
+                                    <th> town_council </th>
+                                    <th> plot_number  </th>
+                                    <th> location </th>
+                                    <th> building name </th>
+                                    
+                                    <th> payment slip </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% include "new/premise/premise_list_2.html" %}
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                </div>
+            </div>
+    </div>
+         <!--end task -->
+   </div>
+
+
+
+
+{% comment %} <div class="py-4"></div>
+
+<div class="card-body mt-5">
+  <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+    <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+      <li class="breadcrumb-item">
+        <a href="#">
+          <svg
+            class="icon icon-xxs"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            ></path>
+          </svg>
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'client:client_home' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        <a href="{% url 'new:premise_list' %}"> Applications </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Premise Licence / Payment Records
+      </li>
+    </ol>
+  </nav>
+</div> {% endcomment %}
+
+
+
+
+
+{% endblock content %}
+
+

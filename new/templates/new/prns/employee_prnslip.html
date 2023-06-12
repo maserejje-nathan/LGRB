@@ -1,0 +1,42 @@
+{% load static %}
+<html >
+   <head>
+      <style type="text/css">
+      
+         @page {
+            size: a4 portrait;
+            background: url("http://uat.els.lgrb.go.ug/static/assets/img/pdf_prn_slip1.jpg");
+            background-repeat: no-repeat;
+            background-size: contain;
+         }
+
+      </style>
+   <body>
+            
+            <div style="text-align: left; padding-top: 15rem; line-height:1px; font-size:12px; text-transform: full-width; margin-left: 40px; font-size:14px;"> {{certificate.name_of_the_company}}</div>
+            <div style="text-align: left; line-height:1px; font-size:12px; text-transform: full-width; margin-left: 40px; font-size:14px; "> District: {{certificate.ura_district}}  </div>
+            <div style="text-align: left; line-height:1px; font-size:12px; text-transform: full-width; margin-left: 40px; font-size:14px; "> County: {{certificate.ura_county}}  </div>
+            <div style="text-align: left; line-height:1px; font-size:12px; text-transform: full-width; margin-left: 40px; font-size:14px; "> Sub county: {{certificate.ura_subcounty}}  </div>
+            <div style="text-align: left; line-height:1px; font-size:12px; text-transform: full-width; margin-left: 40px; font-size:14px; "> Village: {{certificate.ura_village}}  </div>
+    
+            <div style=" margin-left: 9rem;  margin-top: 45px; font-size:1.5rem; ">
+                  APPLICATION FOR A SPECIAL EMPLOYEE LICENSE 
+             </div>
+
+            <h2 style=" margin-left: 16rem;   margin-top: 28px;  "> {{certificate.application_fee|floatformat:"-3g"}}  </h2>
+            <h2 style="margin-left: 10rem;  margin-top: 5px; padding-top: -30px; font-weight: bold; padding-left:35; font-weight: bold; float: left;"> {{certificate.application_fee|floatformat:"-3g"}} </h2>
+            
+            <h2 style="margin-left: 4rem;  padding-top: -10px; font-weight: bold; padding-left:43; font-weight: bold; float: left;">  {{certificate.tin}} </h2>
+      
+            <h2 style="margin-left: 5rem;  padding-top: -6px; font-weight: bold; padding-left:43; font-weight: bold; float: left;"> {{certificate.prn}}</h2>
+     
+            <h2 style="margin-left: 16rem;  margin-top: 5px; padding-top: -10px; "> {{certificate.expiry_date}}  </h2>
+            <h2 style="margin-left: 10rem;  margin-top: -34px; padding-top: -39px; padding-left:29.5; "> {{certificate.expiry_date}} </h2>
+ 
+            <h2 style="margin-left: 32rem;  padding-top: 30rem; margin-top: 2.1rem;  font-weight: bold; float: left;" > 0772881034 </h2>
+            <h2 style="margin-left: 32rem;  padding-top: 1rem; margin-top: -10rem;  font-weight: bold; float: left;" > {{certificate.email}} </h2>
+    
+
+      
+   </body>
+</html>

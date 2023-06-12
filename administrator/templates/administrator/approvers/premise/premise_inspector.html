@@ -1,0 +1,534 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="card mt-3 mb-3">
+    <div class="card-body">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">Premise Licence</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Inspection Checklist </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+    <div class="row">
+
+        <div class="col-12 ">
+            
+<div class="inspection_tasks_div">
+<form method="POST" enctype="multipart/form-data" id="update-task">
+    {% csrf_token %}
+    {{form.errors}}
+<div class="container-fluid mt-3">
+<div class="row mt-3">
+   <div class="">
+      <h3 class=""> General </h3>
+   </div>
+   <div class="col-6">
+      <div class="row">
+         <div class="col-sm-6">
+            <td class="text-right">
+               <h5> Licence availability. </h5>
+               <p> Is the company/ facility licenced ?</p>
+               {{form.licence_availability | as_crispy_field }}
+               
+            </td>
+         </div>
+         <div class="col-sm-6">
+            <td class="text-right">
+               <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Explain more ?</label>
+                   {{form.licence_availability_comments | as_crispy_field }}
+               </div>
+            </td>
+         </div>
+      </div>
+   </div>
+   <div class="col-6">
+      <div class="row">
+         <div class="col-sm-6">
+            <td class="text-right">
+               <h5>Licenceing certificate display.</h5>
+               <p> Is the licence displayed properly as required ?</p>
+                {{form.licence_display | as_crispy_field }}
+            </td>
+         </div>
+         <div class="col-sm-6">
+            <td class="text-right">
+               <div class="form-group">
+                  <label for="exampleFormControlTextarea1">If not displayed properly, specify how ?</label>
+                {{form.licence_display_comments | as_crispy_field }}
+               </div>
+            </td>
+         </div>
+      </div>
+   </div>
+   <div class="col-6 mt-3 ">
+      <div class="row">
+         <div class="col-sm-6">
+            <td class="text-right">
+               <h5>Premises</h5>
+               <p> Surrounding public amenities (school, hospital, markets, places  <br> of worship  or government offices)<br>  (Rule 18 of the Lotteries and gaming (licensing) regulations SI. No.7 of 2017)</p>
+               <div class="input-group">
+                  {{form.premises_surrounding_public_amenities | as_crispy_field }}
+               </div>
+            </td>
+         </div>
+         <div class="col-sm-6">
+            <td class="text-right">
+               <div class="form-group">
+                  <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                  {{form.premises_urrounding_public_amenities_comments | as_crispy_field }}
+               </div>
+            </td>
+         </div>
+      </div>
+   </div>
+   <div class="col-6">
+      <div class="row">
+         <div class="col-sm-6">
+            <td class="text-right">
+               <h5> Convenience Facilities and Common area  </h5>
+               <p>  (Rule 18(2)e) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) </p>
+               
+               
+               <div class="row">
+                  <div class="col-sm-6">
+                     <div class="">
+                        {{form.convinience_facility | as_crispy_field}}
+                     </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                     <div class="">
+                        {{form.common_area | as_crispy_field}}
+                     </div>
+                  </div>
+               </div>
+
+               {% comment %} <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                  <label class="form-check-label" for="inlineCheckbox1">Convinience facility </label>
+               </div> {% endcomment %}
+
+               {% comment %} <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                  <label class="form-check-label" for="inlineCheckbox2">Common aread </label>
+               </div> {% endcomment %}
+
+            </td>
+            <td class="text-right">
+               <div class="form-group">
+                  {{form.size_of_premises | as_crispy_field }}
+               </div>
+            </td>
+         </div>
+         <div class="col-sm-6">
+            <td class="text-right">
+               <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Explain findings</label>
+                  {{form.convenience_facilities_and_common_area_comments | as_crispy_field }}
+               </div>
+            </td>
+         </div>
+      </div>
+   </div>
+   <hr class="hr mt-3 mb-3">
+   </hr>
+   <div class="container-fluid">
+      <div class="row mt-3">
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5>Access restriction and security (Section 57)</h5>
+                     <p> Is any of the following available  at the premise ?</p>
+                     
+                     {% comment %} <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label" for="inlineCheckbox1">Security Guard</label>
+                     </div>
+                     <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <label class="form-check-label" for="inlineCheckbox2">Metal Detector</label>
+                     </div> {% endcomment %}
+
+                     <div class="row">
+                        <div class="col-sm-6">
+                           <div class="">
+                              {{form.metal_detector | as_crispy_field}}
+                           </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                           <div class="">
+                              {{form.security_guard | as_crispy_field}}
+                           </div>
+                        </div>
+                     </div>
+
+
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Explain findings </label>
+                        {{form.access_restriction_and_security_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5>Television Sets Positioning</h5>
+                     <p> Check based on availability </p>
+                     <div class="input-group">
+                         {{form.television_set_positioning | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If not suitaible, Explain how </label>
+                        {{form.television_set_positioning_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <hr class="hr mt-3 mb-3">
+   </hr>
+   <div class="container-fluid">
+      <div class="row mt-3">
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Display of rules on betting and gaming</h5>
+                     <p> (Rule 18(2)g) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) </p>
+                     <div class="input-group">
+                       {{form.display_of_rules_on_betting_and_gaming | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Explain findings</label>
+                        {{form.display_of_rules_on_betting_and_gaming_comments | as_crispy_field }}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Display of Board Notices</h5>
+                     <p>  Rule 18(2)g) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) <br> 
+                        Must be displayed in a conspicuous place inside the premises      
+                     </p>
+                     <div class="input-group">
+                       {{form.display_of_board_notices_and_rules | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                        {{form.display_of_board_notices_and_rules_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <hr class="hr casion-div mt-3 mb-3">
+   </hr>
+   <div class="container-fluid">
+      <div class="row mt-3">
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Data protection and privacy policy </h5>
+                     <p> Data protection and privacy and privacy act, 2019  </p>
+                     <div class="input-group">
+                        {{form.data_protection_policy | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If yes insert the certificate number</label>
+                        {{form.data_protection_policy_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-6">
+            {% comment %} <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Display of Board Notices Refactored </h5>
+                     <p>  Rule 18(2)g) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) <br> 
+                        Must be displayed in a conspicuous place inside the premises      
+                     </p>
+                     <div class="input-group">
+                        <select class="form-control" id="inputGroupSelect04">
+                           <option selected>Choose display status...</option>
+                           <option value="1">Displayed</option>
+                           <option value="2">Not displayed </option>
+                        </select>
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                     </div>
+                  </td>
+               </div>
+            </div> {% endcomment %}
+         </div>
+      </div>
+   </div>
+   <hr class="hr casion-div mt-3 mb-3">
+   </hr>
+   <div class="container-fluid">
+      <div class="row mt-3">
+         <div class="">
+            <h3 class=""> Casino Operations and Head office </h3>
+         </div>
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Casino Premises </h5>
+                     <p>  (Section 29 of The Lotteries and Gaming Act,2016). Plans and diagram specifications the same as those submitted to the Board.</p>
+                     <div class="input-group">
+                         {{form.plans_and_diagram_of_casino | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                        {{form.plans_and_diagram_of_casino_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Surveillance system for monitoring operations within the Casino..</h5>
+                     <p>  (Section 29 of The Lotteries and Gaming Act,2016).</p>
+                     <div class="input-group">
+                        {{form.survillance_systems | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                          {{form.survillance_systems_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-sm-6 mt-3 ">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <td class="text-right">
+                        <h5>Counting rooms/cages available and in secure state.</h5>
+                        <p> Lotteries and Gaming (Licensing) Regulations  </p>
+                        <div class="input-group">
+                           {{form.counting_rooms_or_cages | as_crispy_field}}
+                        </div>
+                     </td>
+                  </div>
+                  <div class="col-sm-6">
+                     <td class="text-right">
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                           {{form.counting_rooms_or_cages_comments | as_crispy_field}}
+                        </div>
+                     </td>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-6 mt-3">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <td class="text-right">
+                        <h5> Casino Games and rules  (Section 32(4) of The Lotteries and Gaming Act,2016)    </h5>
+                        <p> Are Casino rules kept and exhibited in a conspicuous place in the casino. </p>
+                        <div class="input-group">
+                           {{form.casino_and_gaming_rules | as_crispy_field}}
+                        </div>
+                     </td>
+                  </div>
+                  <div class="col-sm-6">
+                     <td class="text-right">
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                           {{form.casino_and_gaming_rules_comments | as_crispy_field}}
+                        </div>
+                     </td>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="container-fluid mt-3">
+      <div class="row mt-3">
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Communication facilities provided for persons monitoring operations. </h5>
+                     <p>  (Section 29 of The Lotteries and Gaming Act,2016).</p>
+                     <div class="input-group">
+                        {{form.communication_facilities | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Explain findings</label>
+                        {{form.communication_facilities_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+         <div class="col-6">
+            <div class="row">
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <h5> Anti Money Laundering(AML). / CTF </h5>
+                     <p>  (The Anti-money laundering Laundering Act, 2013 and The Anti -money laundering regulations).</p>
+                     <div class="input-group">
+                         {{form.anti_money_laundering_policy | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+               <div class="col-sm-6">
+                  <td class="text-right">
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">If available, specify the AML officer</label>
+                        {{form.anti_money_laundering_policy_comments | as_crispy_field}}
+                     </div>
+                  </td>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="container-fluid">
+      <div class="row mt-3">
+         <div class="">
+            <h3 class=""> Inspection Recomendations </h3>
+         </div>
+         <div class="col-6">
+            <td class="text-right">
+              
+                  <div class="ml-3  mb-3 " id="inspector">
+                     {{form.inspection_authority_status | as_crispy_field }}
+                     {{form.inspection_authority_remarks | as_crispy_field }}
+                     <div class="hiden" id="inspector_hidden">
+                        {{form.forward_for_verification | as_crispy_field}}
+                        {{form.defer_to_inspector | as_crispy_field}} 
+                     </div>
+                  </div>
+                  <div class="mb-3">
+                     <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+                  </div>
+               </form>
+            </td>
+         </div>
+      </div>
+   </div>
+
+</div>
+<!----inspectos div ends here -->
+   
+   <div>
+   </div>
+</div>
+
+
+        </div>
+       
+    </div>
+
+
+
+
+<script type="text/javascript">
+   $('#inspector_hidden').hide()
+   $('#id_inspection_authority_statuss').change( function() {
+       value =  $('#id_inspection_authority_status').val()
+       console.log(value)
+       
+       if(value === "Recomended for a licence"){
+   
+           $("#id_defer_to_inspector").prop("checked", false);
+           $("#id_forward_for_verification").prop("checked", true);
+   
+           $("#id_defer_to_inspector").attr("readonly", 'readonly');
+           $("#id_forward_for_verification").attr("readonly", 'readonly');
+   
+       }else if(value === "Recomended for rejection"){
+         
+         $("#id_defer_to_inspector").prop("checked", false);
+         $("#id_forward_for_verification").prop("checked", true);
+   
+       }else{
+           $("#id_defer_to_inspector").prop("checked", false);
+           $("#id_forward_for_verification").prop("checked", false);
+   
+       }
+       
+   });
+   
+</script>
+{% endblock content %}
+

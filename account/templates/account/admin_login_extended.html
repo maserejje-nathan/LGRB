@@ -1,0 +1,94 @@
+{% extends 'administrators/auth_base.html' %}
+
+{% block content %}
+
+<body class=" bg-gray-100 ">
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent mt-4">
+<div class="container">
+<a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="/index.html">
+E-Licencing 
+</a>
+<button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon mt-2">
+<span class="navbar-toggler-bar bar1"></span>
+<span class="navbar-toggler-bar bar2"></span>
+<span class="navbar-toggler-bar bar3"></span>
+</span>
+</button>
+<div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
+<ul class="navbar-nav navbar-nav-hover mx-auto">
+</ul>
+<ul class="navbar-nav d-lg-block d-none">
+
+</ul>
+</div>
+</div>
+</nav>
+<main class="main-content  mt-0">
+<div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/img/curved-images/curved9.jpg');">
+<span class="mask bg-gradient-dark opacity-6"></span>
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-lg-5 text-center mx-auto">
+<h1 class="text-white mb-2 mt-5">E-Licencing Back office </h1>
+<p class="text-lead text-white">
+Login in to your account
+</p>
+</div>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+<div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+<div class="card z-index-0">
+
+<div class="card-body">
+<form action="#" method="POST" role="form" class="text-start"  >
+{% csrf_token %}
+
+<div class="mb-3">
+<label class="form-check-label" for="email">Email</label>
+{% comment %} <input type="text" name="username" placeholder="Username" class="form-control" value="test" required id="id_username"> {% endcomment %}
+ {{admin_login_form.email}}
+</div>
+<div class="mb-3">
+<label class="form-check-label" for="password">Password</label>
+{% comment %} <input type="password" name="password" placeholder="Password" class="form-control" value="ApS12_ZZs8" required id="id_password"> {% endcomment %}
+ {{admin_login_form.password}}
+</div>
+
+
+<div class="text-center">
+<button type="submit" name="login" class="btn bg-gradient-info w-100 my-4 mb-2">Sign in</button>
+</div>
+
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="footer py-5">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 mb-4 mx-auto text-center">
+
+</div>
+<div class="col-lg-8 mx-auto text-center mb-4 mt-2">
+
+</div>
+</div>
+<div class="row">
+<div class="col-8 mx-auto text-center mt-1">
+
+</div>
+</div>
+</div>
+</footer>
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% load static %}
+<html >
+   <head>
+      <style type="text/css">
+         @page {
+            size: a4 portrait;
+            background: url("http://uat.els.lgrb.go.ug/static/assets/img/certificate/template_employee.jpg");
+            background-repeat: no-repeat;
+            background-size: contain;
+         }
+      </style>
+   <body>
+      <div class="">
+      <div class="licence-title">
+            <p style="font-weight: bold; padding-top: 3.5rem; font-size: 2rem; margin-left: 4rem; " > EL-{{certificate.id}} </p>
+        </div>
+         
+       
+        <div class="licence-date">
+            <p style=" margin-top: 21rem; font-size:1.8rem; text-align: center; ">
+               <i> (Under section 27(3) and 31 of the Lotteries and Gaming Act, 2016) </i>  
+            </p>
+        </div>
+
+        <div class="article-section">
+            <p style=" margin-top: 3rem; font-size:1.8rem; text-align: center; "> {{certificate.name_of_the_employee}} </p>
+        </div>
+
+        <div class="licence-date">
+            <p style=" margin-top: 2rem; font-size:1.8rem; text-align: center; "> 
+               is licenced to be employed at {{certificate.name_of_the_company}}, </br>
+                Gaming or Betting facility within Uganda from </br>
+               <b>  {{certificate.date_applied}}  </b> </br>
+               to </br>
+                 <b> Dec. 31, {{certificate.expiry_date}} </b> 
+            </p>
+        </div>
+
+
+        <div class="licence-date">
+            <p style=" margin-top: 2rem; font-size:1.8rem; text-align: center; "> 
+               Dated at <b> KAMPALA </b> as of {{certificate.date_applied}}</br>
+               
+            </p>
+        </div>
+
+
+      </div>
+   </body>
+</html>

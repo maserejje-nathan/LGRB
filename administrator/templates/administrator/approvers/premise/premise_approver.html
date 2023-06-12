@@ -1,0 +1,70 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<div class=" mt-3 pt-3">
+
+
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <form method="POST" enctype="multipart/form-data" id="update-task">
+        {% csrf_token %}
+        {{form.errors}}
+
+        <div class="mb-3">
+          {{form.approving_authority_status | as_crispy_field }}
+          {{form.approving_authority_remarks | as_crispy_field }}
+        </div>
+
+        {% comment %} <div class="approver" id="approver_hidden">
+          {{form.approved | as_crispy_field }}
+          {{form.defer_to_verifier | as_crispy_field}} 
+          {{form.forward_for_verification | as_crispy_field}} 
+          {{form.defer_to_inspector | as_crispy_field}} 
+          {{form.forward_for_approval | as_crispy_field}} 
+        </div> {% endcomment %}
+
+        <button type="submit" id="submit" class="btn btn-primary" value="apply">Submit</button> 
+
+      
+<script type="text/javascript">
+
+      {% comment %} var role = "{{ request.user.role }}"
+      console.log(role)
+
+      $('#approver_hidden').hide()
+
+
+      $('#id_approving_authority_statuss').change( function() {
+         value =  $('#id_approving_authority_status').val()
+         
+         if(value === "Defered"){
+
+         //  $("#id_forward_for_approval").attr("disabled", true);
+            $("#id_forward_for_approval").prop("checked", false);
+         $("#id_approved").prop("checked", false);
+            $("#id_approved").attr("readonly", true);
+            
+            $("#id_defer_to_verifier").prop("checked", true);
+
+         }else{
+            $("#id_forward_for_approval").prop("checked", true);
+
+            $("#id_approved").prop("checked", true);
+
+            $("#id_approved").attr("readonly", true);
+
+            $("#id_defer_to_verifier").prop("checked", false);
+
+            $("#id_defer_to_verifier").attr("readonly", true);
+         
+         }
+      }); {% endcomment %}
+
+</script>
+
+
+{% endblock content %}
+
+

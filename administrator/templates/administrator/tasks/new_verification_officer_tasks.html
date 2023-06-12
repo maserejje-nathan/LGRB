@@ -1,0 +1,195 @@
+
+<div class="card-body">
+   <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+      <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+         <li class="breadcrumb-item">
+            <a href="#">
+               <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+               </svg>
+            </a>
+         </li>
+         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+         <li class="breadcrumb-item active" aria-current="page">Verification </li>
+         <li class="breadcrumb-item active" aria-current="page">New Licence </li>
+      </ol>
+   </nav>
+</div>
+
+
+<div class="card-header">
+   <div class="row align-items-center">
+         <div class="col">
+            <h2 class="fs-5 fw-bold mb-0">New Licences For Verification</h2>
+         </div>
+
+         <div class="col text-end">
+               {% comment %} <a href="{% url 'administrator:new_licence_task' %}" class="btn btn-sm btn-primary">New Applications</a>  {% endcomment %}
+         </div>
+
+   </div>
+</div>
+
+<div class="table-responsive">
+   <!--end task -->
+   <div class="card card-body shadow border-0 table-wrapper table-responsive">
+      <div class="d-flex   mb-3">
+         <div class="col-xs-3"> 
+            <input type="search" class="form-control col-xl-3 " placeholder="search by licence name" id="exampleInputIconRight" >
+         </div>
+         <button class="btn btn-sm px-3 btn-secondary ms-3">search</button>
+      </div>
+      <!-- Tab -->
+      <nav>
+         <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"> Principle Licence  <span class="badge  badge-pill badge-danger"> {{total_principle_licence_at_verification_licence}} </span> </a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Premise Licence <span class="badge  badge-pill badge-danger"> {{total_premise_licence_at_verification}} </span> </a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Key Employee Licence <span class="badge  badge-pill badge-danger"> {{total_employee_licence_at_verification}}</span> </a>
+         </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                  <thead class="thead-light">
+                     <tr>
+                        <th class="border-0">ID</th>
+                        <th class="border-0 rounded-start">Name</th>
+                        <th class="border-0">Type of Licence</th>
+                        <th class="border-0">Date applied</th>
+                        <th class="border-0">Tin</th>
+                      
+                        <th class="border-0 rounded-end">Inspection Status</th>
+                        <th class="border-0 rounded-end">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <!-- Item -->
+                     {% for licence in principle_licence_at_verification %}
+                     <tr>
+                        <td> {{licence.certificate_number}} </td>
+                        <td> {{licence.name_of_the_company}} </td>
+                        <td> {{licence.licence_type}} </td>
+                        <td> {{licence.date_applied}} </td>
+                        <td> {{licence.tin}} </td>
+                       
+                        <td> {{licence.inspection_authority_status}} </td> 
+                        <td> <a href="{{ licence.get_absolute_url }}" class="btn btn-success text-white">  view  </a> </td>
+                        {% endfor %}
+                     </tr>
+                     <!-- End of Item -->
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="table-responsive">
+               <table class="table table-centered table-nowrap mb-0 rounded">
+                  <thead class="thead-light">
+                     <tr>
+                        <th class="border-0">ID</th>
+                        <th class="border-0 ">Operator Name</th>
+                        <th class="border-0">Premise Name</th>
+                        
+                        <th class="border-0">Region </th>
+                        <th class="border-0">District</th>
+                        {% comment %} <th class="border-0">Municipality</th>
+                        <th class="border-0">Town Council</th>
+                        <th class="border-0">Plot number</th>
+                        <th class="border-0 ">Location</th>  {% endcomment %}
+                        <th class="border-0 ">Date applied</th>
+                        {% comment %} <th class="border-0 ">size</th> 
+                        <th class="border-0 ">equipment_in_the_premise</th> {% endcomment %}
+                        <th class="border-0 ">Inspection status </th>
+                        <th class="border-0 ">Action</th>
+                     </tr>
+
+                  </thead>
+                  <tbody>
+                     <!-- Item -->
+                     {% for licence in premise_licence_at_verification %}
+                     <tr>
+                        <td> {{licence.id}}</td>
+                        <td> {{licence.operator_name}} </td>
+                        <td> {{licence.premise_name}} </td>
+                        <td> {{licence.region}}</td>
+                        <td> {{licence.district}} </td>
+                        {% comment %} <td> {{licence.municipality}}  </td>
+                        <td> {{licence.town_council}}  </td>
+                        <td> {{licence.plot_number}} </td> 
+                        <td> {{licence.location}} </td> {% endcomment %}
+                        <td> {{licence.date_applied}} </td>
+                        {% comment %} <td> {{licence.size}} </td>
+                        <td> {{licence.equipment_in_the_premise}} </td>  {% endcomment %}
+                        <td> {{licence.inspection_authority_status}} </td>
+
+                        <td>
+                           {% comment %} <a href="{% url 'new:premise-update' licence.id %}" class="btn btn-warning"> update </a> {% endcomment %}
+
+                              {% if request.user.role == "inspector" %}
+                                 <a href="{% url 'administrator:PremiseInspectorsUpdate'  licence.id %}" class=" btn btn-warning text-light"> Evaluate </a>
+                              {% elif request.user.role == "verifier" %}
+                                 <a href="{% url 'administrator:PremiseVerifiersUpdate'  licence.id %}" class=" btn btn-warning text-light"> Verify </a>   
+
+                              {% elif request.user.role == "approver" %}
+                                 <a href="{% url 'administrator:PremiseApproversUpdate'  licence.id %}" class=" btn btn-warning text-light"> Approve </a>
+                              {% endif %} 
+                              
+                        </td>
+                        {% endfor %}
+                     </tr>
+                     <!-- End of Item -->
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            <div class="table-responsive">
+                <table class="table table-centered table-nowrap mb-0 rounded">
+                        <thead class="thead-light">
+                        <tr>
+                            <th class="border-0 rounded-start">#</th>
+                            <th class="border-0">Name of the company</th>
+                            <th class="border-0">Name of the Employee</th>
+                            <th class="border-0">Adress</th>
+                            <th class="border-0">Contact </th>
+                            <th class="border-0">PAYMENT STATUS</th>
+                            <th class="border-0 rounded-end">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Item -->
+                        {% for licence in employee_licence_at_verification %}
+                        <tr>
+                            <td> {{licence.id}} </td>
+                            <td> {{licence.name_of_the_company}}  </td>
+                            <td> {{licence.name_of_the_employee}} </td>
+                            <td> {{licence.address}}</td>
+                            <td> {{licence.mobile_phone}} </td>
+                            <td>  
+                                {% if  licence.applicationfeepayments.payment_description == "AVAILABLE"  %}
+                                     <b> <span  class="badge bg-warning">  Payment Recieved and Pending Processing  </span></b>
+                                {% elif licence.applicationfeepayments.payment_description == "EXPIRED" %}
+                                     <b> <span  class="badge bg-danger"> Prn Expired </span> </b>
+                                {% elif licence.applicationfeepayments.payment_description == "RECEIVED AND CREDITED" %}
+                                     <b> <span  class="badge bg-success "> Paid </span>  </b>
+                                {% else %}
+                                    <b> <span  class="badge bg-warning"> Pending Payment </span>  </b>
+                                {% endif %}
+                            
+                            </td>
+                            <td class="text-success">  <a href="{% url 'new:employee-detail'  licence.id %}" class=" btn btn-warning text-light"> view </a>   </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- End of Item -->
+                        </tbody>
+                    </table>
+            </div>
+         </div>
+      </div>
+      <!-- End of tab -->
+      <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+      </div>
+   </div>
+   <!--end task -->
+</div>

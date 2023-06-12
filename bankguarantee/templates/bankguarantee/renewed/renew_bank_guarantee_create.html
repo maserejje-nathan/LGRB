@@ -1,0 +1,305 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+<style>
+    .error{
+      color:red; 
+        border-color: red !important
+      }
+    .readonly1 input ,.readonly select {
+        background-color:#eec !important;
+    }
+
+    .btn-red{
+    background-color: red;
+    color: white;
+    border: 1px solid red;
+}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+:root {
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+.form-field input {
+    border: solid 2px #f0f0f0;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+}
+
+.form-field input:focus {
+    outline: none;
+}
+
+.form-field.error input {
+    border-color: var(--error-color);
+}
+
+.form-field.success input {
+    border-color: var(--success-color);
+}
+
+
+</style>
+<!-- main content -->
+<div class="row">
+<h2 class="text-center mb-3 mt-3 pb-3">Bank Guarantee Submission</h2>
+<div class="col-12 mb-4">
+
+   <form method="POST"  enctype="multipart/form-data" >
+      {% csrf_token %}
+     
+   
+      <div class="card border-0 shadow components-section">
+         <div class="card-body">
+
+            <div class="row mb-4">
+               <div class="col-lg-4 col-sm-6">
+                  <!-- Form -->
+
+                  <div class="mb-4">
+                  <h6 class="text-success"><b> PARTICULARS OF THE Bank guarantee  </b></h6>
+                     {{form.tin.label }}
+                     {{form.tin}}
+                     <small></small>
+                     <div class="first_nameError error"></div>
+                  </div>
+
+                   <div class="mb-4">
+                     
+                     {{form.principle_licence_certificate_number.label }}
+                     {{form.principle_licence_certificate_number }}
+                  </div>
+ 
+                  <div class="mb-4">
+                     
+                     {{form.Name.label }}
+                     {{form.Name }}
+                  </div>
+
+                  <div class="mb-4">
+                     {{form.email.label}}
+                     {{form.email }}
+                  </div>
+                  <div class="mb-4">
+                     {{form.bank.label }}
+                     {{form.bank }}
+                  </div>
+                  <div class="mb-4">
+                     {{form.bank_guarantee.label }}
+                     {{form.bank_guarantee }}
+                  </div>
+
+                  <button type="submit" class="btn  btn-primary btn-block ">Apply</button>
+                  
+               </div>
+               
+    
+            </div>
+   </form>
+   </div>
+   </div>
+   <!--end main content -->
+</div>
+
+
+<script type="text/javascript">
+    {% for message in messages %}
+       
+        Swal.fire({
+            
+            icon: 'success',
+            title: 'Success',
+            text: ' {{message}}',
+            showConfirmButton: true,
+        })
+     
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+         Swal.fire({
+            icon: 'error',
+            title: '{{ form.non_field_errors }}',
+            showConfirmButton: true,
+
+        })
+    {% endif %}
+
+$(document).ready(function() {
+
+    console.log("bank guarantee ");
+    var email = "{{request.user.email}}"
+
+    var tin = $('#tin').val();
+    var fee = $('#fee').val();    
+    var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+
+    $("#tin").change(function(e){
+        
+        tin = $("#tin").val();
+
+        $.ajax({
+                url: "/accounts/tin/verify", 
+                type: "post",
+                data: {
+                    "tin": tin,
+                },
+                dataType: "json",
+                headers: {'X-CSRFToken': csrftoken },
+                mode: 'same-origin',  
+                beforeSend: function () {},
+                success: function (response) {
+                    var status = response['GetClientRegistrationResult'].ErrorDesc
+                    tin_response = {
+                        'TaxPayerName': response['GetClientRegistrationResult'].TaxPayerName,
+                        'ContactNumber': response['GetClientRegistrationResult'].ContactNumber,
+                        'MobileNumber': response['GetClientRegistrationResult'].MobileNumber,
+                        'TaxPayerEmail': response['GetClientRegistrationResult'].TaxPayerEmail,
+                    }
+
+                    console.log(response);
+
+                    if(status === "SUCCESS"){
+
+                        $("#Name").val(tin_response.TaxPayerName);
+
+                    } else if (status === "INVALID TIN") {
+                
+                        $("#tin").val('');
+                        $('#gernerate_prn').prop('checked', false)
+                        $("#prn").val('');
+                        swal.fire(status);
+                        $('.prnError').html('');
+
+                    } else if(status === "Invalid Length of TIN Entered, please try again"){
+
+                        swal.fire(status);
+
+                    } else{
+
+                        $("#tin").val('');
+                        $("#Name").val('');
+
+                    }
+                
+                },
+                error: function(response) {
+                    console.log(response);
+                    $('.prnError').html("Invalid PRN. Try later");
+                    console.log(response)
+                },
+
+                complete: function (response) {},
+
+            });
+
+
+    });
+
+   
+   $("#gernerate_prn").click( function (e){
+      
+      if ( $('#gernerate_prn').prop('checked', true) ){
+   
+        if(tin == '' ){
+            swal.fire('you must validate tin first');
+            $('#gernerate_prn').prop('checked', false);
+        
+        }else{
+            
+            $.ajax({
+                url: "/accounts/prn/get", 
+                type: "post",
+                data: {
+                    "fee": fee,
+                    "tin": tin,
+                },
+                dataType: "json",
+                headers: {'X-CSRFToken': csrftoken },
+                mode: 'same-origin',  
+                beforeSend: function () {},
+                success: function (response) {
+                var status = response['GetPRNResult'].ErrorDesc
+                ura_response = {
+                    'prn': response['GetPRNResult'].PRN,
+                    'error_code': response['GetPRNResult'].ErrorCode,
+                    'error_desc': response['GetPRNResult'].ErrorDesc,
+                    'expiry_date': response['GetPRNResult'].ExpiryDate,
+                    'search_code': response['GetPRNResult'].SearchCode,
+                    
+                }
+            
+                if (status = "SUCCESS") {
+            
+                        $("#tSx").remove();
+
+                        $("#prn").val(ura_response.prn);
+                        $("#error_code").val(ura_response.error_code);
+                        $("#error_desc").val(ura_response.error_desc);
+                        $("#expiry_date").val(ura_response.expiry_date);
+                        $("#search_code").val(ura_response.search_code);
+
+                        // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                        $('.prnError').html('');
+
+                    
+                }else if(status = "Invalid Length of TIN Entered, please try again") {
+            
+                        $("#prn").val("");
+                        $("#error_code").val("");
+                        $("#error_desc").val("");
+                        $("#expiry_date").val("");
+                        $("#search_code").val("");
+
+                        // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                        $('.prnError').html('');
+                        console.log("invalid tin number");
+                    
+                }else {
+
+                        $("#prn").val("");
+
+                        $("#error_code").val("");
+                        $("#error_desc").val("");
+                        $("#expiry_date").val("");
+                        $("#search_code").val("");
+
+                        $("#tSx").remove();
+                        $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                        $('.prnError ').html("Failed to generate PRN");
+                        console.log("failed to generate PRN");
+
+                }
+
+                },
+                error: function(response) {
+                    console.log(response);
+                    $('.prnError').html("Invalid PRN. Try later");
+                    console.log(response)
+                },
+
+                complete: function (response) {},
+
+            });
+
+        }
+
+    }else{
+        
+            swal.fire('you have already generated a prn')
+            return false
+    }
+   })
+
+});
+   
+
+</script>
+{% endblock content %}

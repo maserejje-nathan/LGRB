@@ -1,0 +1,76 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+
+
+<div>
+   <form method="POST" enctype="multipart/form-data" id="update-task">
+         {% csrf_token %}
+         {{form.errors}}
+
+         <div class="ml-3 col-sm-6 mb-3" id="approver">
+            {{form.approving_authority_status | as_crispy_field }}
+            {{form.approving_authority_remarks | as_crispy_field }}
+            
+            <div class="approver" id="approver_hidden">
+               {{form.approved | as_crispy_field }}
+               {{form.defer_to_verifier | as_crispy_field}} 
+               {{form.forward_for_verification | as_crispy_field}} 
+               {{form.defer_to_inspector | as_crispy_field}} 
+               {{form.forward_for_approval | as_crispy_field}} 
+            </div>
+
+         </div>
+
+         <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit approvals </button> 
+
+   </form>
+</div>
+
+
+<script type="text/javascript">
+
+      var role = "{{ request.user.role }}"
+      console.log(role)
+
+      $('#approver_hidden').hide()
+
+
+      $('#id_approving_authority_statuss').change( function() {
+         value =  $('#id_approving_authority_status').val()
+         
+         if(value === "Defered"){
+
+         //  $("#id_forward_for_approval").attr("disabled", true);
+            $("#id_forward_for_approval").prop("checked", false);
+         $("#id_approved").prop("checked", false);
+            $("#id_approved").attr("readonly", true);
+            
+            $("#id_defer_to_verifier").prop("checked", true);
+
+         }else{
+            $("#id_forward_for_approval").prop("checked", true);
+
+            $("#id_approved").prop("checked", true);
+
+            $("#id_approved").attr("readonly", true);
+
+            $("#id_defer_to_verifier").prop("checked", false);
+
+            $("#id_defer_to_verifier").attr("readonly", true);
+         
+         }
+      });
+
+</script>
+
+
+{% endblock content %}
+
+
+
+
+

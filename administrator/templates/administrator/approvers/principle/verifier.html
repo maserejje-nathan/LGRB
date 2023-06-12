@@ -1,0 +1,93 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+  
+
+<div class="">  
+
+<div>
+
+   <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form.errors}}
+
+         <div class="ml-3 col-sm-6 mb-3" id="verifier">
+            {{form.verification_authority_status | as_crispy_field }}
+            {{form.verification_authority_remarks | as_crispy_field }}
+            
+           <div class="verifier_hidden" id="verifier_hidden">
+            {{form.forward_for_approval | as_crispy_field}} 
+            {{form.forward_for_verification | as_crispy_field}}
+            {{form.defer_to_inspector | as_crispy_field}} 
+           </div> 
+            
+         </div>
+         
+         <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit verification</button> 
+      
+   </form>
+
+      </div>
+
+   </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+   $("#verifier_hidden").hide()
+
+   $('#id_verification_authority_statuss').change( function() {
+      value =  $('#id_verification_authority_status').val()
+      console.log(value)
+      if(value === "Defered"){
+
+         $("#id_forward_for_approval").prop("checked", false);
+
+         $("#id_forward_for_approval").attr("readonly", true);
+
+         $("#id_defer_to_inspector").prop("checked", true);
+         
+         $("#id_forward_for_verification").prop("checked", false);
+
+       }else if(value == ""){
+
+        $("#id_forward_for_approval").prop("checked", false);
+
+         $("#id_forward_for_verification").prop("checked", true);
+
+         $("#id_defer_to_inspector").prop("checked", false);
+
+         $("#id_forward_for_approval").attr("readonly", false);
+
+         $("#id_defer_to_inspector").attr("readonly", true);
+      }else{
+         
+         $("#id_forward_for_approval").prop("checked", true);
+
+         $("#id_forward_for_verification").prop("checked", true);
+
+         $("#id_defer_to_inspector").prop("checked", false);
+
+         $("#id_forward_for_approval").attr("readonly", false);
+
+         $("#id_defer_to_inspector").attr("readonly", true);
+
+      }
+   });
+
+
+</script>
+
+
+{% endblock content %}
+
+
+
+
+

@@ -1,0 +1,1886 @@
+{% extends 'client/base.html' %} {% load crispy_forms_tags %}
+{% block content%}
+<style>
+   .error{
+   color:red; 
+   border-color: red !important
+   }
+   .readonly1 input ,.readonly select {
+   background-color:#eec !important;
+   }
+   .text-success{
+   color: green !important
+   }
+   .loading{
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: rgba(255, 255, 255, 0.7);
+   z-index: 9999;
+   }
+</style>
+<div class=" card mt-3 mb-3 ">
+   <div class="card-body">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+            <li class="breadcrumb-item">
+               <a href="#">
+                  <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+               </a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Applications </li>
+            <li class="breadcrumb-item active" aria-current="page">Principle Licence application  </li>
+         </ol>
+      </nav>
+   </div>
+</div>
+{% comment %} 
+<div class="d-flex justify-content-center align-items-center" style="display:none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;  z-index: 9999; ">
+   {% endcomment %}
+   <div id="loading" class=" text-center d-flex justify-content-center align-items-center" >
+      <div id="spinner" class="spinner-border m-5" role="status" style="display:none; " >
+         <span class="sr-only">Loading...</span>
+      </div>
+   </div>
+   <div class="mb-5 p-4 bg-white shadow-sm">
+      <h4>Principle Licence Form </h4>
+      <div id="stepper3" class="bs-stepper">
+         <div class="bs-stepper-header" role="tablist">
+            <div class="step" data-target="#test-nlf-1">
+               <button type="button" class="step-trigger" role="tab" id="stepper3trigger1" aria-controls="test-nlf-1">
+               <span class="bs-stepper-circle">
+               <span class="fas fa-user" aria-hidden="true"></span>
+               </span>
+               <span class="bs-stepper-label">Step 1 </span>
+               </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-nlf-2">
+               <button type="button" class="step-trigger" role="tab" id="stepper3trigger2" aria-controls="test-nlf-2">
+               <span class="bs-stepper-circle">
+               <span class="fas fa-map-marked" aria-hidden="true"></span>
+               </span>
+               <span class="bs-stepper-label">Step 2</span>
+               </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-nlf-3">
+               <button type="button" class="step-trigger" role="tab" id="stepper3trigger3" aria-controls="test-nlf-3">
+               <span class="bs-stepper-circle">
+               <span class="fas fa-save" aria-hidden="true"></span>
+               </span>
+               <span class="bs-stepper-label">Finish </span>
+               </button>
+            </div>
+         </div>
+         <div class="bs-stepper-content">
+            <form method="POST" enctype="multipart/form-data" id="createAccountForm">
+               {% csrf_token %}
+               {{ form.errors }}
+               <!--step 1 body -->
+               <div id="test-nlf-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="stepper3trigger1">
+                  <div class="form-group">
+                     <div class="row">
+                        <div class="col-sm">
+                           
+                           <div class="mb-4">
+                              <label for=""> {{form.purpose_of_application.label}} </label>
+                              {{form.purpose_of_application  }}
+                              <div class="purpose_of_applicationError error"></div>
+                           </div>
+                           <div class="mb-4" id="previous_licence_div">
+                              <label for=""> {{form.previous_licence_number.label}} </label>
+                              {{form.previous_licence_number  }}
+                              <div class="previous_licence_numberError error"></div>
+                           </div>
+                           <div class="mb-4" id="license_type_div">
+                              <label for=""> {{form.licence_type.label}} </label>
+                              <input class="licence_type form-control" type="text" value=""  readonly />
+                              <div class="licence_typeError error"></div>
+                           </div>
+                           <div class="mb-4" id="company_status_div">
+                              <label for=""> {{form.company_status.label}} </label>
+                              <input class="company_status form-control" type="text" value="" readonly  />
+                              <div class="company_statusError error"></div>
+                           </div>
+                           <div class="mb-4" id="license_type_hidden_div">
+                              <label for=""> {{form.licence_type.label}} </label>
+                              {{form.licence_type  }}
+                              <div class="licence_typeError error"></div>
+                           </div>
+                           <div class="mb-4" id="company_status_hidden_div">
+                              <label for=""> {{form.company_status.label}} </label>
+                              {{form.company_status  }}
+                              <div class="company_statusError error"></div>
+                           </div>
+                           <div class="mb-4">
+                              <label for=""> {{form.tin.label}} </label> 
+                              {{form.tin}}
+                              <div class="tinError error"></div>
+                           </div>
+                           <div class="mb-4">
+                              <label for="" > {{form.name_of_the_company.label}} </label>
+                              {{form.name_of_the_company  }}
+                              <div class="name_of_the_companyError error"></div>
+                           </div>
+
+                             <div  id="address_div">
+                                 {{form.ura_district }}
+                                 {{form.ura_county }}
+                                 {{form.ura_subcounty }}
+                                 {{form.ura_village }}
+                              </div>
+
+                        </div>
+                        <div class="col-sm">
+                           <div class="mb-4" > </div>
+                           <div class="mb-4 " id="description_div">
+                              <label id="description_label">  </label>
+                              {{form.description }}
+                              <div class="descriptionError error"></div>
+                           </div>
+                           <div class="mb-4 " id="categories_of_machine_div">
+                              <label id="categories_of_machine_label"> Categories of the machines or deviced to be used in the bingo betting</label> 
+                              {{ form.categories_of_machines }}
+                              <div class="categories_of_machinesError error"></div>
+                           </div>
+                           <div class="mb-4" id="national_lottery_licence_div">
+                              <div class="mb-4" id="districts_of_conduction_div">
+                                 <label for="" > Districts of uganda where the national lottery will be conducted </label>
+                                 {{form.districts_of_conduction  }}
+                                 <div class="districts_of_conductionError error"></div>
+                              </div>
+                              <div class="mb-4" id="projected_gross_turnover_div">
+                                 <label for="">Projected gross turnover in ugandan shillings for the first 6 months of the national lottery </label> 
+                                 {{form.projected_gross_turnover  }}
+                                 <div class="projected_gross_turnoverError error"></div>
+                              </div>
+                           </div>
+                           <div class="mb-4" id="public_lottery_licence_div">
+                              <div class="mb-4" id="districts_of_conduction_div">
+                                 <label for=""  class="form-label" > Districts of uganda where the public lottery will be conducted </label>
+                                 {{form.districts_of_conduction  }}
+                                 <div class="districts_of_conductionError error"></div>
+                              </div>
+                              <div class="mb-4" id="projected_gross_turnover_div">
+                                 <label for=""> Projected gross turnover in ugandan shillings for the first 6 months of the public lottery </label> 
+                                 {{form.projected_gross_turnover  }}
+                                 <div class="projected_gross_turnoverError error"></div>
+                              </div>
+                           </div>
+                           <div class="mb-4" id="bingo_licence_div">
+                           </div>
+                           <div class="mb-4" id="pool_betting_licence_div">
+                           </div>
+                           <div class="mb-4" id="casino_licence_div">
+                              <div class="mb-4">
+                                 <label for=""> Class of casino games to be operated </label> 
+                                 {{ form.class_of_the_casino_games }}
+                                 <div class="class_of_the_casino_gamesError error"></div>
+                              </div>
+                           </div>
+                           <div class="mb-4" id="betting_intermediary_licence_div"> 
+                           </div>
+                           <div class="mb-4" id="general_betting_licence_div">
+                           </div>
+                           <div class="mb-4" id="manufacture_div">
+                           </div>
+                           <div class="mb-4" id="misc">
+                              <div class="mb-4" id="description_div">
+                                 <label for="" > {{form.description.label }}</label>
+                                 {{form.description }}
+                                 <div class="descriptionError error"></div>
+                              </div>
+                              <div class="mb-4" id="purpose_div">
+                                 <label for="" > {{form.purpose_of_the_lottery.label }}</label>
+                                 {{form.purpose_of_the_lottery }}
+                                 <div class="purpose_of_the_lotteryError error"></div>
+                              </div>
+                              <div class="mb-4" id="projected_gross_turnover_div">
+                                 <label for="">{{form.projected_gross_turnover.label}}</label> 
+                                 {{form.projected_gross_turnover  }}
+                                 <div class="projected_gross_turnoverError error"></div>
+                              </div>
+                              <div class="mb-4" id="districts_of_conduction_div">
+                                 <label for="" data-toggle="tooltip" data-placement="top" title="please attach the diagrams or plan of the layout of the machines at the premises" class="form-label" >{{form.districts_of_conduction.label  }} </label>
+                                 {{form.districts_of_conduction  }}
+                                 <div class="districts_of_conductionError error"></div>
+                              </div>
+                              <div class="mb-4" id="class_of_casino_div">
+                                 <label for="">{{form.class_of_the_casino_games.label}}</label> 
+                                 {{ form.class_of_the_casino_games }}
+                                 <div class="class_of_the_casino_gamesError error"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <button class="btn btn-primary" onclick="stepper3.next()">Next</button>
+               </div>
+               <!--step 2 body -->
+               <div id="test-nlf-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="stepper3trigger2">
+                  <div class="form-group">
+                     <div class="">
+                        <div class="row">
+                           <div class="col-sm">
+
+                              <div class="">
+                                 
+                                 <div class="mb-4">
+                                    <label for="state">{{ form.memorandum_and_articles_of_association.label }}</label> 
+                                    {{ form.memorandum_and_articles_of_association }}
+                                    <div class="memorandum_and_articles_of_associationError error"></div>
+                                 </div>
+                                 <div class="mb-4">
+                                    <label for="state">{{form.tenancy_agreement.label}}</label> 
+                                    {{ form.tenancy_agreement }}
+                                    <div class="tenancy_agreementError error"></div>
+                                 </div>
+                                 <div class="mb-4">
+                                    <label for="state">{{form.annual_company_returns.label}}</label> 
+                                    {{ form.annual_company_returns }}
+                                    <div class="annual_company_returnsError error"></div>
+                                 </div>
+
+                              </div>
+
+                           </div>
+
+
+                           <div class="col-sm">
+                              <div class="mb-4">
+                                 <label for="state">  {{form.district.label}}</label> 
+                                 {{form.district }}
+                              </div>
+                              <div class="mb-4">
+                                 <label for="state"> {{form.county.label}}</label> 
+                                 {{form.county }}
+                              </div>
+                              <div class="mb-4">
+                                 <label for="state"> {{form.sub_county.label}}</label> 
+                                 {{form.sub_county  }}
+                              </div>
+                           </div>
+
+                           <div class="col-sm">
+                              {% comment %} <div class="mb-4"></div> {% endcomment %}
+                              <div class="mb-4">
+                                 <label for="state"> {{ form.parish.label }}</label> 
+                                 {{ form.parish  }}
+                              </div>
+                              <div class="mb-4">
+                                 <label for="state"> {{form.village.label}}</label> 
+                                 {{form.village }}
+                              </div>
+                              <div class="mb-4">
+                                 <label for=""> {{form.plot_number.label}} </label> 
+                                 {{form.plot_number}}
+                                 <div class="plot_numberError error"></div>
+                              </div>
+                              <div class="mb-4 email">
+                                 <label for=""> {{form.email.label}} </label> 
+                                 {{form.email}}
+                                 <div class="emailError error"></div>
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+                  </div>
+                  <button class="btn btn-primary" onclick="stepper3.previous()">Previous</button>
+                  <button class="btn btn-primary" onclick="stepper3.next()">Next</button>
+               </div>
+               <!-- end step 3 body -->
+               <div id="test-nlf-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="stepper3trigger3">
+                  <div class="form-group">
+                     <div class="">
+                        <div class="row">
+                           <div class="col-sm">
+                             
+                              <div class="mb-4">
+                                 <label for="state">  {{form.previous_business_engagement.label }} </label> 
+                                 {{form.previous_business_engagement }}
+                                 <div class="crime_engagementError error"></div>
+                              </div>
+                              <div class="row previous_business_engagement_div" id="previous_business_engagement_div">
+                                 <div class="col-sm mb-4">
+                                    <label for=""> {{form.name_of_the_business.label  }}</label> 
+                                    {{form.name_of_the_business  }}
+                                    <div class="name_of_the_businessError error"></div>
+                                 </div>
+                                 <div class=" col-sm mb-4">
+                                    <label for="">  {{form.engagement_capacity.label  }}</label > 
+                                    {{form.engagement_capacity  }}
+                                    <div class="engagement_capacityError error"></div>
+                                 </div>
+
+                              <div class="row">
+                                 
+                                 <div class="col-sm mb-4">
+                                    <label for="">  {{form.start_date.label  }}</label > 
+                                    {{form.start_date  }}
+                                    <div class="start_dateError error"></div>
+                                 </div>
+                                 <div class="col-sm mb-4">
+                                    <label for="">  {{form.end_date.label  }}</label > 
+                                    {{form.end_date  }}
+                                    <div class="end_dateError error"></div>
+                                 </div>
+
+                              </div>
+
+                              </div>
+
+                              <div class="mb-4">
+                                 <label for=""> {{form.crime_engagement.label  }}</label> 
+                                 {{form.crime_engagement  }}
+                                 <div class="crime_engagementError error"></div>
+                              </div>
+                              <div class="offense_div" id="offense_div">
+                                 <div class="mb-4">
+                                    <label for=""> {{form.crime_details.label  }}</label> 
+                                    {{form.crime_details  }}
+                                    <div class="crime_detailsError error"></div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-sm">
+
+                              <div class="row">
+                                 
+                                 <div class="col-sm mb-4 " id="application_fee_div">
+                                    <label for=""> {{form.application_fee.label  }}</label> 
+                                    {{form.application_fee  }}
+                                    <div class="application_feeError error"></div>
+                                 </div>
+
+                                 <div class="col-sm mb-4" id="licence_fee_div">
+                                    <label for=""> {{form.licence_fee.label  }}</label> 
+                                    {{form.licence_fee  }}
+                                    <div class="licence_feeError error"></div>
+                                 </div>
+
+                              </div>
+
+                             
+                             {% comment %} 
+                                 <div class="mb-4 ">
+                                    <div class="form-check form-switch">
+                                       {{form.generate_prn}}
+                                       <label class="form-check-label" for="flexCheckChecked"> {{form.generate_prn.label}} </label>
+                                    </div>
+                                 </div>
+                                 <div class="mb-4">
+                                    {{form.prn}} 
+                                    <div class="prnError error"></div>
+                                 </div>
+                                 <div class="">
+                                    {{form.error_code}}
+                                    {{form.error_desc}}
+                                    {{form.payment_expiry_date}}
+                                    {{form.search_code}}
+                                 </div> 
+                              {% endcomment %}
+
+
+                              <div class="mb-4">
+                                 <label class=""> {{ form.form_confirmation  }} </label>    
+                                 {{ form.form_confirmation.label }}
+                                 <div class="form_confirmationError error"></div>
+                              </div>
+
+                              <button class="btn btn-primary" type="submit" id="submit_form">submit application</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <button class="btn btn-primary" onclick="stepper3.previous()">Previous</button>
+               </div>
+            </form>
+         </div>
+        
+      </div>
+   </div>
+</div>
+<script type="text/javascript">
+
+   stepper3 = new Stepper(document.querySelector('#stepper3'), {
+      linear: false,
+      animation: true
+   })
+   
+   $(document).ready(function() {
+      
+      var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      var LegalStatus = "{{ user.legalStatus }}"
+      var district = "{{ request.user.District }}"
+      var county = "{{ request.user.County }}"
+      var subcounty = "{{ request.user.Subcounty }}"
+      var parish = "{{ request.user.Parish }}"
+      var village = "{{ request.user.Village }}"
+      var citizenship = "{{ request.user.citizenship }}"
+      var email = "{{ request.user.email }}"
+   
+      var tin = $('#tin').val();
+      var application_fee = $('#application_fee').val()
+      var licence_fee = $('#licence_fee').val();  
+   
+      $('#misc').hide()
+      $("#national_lottery_licence_div").hide()
+      $("#public_lottery_licence_div").hide()
+      $("#betting_intermediary_licence_div").hide()
+      $("#general_betting_licence_div").hide()
+      $("#manufacture_div").hide()
+      $("#casino_licence_div").hide()
+      $("#bingo_licence_div").hide()
+      $("#pool_betting_licence_div").hide()
+      $("#categories_of_machine_div").hide()     
+      $("#description_div").hide()    
+   
+      $('#license_type_hidden_div').hide();
+      $('#company_status_hidden_div').hide();  
+   
+      $("#name_of_the_company").prop("readonly", true);
+      $("#email").prop("readonly", true);
+      $('.email').hide();
+      $("#previous_business_engagement_div").hide();
+      $("#non-cititzen-div").hide();
+      $("#previous_business_engagement_div").hide();
+      $("#offense_div").hide();
+   
+      $("#district").val(district);
+      $("#county").val(county);
+      $("#sub_county").val(subcounty);
+      $("#parish").val(parish);
+      $("#village").val(village);
+      $("#email").val(email);
+      $('#address_div').hide();
+      $('#previous_licence_div').hide();
+      $('#spinner').hide();
+     
+   });
+   
+   $("#purpose_of_application").change( function (e) {
+   
+      const purpose_of_application = $(this).val();
+      //document.getElementById("prn").value = ''
+      // document.getElementById('generate_prn').checked = false      
+   
+      if (purpose_of_application == "Renewal") {
+         console.log(purpose_of_application)
+   
+         // add thhe relevant validations 
+         $("#previous_licence_div").show();
+         $("#tin").prop("readonly", true);
+   
+         $("#application_fee_div").hide();
+         $("#licence_fee_div").show();
+   
+   
+         $('#license_type_hidden_div').hide();
+         $('#company_status_hidden_div').hide();  
+   
+         $('#license_type_div').show();
+         $('#company_status_div').show(); 
+   
+         // $("#license_type_hidden_div").css("display", "none")
+         // $(".licence_type").attr("readonly", true)
+   
+         // $("#company_status_hidden_div").css("display", "none")
+         // $(".company_status").attr("readonly", true)
+   
+   
+      }else if(purpose_of_application == "New") {
+   
+         $("#previous_licence_div").hide();
+         $("#tin").prop("readonly", false);
+         $("#tin").val("");
+         $("#name_of_the_company").val("");
+   
+         $("#licence_fee_div").hide();
+         $("#application_fee_div").show();
+   
+   
+         $('#license_type_div').hide();
+         $('#company_status_div').hide();     
+   
+         $('#license_type_hidden_div').show();
+         $('#company_status_hidden_div').show();  
+       
+      }else{
+         $("#previous_licence_div").hide();
+   
+         $("#tin").prop("readonly", false);
+         $("#tin").val("");
+         $("#name_of_the_company").val("");
+   
+         $("#company_status").attr("readonly", true);
+         // $("#email").prop("readonly", true);
+           
+         $("#licence_type").attr("readonly", true);
+   
+         $("#application_fee_div").hide();
+         $("#licence_fee_div").hide();
+   
+      }
+   
+   }); 
+   
+   $("#licence_type").change(function(e){
+   
+      var licence = $("#licence_type option:selected").text();
+      
+      $('#company_status').get(0).selectedIndex = 0;
+   
+      if (licence == "License to conduct a National Lottery") {
+         
+         $("#description_div").show() 
+         $("#categories_of_machine_div").hide()     
+         $("#description_label").text(' National Lottery description and mechanism ');
+   
+         $("#national_lottery_licence_div").show();
+         $("#public_lottery_licence_div").hide();
+         $("#betting_intermediary_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#manufacture_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+   
+      } 
+   
+      else if (licence == "License to conduct a Public Lottery") {
+        $("#description_div").show()  
+        
+        $("#categories_of_machine_div").hide()      
+        $("#description_label").text('Public Lottery Description and mechanism ');
+   
+   
+         $("#public_lottery_licence_div").show();
+         $("#national_lottery_licence_div").hide();
+         $("#betting_intermediary_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#manufacture_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+   
+      } 
+   
+      else if (licence == "Casino operating license") {
+         
+         $("#description_div").show()
+         $("#description_label").text('Description of the casino facility');
+   
+         $("#categories_of_machine_div").show()     
+         $("#categories_of_machine_label").text('Categories of the machines or devices to be used in the Casino');
+   
+         $("#casino_licence_div").show();
+         $("#public_lottery_licence_div").hide();
+         $("#national_lottery_licence_div").hide();
+         $("#betting_intermediary_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#manufacture_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+   
+      
+      } 
+      
+      else if (licence == "Bingo betting license") {
+         
+         $("#description_div").show()    
+         $("#description_label").text('Description of the bingo facility');
+   
+         $("#bingo_licence_div").show();
+         $("#manufacture_div").hide();
+         $("#betting_intermediary_licence_div").hide();
+         $("#public_lottery_licence_div").hide();
+         $("#national_lottery_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+         
+      } 
+   
+      else if (licence == "Pool betting license") {
+         
+         $("#description_div").show()    
+         $("#description_label").text('Description of the pool facility');
+   
+         $("#categories_of_machine_div").show()     
+         $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the pool betting');
+   
+         $("#pool_betting_licence_div").show();
+         $("#casino_licence_div").hide();
+         $("#public_lottery_licence_div").hide();
+         $("#national_lottery_licence_div").hide();
+         $("#betting_intermediary_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#manufacture_div").hide();
+         $("#bingo_licence_div").hide();
+   
+      } 
+   
+      else if (licence == "General betting operating license") {
+         
+         $("#description_div").show()    
+         $("#description_label").text('Description of the organisation of the premises for the betting Intermediary facility ');
+   
+         $("#general_betting_licence_div").show();
+         $("#betting_intermediary_licence_div").hide();
+         $("#public_lottery_licence_div").hide();
+         $("#national_lottery_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#manufacture_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+   
+   
+      } 
+   
+      else if (licence == "Betting Intermediary operating license") {
+   
+         $("#description_div").show()    
+         $("#description_label").text('Description of the organisation of the premises for the betting Intermediary facility');
+   
+         $("#categories_of_machine_div").show()     
+         $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the Betting intermediary facility');
+   
+   
+         $("#betting_intermediary_licence_div").show();
+         $("#public_lottery_licence_div").hide();
+         $("#national_lottery_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#manufacture_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+   
+      } 
+   
+      else if (licence ==  "Gambling software operating license" ) {
+         
+         $("#description_div").show()    
+         $("#description_label").text('Description of the suppliers company');
+   
+        
+         $("#manufacture_div").show();
+         $("#betting_intermediary_licence_div").hide();
+         $("#public_lottery_licence_div").hide();
+         $("#national_lottery_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+   
+      }
+   
+      else if (licence == "Choose an action" ) {
+         
+         $("#categories_of_machine_div").hide()   
+         $("#description_div").hide()    
+   
+         $("#licence_fee").val('')
+         $("#application_fee").val('')
+   
+         $("#national_lottery_licence_div").hide();
+         $("#public_lottery_licence_div").hide();
+         $("#bingo_licence_div").hide();
+         $("#casino_licence_div").hide();
+         $("#betting_intermediary_licence_div").hide();
+         $("#pool_betting_licence_div").hide();
+         $("#general_betting_licence_div").hide();
+         $("#manufacture_div").hide();
+   
+      }
+   
+      else{
+         // 
+      }
+   
+   });
+   
+   $("#company_status").change(function(e){
+   
+         var company_status = $("#company_status option:selected").text();
+         var licence = $("#licence_type option:selected").text();
+         console.log(company_status);
+         console.log(licence);
+         
+         if (licence == "License to conduct a National Lottery" ) {
+   
+            $("#name-label").text("Name of the National lottery");
+            $("#description-label").text("National Lottery description and mechanism");
+            $("#purpose-label").text("Purpose of the National Lottery");
+   
+   
+         
+            $("#licence_fee").val('100000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('50000000')
+            
+            }else {
+               $("#application_fee").val('20000000')
+            }
+   
+         } 
+   
+         else if (licence == "License to conduct a Public Lottery") {
+            $("#name-label").text("Name of the Public lottery");
+            $("#description-label").text("Public Lottery description and mechanism");
+            $("#purpose-label").text("Purpose of the Public Lottery");
+   
+            $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('20000000')
+            
+            }else {
+               $("#application_fee").val('10000000')
+            }
+   
+         } 
+   
+         else if (licence == "Casino operating license") {
+   
+            $("#name-label").text("Name of the Casino");
+            $("#description-label").text("Description of the casino");
+            // $("#purpose-label").text("Purpose of the National Lottery");
+            
+            $("#licence_fee").val('15000000')
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('50000000')
+            
+            }else {
+               $("#application_fee").val('20000000')
+            }
+   
+         } 
+   
+         else if (licence == "Bingo betting license") {
+            
+            $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('20000000')
+            
+            }else {
+               $("#application_fee").val('10000000')
+            }
+   
+         } 
+   
+         else if (licence == "Pool betting license") {
+            
+            $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('20000000')
+            
+            }else {
+               $("#application_fee").val('10000000')
+            }
+   
+         } 
+   
+         else if (licence == "Betting Intermediary operating license") {
+            
+            $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('20000000')
+            
+            }else {
+               $("#application_fee").val('10000000')
+            }
+   
+         } 
+   
+         else if (licence == "Gaming or betting machine general operating license") {
+            
+            $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('50000000')
+            
+            }else {
+               $("#application_fee").val('20000000')
+            }
+   
+         }
+   
+         else if (licence == "Gaming or betting machine techinical operating license") {
+            
+            $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('50000000')
+            
+            }else {
+               $("#application_fee").val('20000000')
+            }
+   
+         }
+         
+         else if ( licence == "General betting operating license") {
+              $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('20000000')
+            
+            }else {
+               $("#application_fee").val('10000000')
+            }
+         }
+   
+         else if ( licence == "Gambling software operating license") {
+              $("#licence_fee").val('10000000')
+   
+            if(company_status == "Foreign" ){
+               $("#application_fee").val('20000000')
+            
+            }else {
+               $("#application_fee").val('10000000')
+            }
+         }
+   
+         else if (licence == "Choose an action") {
+            
+            $("#licence_fee").val('')
+            $("#application_fee").val('')
+   
+         }
+   
+   
+   });
+   
+   
+   const crime_engagement = document.getElementById('crime_engagement');
+   crime_engagement.addEventListener("change",  function getCrimeEngagement(e){ 
+      var crime_choice = $("#crime_engagement option:selected").text();
+      if (crime_choice == "No") {
+         $("#offense_div").hide()
+      } else if(crime_choice == "Choose an action"){
+         $("#offense_div").hide()
+      }else{
+            $("#offense_div").show()
+      }
+   
+   });
+      
+   const previous_business_engagement = document.getElementById('previous_business_engagement');
+   previous_business_engagement.addEventListener("change",  function getPreviousBusinessEngagement(e){ 
+     
+      var engage_choice = $("#previous_business_engagement option:selected").text();
+   
+      console.log(engage_choice);
+      
+      if (engage_choice == "No") {
+            $("#previous_business_engagement_div").hide();
+            
+      } else if (engage_choice == "Yes") {
+      
+            $("#previous_business_engagement_div").show();
+      }
+   
+   });
+   
+   const tin = document.getElementById('tin');
+   tin.addEventListener("change",  function getClientregistration(e){ 
+     
+        var tin = $("#tin").val();
+        var  csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      
+        $.ajax({
+                url: "{% url 'payments:verify_tin' %}", 
+                type: "post",
+                data: {
+                    "tin": tin,
+                },
+                dataType: "json",
+                headers: {'X-CSRFToken': csrftoken },
+                mode: 'same-origin',  
+                beforeSend: function () {
+                    
+                    $('#spinner').show();
+                    $("#loading").addClass("loading")
+                
+                },
+
+                success: function (ura_response) {
+                     
+                  const response = ura_response
+            
+                  let val = response[ Object.keys( response )[ 0 ] ]
+
+                  if( Object.keys( val )[ 0 ] === "GetClientRegistrationResult" ) {
+                     console.log( '1',val[ 'GetClientRegistrationResult' ] )
+
+                     var status = response.GetClientRegistrationResponse.GetClientRegistrationResult.ErrorDesc
+                     var status = response.GetClientRegistrationResponse.GetClientRegistrationResult.ErrorDesc
+
+                     console.log(status)
+                     tin_response = {
+                        'status': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerName,
+                        'TaxPayerName': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerName,
+                        'ContactNumber': response.GetClientRegistrationResponse.GetClientRegistrationResult.ContactNumber,
+                        'MobileNumber': response.GetClientRegistrationResponse.GetClientRegistrationResult.MobileNumber,
+                        'TaxPayerEmail': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerEmail,
+
+                        'ura_district': response.GetClientRegistrationResponse.GetClientRegistrationResult.District,
+                        'ura_county': response.GetClientRegistrationResponse.GetClientRegistrationResult.County,
+                        'ura_subcounty': response.GetClientRegistrationResponse.GetClientRegistrationResult.SubCounty,
+                        'ura_village': response.GetClientRegistrationResponse.GetClientRegistrationResult.Village,
+
+                     }
+
+                     console.log(response);
+
+                     if(status === "SUCCESS"){
+
+                           $("#name_of_the_company").val(tin_response.TaxPayerName);
+
+                           $("#ura_district").val(tin_response.ura_district);
+                           $("#ura_county").val(tin_response.ura_county);
+                           $("#ura_subcounty").val(tin_response.ura_subcounty);
+                           $("#ura_village").val(tin_response.ura_village);
+
+
+                     } else if (status === "INVALID TIN") {
+                  
+                           $("#tin").val('');
+                           $('#gernerate_prn').prop('checked', false)
+                           $("#prn").val('');
+                           swal.fire(status);
+                           $('.prnError').html('');
+
+                     } else if(status === "Invalid Length of TIN Entered, please try again"){
+
+                           swal.fire(status);
+
+                     } else{
+
+                           $("#tin").val('');
+                           $("#name_of_the_company").val('');
+
+                     }
+                     
+                  } 
+                  else {
+                        console.log( '2',val )
+                        console.log( '2',val[ 'GetClientRegistrationResult' ] )
+                   
+                        tin_response = {
+                           'status': val.ErrorDesc,
+                           'TaxPayerName': val.TaxPayerName,
+                           'ContactNumber': val.ContactNumber,
+                           'MobileNumber': val.MobileNumber,
+                           'TaxPayerEmail': val.TaxPayerEmail,
+
+                          
+                        }
+
+                        console.log(tin_response);
+
+                        if(tin_response.status === "SUCCESS"){
+
+                              $("#name_of_the_company").val(tin_response.TaxPayerName);
+
+                        } else if (status === "INVALID TIN") {
+                     
+                              $("#tin").val('');
+                              $('#gernerate_prn').prop('checked', false)
+                              $("#prn").val('');
+                              swal.fire(status);
+                              $('.prnError').html('');
+
+                        } else if(status === "Invalid Length of TIN Entered, please try again"){
+
+                              swal.fire(status);
+
+                        } else{
+
+                              $("#tin").val('');
+                              $("#name_of_the_company").val('');
+
+                        }
+                     
+                  }
+ 
+                
+                },
+
+                error: function(response) {
+                    console.log(response);
+                    $('.prnError').html("Invalid PRN. Try later");
+                    console.log(response)
+                },
+
+                complete: function (response) {
+
+                    $('#spinner').hide();
+                    $("#loading").removeClass("loading")
+                
+                },
+
+        });
+   });
+   
+   const previous_licence_number = document.getElementById('previous_licence_number');
+   previous_licence_number.addEventListener("change",  function getPreviousLicenceDetails(e){ 
+   
+        var previous_licence_number = $("#previous_licence_number").val()
+        console.log(previous_licence_number)
+        var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+   
+      
+        $.ajax({
+                url: "{% url 'new:previous_principle_licence_data' %}", 
+                type: "post",
+                data: {
+                    "previous_licence_number": previous_licence_number,
+                },
+                dataType: "json",
+                headers: {'X-CSRFToken': csrftoken },
+                mode: 'same-origin',  
+                beforeSend: function () {
+   
+                },
+   
+                success: function (licence_response) {
+                  
+                    
+                     const response = licence_response
+                     console.log(response)
+            
+                     if ( response.response['message'] === "success"){
+                       
+                        console.log("success")
+                        $('#tin').val( response.response['tin'])
+                        $('#name_of_the_company').val( response.response['name_of_the_company'])
+                        $('#application_fee').val( response.response['application_fee'] )
+                        $('#licence_fee').val( response.response['licence_fee'] )
+                        $('#company_status').val( response.response['company_status'] )
+                        $('#licence_type').val( response.response['licence_type'] )
+               
+                        $(".licence_type").val( response.response['licence_type'] )
+                        $(".company_status").val( response.response['company_status'] )
+
+                        $("#ura_district").val(response.response['ura_district'])
+                        $("#ura_county").val(response.response['ura_county'])
+                        $("#ura_subcounty").val(response.response['ura_subcounty'])
+                        $("#ura_village").val(response.response['ura_village'])
+                        
+                        var licence = response.response['licence_type']
+                                                
+   
+                        // $("#licence_type").hide()
+                        // $("#licence_type").attr("disabled", true)
+   
+                        // $("#licence_type_hidden").append('<div class="licence_type"> '+ response.response['licence_type'] + '</div>');
+      
+                        if (licence == "License to conduct a National Lottery") {
+                           
+                           $("#description_div").show() 
+                           $("#categories_of_machine_div").hide()     
+                           $("#description_label").text('National Lottery description and mechanism');
+   
+                           $("#national_lottery_licence_div").show();
+                           $("#public_lottery_licence_div").hide();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#manufacture_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+   
+                        } 
+   
+                        else if (licence == "License to conduct a Public Lottery") {
+                           $("#description_div").show()  
+                           
+                           $("#categories_of_machine_div").hide()      
+                           $("#description_label").text('Public Lottery Description and mechanism ');
+   
+   
+                           $("#public_lottery_licence_div").show();
+                           $("#national_lottery_licence_div").hide();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#manufacture_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+   
+                        } 
+   
+                        else if (licence == "Casino operating license") {
+                           
+                           $("#description_div").show()
+                           $("#description_label").text('Description of the casino facility');
+   
+                           $("#categories_of_machine_div").show()     
+                           $("#categories_of_machine_label").text('Categories of the machines or devices to be used in the Casino');
+   
+                           $("#casino_licence_div").show();
+                           $("#public_lottery_licence_div").hide();
+                           $("#national_lottery_licence_div").hide();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#manufacture_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+   
+                        
+                        } 
+                        
+                        else if (licence == "Bingo betting license") {
+                           
+                           $("#description_div").show()    
+                           $("#description_label").text('Description of the bingo facility');
+   
+                           $("#categories_of_machine_div").show()     
+                           $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the bingo betting');
+   
+                           $("#bingo_licence_div").show();
+                           $("#manufacture_div").hide();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#public_lottery_licence_div").hide();
+                           $("#national_lottery_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+                           
+                        } 
+   
+                        else if (licence == "Pool betting license") {
+                           
+                           $("#description_div").show()    
+                           $("#description_label").text('Description of the pool facility');
+   
+                           $("#categories_of_machine_div").show()     
+                           $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the pool betting');
+   
+                           $("#pool_betting_licence_div").show();
+                           $("#casino_licence_div").hide();
+                           $("#public_lottery_licence_div").hide();
+                           $("#national_lottery_licence_div").hide();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#manufacture_div").hide();
+                           $("#bingo_licence_div").hide();
+   
+                        } 
+   
+                        else if (licence == "General betting operating license") {
+                           
+                           $("#description_div").show()    
+                           $("#description_label").text('Description of the organisation of the premises for the betting Intermediary facility ');
+   
+                           $("#categories_of_machine_div").show()     
+                           $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the general betting');
+   
+   
+                           $("#general_betting_licence_div").show();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#public_lottery_licence_div").hide();
+                           $("#national_lottery_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#manufacture_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+   
+   
+                        } 
+   
+                        else if (licence == "Betting Intermediary operating license") {
+   
+                           $("#description_div").show()    
+                           $("#description_label").text('Description of the organisation of the premises for the betting Intermediary facility');
+   
+                           $("#categories_of_machine_div").show()     
+                           $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the Betting intermediary facility');
+   
+   
+                           $("#betting_intermediary_licence_div").show();
+                           $("#public_lottery_licence_div").hide();
+                           $("#national_lottery_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#manufacture_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+   
+                        } 
+   
+                        else if (licence ==  "Gambling software operating license" ) {
+                           
+                           $("#description_div").show()    
+                           $("#description_label").text('Description of the suppliers company');
+   
+                           $("#categories_of_machine_div").show()     
+                           $("#categories_of_machine_label").text('Categories of the machines or deviced to be used in the bingo betting');
+   
+                           $("#manufacture_div").show();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#public_lottery_licence_div").hide();
+                           $("#national_lottery_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+   
+                        }
+   
+                        else if (licence == "Choose an action" ) {
+                           
+                           $("#categories_of_machine_div").hide()   
+                           $("#description_div").hide()    
+   
+                           $("#licence_fee").val('')
+                           $("#application_fee").val('')
+   
+                           $("#national_lottery_licence_div").hide();
+                           $("#public_lottery_licence_div").hide();
+                           $("#bingo_licence_div").hide();
+                           $("#casino_licence_div").hide();
+                           $("#betting_intermediary_licence_div").hide();
+                           $("#pool_betting_licence_div").hide();
+                           $("#general_betting_licence_div").hide();
+                           $("#manufacture_div").hide();
+   
+                        }
+   
+                        else{
+                           // 
+                        }
+   
+   
+                     }else{
+                        document.getElementById('licence_type').value ='' 
+   
+                     }
+   
+                
+                },
+   
+                error: function(response) {
+                    console.log(response);
+                     document.getElementById('previous_licence_number').value =''
+                     document.getElementById('company_status').value =''
+                     document.getElementById('tin').value =''
+                     document.getElementById('name_of_the_company').value ='' 
+                     document.getElementById('licence_type').value ='' 
+
+                     $("#ura_district").val('')
+                     $("#ura_county").val('')
+                     $("#ura_subcounty").val('')
+                     $("#ura_village").val('')
+
+                     Swal.fire({
+                           icon: 'error',
+                           title: 'Error',
+                           text: 'Invalid licence number',
+                           showConfirmButton: true,
+                     })
+                   //  $('.previous_licence_number').html("Sorry the licence provided does not match any records in our database.");
+                },
+   
+                complete: function (response) {},
+   
+        });
+   
+   });
+
+   
+   $("#submit_form").click(function(event) {
+
+         console.log("submiting....");
+
+         event.preventDefault();
+
+         var element = {}; var errors = [];
+         var form = document.querySelector('#createAccountForm');
+         var token = $('#token').val();
+         var  csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+         var purpose_of_application = $('#purpose_of_application').val();
+         var previous_licence_number = $('#previous_licence_number').val();
+         var name_of_the_company = $('#name_of_the_company').val();
+         var company_status = $('#company_status').val();
+         var licence_type = $('#licence_type').val();
+         var tin = $('#tin').val();
+         var plot_number = $('#plot_number').val();
+         var projected_gross_turnover = $('#projected_gross_turnover').val();
+         var description = $('#description').val();
+         var class_of_the_casino_games = $('#class_of_the_casino_games').val();
+         var categories_of_machines = $('#categories_of_machines').val();
+         var engagement_capacity = $('#engagement_capacity').val();
+         var start_date = $('#start_date').val();
+         var end_date = $('#end_date').val();
+         var previous_business_engagement = $('previous_business_engagement').val();
+         var name_of_the_employer = $('#name_of_the_employer').val();
+         var crime_engagement = $('#crime_engagement').val();
+         var crime_details = $('#crime_details').val();
+                  
+         var tenancy_agreement = $('#tenancy_agreement').val();
+         var memorandum_and_articles_of_association = $('#memorandum_and_articles_of_association').val();
+         var annual_company_returns = $('#annual_company_returns').val();
+         var districts_of_conduction = $('#districts_of_conduction').val();
+         var application_fee = $('#application_fee').val();
+         var licence_fee = $('#licence_fee').val();
+         var prn = $('#prn').val();
+         var email = $('#email').val();
+         var form_confirmation = $('#form_confirmation').val();
+
+         var ura_district = $('#ura_district').val();
+         var ura_county = $('#ura_county').val();
+         var ura_subcounty = $('#ura_subcounty').val();
+         var ura_village = $('#ura_village').val();
+
+         var licenceData = JSON.stringify({           
+            purpose_of_application : purpose_of_application,
+            previous_licence_number : previous_licence_number,
+            name_of_the_company : name_of_the_company,
+            company_status : company_status,
+            licence_type : licence_type,
+            tin : tin,
+            plot_number : plot_number,
+            projected_gross_turnover : projected_gross_turnover,
+            description : description,
+            class_of_the_casino_games : class_of_the_casino_games,
+            categories_of_machines : categories_of_machines,
+            engagement_capacity : engagement_capacity,
+            start_date : start_date,
+            end_date : end_date,
+            previous_business_engagement : previous_business_engagement,
+            name_of_the_employer : name_of_the_employer,
+            crime_engagement : crime_engagement,
+            crime_details : crime_details,
+                     
+            tenancy_agreement : tenancy_agreement,
+            memorandum_and_articles_of_association : memorandum_and_articles_of_association,
+            annual_company_returns : annual_company_returns,
+            districts_of_conduction : districts_of_conduction,
+            application_fee : application_fee,
+            licence_fee : licence_fee,
+            prn : prn,
+            email : email,
+            form_confirmation : form_confirmation,
+
+            ura_district : ura_district,
+            ura_county : ura_county,
+            ura_subcounty : ura_subcounty,
+            ura_village : ura_village,
+            
+         })
+
+         console.log(licenceData);
+   
+         if(purpose_of_application == ""){
+            element.purpose_of_application = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (purpose_of_application == "Renewal") {
+            
+            if (previous_licence_number == "") {
+                  element.previous_licence_number = "this field can not be blank";
+                  errors.push(element);
+               }
+            
+         } 
+   
+         if(company_status == ""){
+            element.company_status = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (name_of_the_company == "") {
+            element.name_of_the_company = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (licence_type == "") {
+            element.licence_type = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (licence_type == "License to conduct a National Lottery") {
+   
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+                        
+            if (districts_of_conduction == "") {
+               element.districts_of_conduction = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+            if (projected_gross_turnover == "") {
+               element.projected_gross_turnover = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+         } 
+   
+         if (licence_type == "License to conduct a Public Lottery") {
+   
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+            if (districts_of_conduction == "") {
+               element.districts_of_conduction = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+            if (projected_gross_turnover == "") {
+               element.projected_gross_turnover = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+         }
+   
+         if (licence_type == "Casino operating license") {
+           
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+            if (class_of_the_casino_games == "") {
+               element.class_of_the_casino_games = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+
+            if (categories_of_machines == "") {
+               element.categories_of_machines = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+         }
+   
+         if (licence_type == "Bingo betting license") {
+           
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+          
+   
+         }
+   
+         if (licence_type == "Pool betting license") {
+           
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+            if (categories_of_machines == "") {
+               element.categories_of_machines = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+         }
+   
+         if (licence_type == "Betting Intermediary operating license") {
+           
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+            if (categories_of_machines == "") {
+               element.categories_of_machines = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+         }
+   
+         if (licence_type == "Gaming or betting machine general operating license") { 
+          //
+         }
+   
+         if (licence_type == "Gaming or betting machine techinical operating license") {
+           //
+      
+         }
+   
+         if (licence_type == "General betting operating license") {
+           
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+           
+   
+         }
+   
+         if (licence_type == "Gambling software operating license") {
+           
+            if (description == "") {
+               element.description = "this field can not be blank ";
+               errors.push(element);
+            }
+           
+   
+         }
+   
+         if (plot_number == "") {
+            element.plot_number = "this field can not be blank";
+            errors.push(element);
+         }
+   
+   
+         if (tin == "") {
+            element.tin = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (email == "") {
+            element.email = "Enter Email";
+            errors.push(element);
+         }
+   
+         if (tenancy_agreement == "") {
+            element.tenancy_agreement = "choose file";
+            errors.push(element);
+         }
+   
+         if (memorandum_and_articles_of_association == "") {
+            element.memorandum_and_articles_of_association = "choose file";
+            errors.push(element);
+         }
+   
+         if (annual_company_returns == "") {
+            element.annual_company_returns = "choose file";
+            errors.push(element);
+         }
+   
+         if (application_fee == "") {
+            element.application_fee = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (licence_fee == "") {
+            element.licence_fee = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if(form_confirmation == ""){
+            element.form_confirmation = "this field can not be blank ";
+            errors.push(element);
+         }
+   
+         if (previous_business_engagement == "") {
+            element.previous_business_engagement = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (previous_business_engagement == "Yes") {
+            
+            if (name_of_the_business == "") {
+               element.name_of_the_business = "this field can not be blank ";
+               errors.push(element);
+            }
+            
+            if (engagement_capacity == "") {
+               element.engagement_capacity = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+            if (start_date == "") {
+               element.start_date = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+            if (end_date == "") {
+               element.end_date = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+   
+         } 
+   
+         if (crime_engagement == "") {
+            element.crime_engagement = "this field can not be blank";
+            errors.push(element);
+         }
+   
+         if (crime_engagement == "Yes") {
+            
+            if (crime_details == "") {
+               element.crime_details = "this field can not be blank ";
+               errors.push(element);
+            }
+   
+   
+         } 
+   
+         // errors 
+         if (errors.length > 0){
+   
+            //purpose_of_application   error 
+             if (errors[0]['purpose_of_application']) {
+                  $("#createAccountForm  #purpose_of_application").addClass("error");
+                  $('.purpose_of_applicationError').html(errors[0]['purpose_of_application']);
+            } else {
+                  $('#createAccountForm  #purpose_of_application').removeClass("error");
+                  $('.purpose_of_applicationError').html('');
+            }
+   
+   
+            //previous_licence_number  error 
+             if (errors[0]['previous_licence_number']) {
+                  $("#createAccountForm  #previous_licence_number").addClass("error");
+                  $('.previous_licence_numberError').html(errors[0]['previous_licence_number']);
+            } else {
+                  $('#createAccountForm  #previous_licence_number').removeClass("error");
+                  $('.previous_licence_numberError').html('');
+            }
+   
+            //licence type  error 
+             if (errors[0]['licence_type']) {
+                  $("#createAccountForm  #licence_type").addClass("error");
+                  $('.licence_typeError').html(errors[0]['licence_type']);
+            } else {
+                  $('#createAccountForm  #licence_type').removeClass("error");
+                  $('.licence_typeError').html('');
+            }
+   
+            // company status error 
+            if (errors[0]['company_status']) {
+                  $("#createAccountForm  #company_status").addClass("error");
+                  $('.company_statusError').html(errors[0]['company_status']);
+            } else {
+                  $('#createAccountForm  #company_status').removeClass("error");
+                  $('.company_statusError').html('');
+            }   
+   
+            // plot_number  error 
+             if (errors[0]['plot_number']) {
+                  $("#createAccountForm  #plot_number").addClass("error");
+                  $('.plot_numberError').html(errors[0]['plot_number']);
+            } else {
+                  $('#createAccountForm  #plot_number').removeClass("error");
+                  $('.plot_numberError').html('');
+            }
+   
+            //tin  error 
+             if (errors[0]['tin']) {
+                  $("#createAccountForm  #tin").addClass("error");
+                  $('.tinError').html(errors[0]['tin']);
+            } else {
+                  $('#createAccountForm  #tin').removeClass("error");
+                  $('.tinError').html('');
+            }
+   
+            //email  error 
+            if (errors[0]['email']) {
+                  $("#createAccountForm  #email").addClass("error");
+                  $('.emailError').html(errors[0]['email']);
+            } else {
+                  $('#createAccountForm  #email').removeClass("error");
+                  $('.emailError').html('');
+            }
+   
+            if (errors[0]['name_of_the_company']) {
+                  $("#createAccountForm  #name_of_the_company").addClass("error");
+                  $('.name_of_the_companyError').html(errors[0]['name_of_the_company']);
+            } else {
+                  $('#createAccountForm  #name_of_the_company').removeClass("error");
+                  $('.name_of_the_companyError').html('');
+            }
+   
+            // projected_gross_turnover  error 
+            if (errors[0]['projected_gross_turnover']) {
+                  $("#createAccountForm  #projected_gross_turnover").addClass("error");
+                  $('.projected_gross_turnoverError').html(errors[0]['projected_gross_turnover']);
+            } else {
+                  $('#createAccountForm  #projected_gross_turnover').removeClass("error");
+                  $('.projected_gross_turnoverError').html('');
+            }
+   
+   
+   
+            // class_of_the_casino_games error 
+            if (errors[0]['class_of_the_casino_games']) {
+                  $("#createAccountForm  #class_of_the_casino_games").addClass("error");
+                  $('.class_of_the_casino_gamesError').html(errors[0]['class_of_the_casino_games']);
+            } else {
+                  $('#createAccountForm  #class_of_the_casino_games').removeClass("error");
+                  $('.form_class_of_the_casino_gamesError').html('');
+            } 
+   
+            // categories_of_machines error 
+            if (errors[0]['categories_of_machines']) {
+                  $("#createAccountForm  #categories_of_machines").addClass("error");
+                  $('.categories_of_machinesError').html(errors[0]['categories_of_machines']);
+            } else {
+                  $('#createAccountForm  #categories_of_machines').removeClass("error");
+                  $('.categories_of_machinesError').html('');
+            } 
+   
+            //description  error 
+            if (errors[0]['description']) {
+                  $("#createAccountForm  #description").addClass("error");
+                  $('.descriptionError').html(errors[0]['description']);
+            } else {
+                  $('#createAccountForm  #description').removeClass("error");
+                  $('.descriptionError').html('');
+            }
+   
+             //previous_business_engagement  error 
+            if (errors[0]['previous_business_engagement']) {
+                  $("#createAccountForm  #previous_business_engagement").addClass("error");
+                  $('previous_business_engagementError').html(errors[0]['previous_business_engagement']);
+            } else {
+                  $('#createAccountForm  #previous_business_engagement').removeClass("error");
+                  $('previous_business_engagementError').html('');
+            }
+   
+            //name_of_the_business error 
+            if (errors[0]['name_of_the_business']) {
+                  $("#createAccountForm  #name_of_the_business").addClass("error");
+                  $('.name_of_the_businessError').html(errors[0]['name_of_the_business']);
+            } else {
+                  $('#createAccountForm  #name_of_the_business').removeClass("error");
+                  $('.name_of_the_businessError').html('');
+            }
+   
+            // engagement_capacity error 
+            if (errors[0]['engagement_capacity']) {
+                  $("#createAccountForm  #engagement_capacity").addClass("error");
+                  $('.engagement_capacityError').html(errors[0]['engagement_capacity']);
+            } else {
+                  $('#createAccountForm  #engagement_capacity').removeClass("error");
+                  $('.engagement_capacityError').html('');
+            }
+   
+            // start_date error 
+            if (errors[0]['start_date']) {
+                  $("#createAccountForm  #start_date").addClass("error");
+                  $('.start_dateError').html(errors[0]['start_date']);
+            } else {
+                  $('#createAccountForm  #start_date').removeClass("error");
+                  $('.start_dateError').html('');
+            }
+   
+            // end_date error 
+            if (errors[0]['end_date']) {
+                  $("#createAccountForm  #end_date").addClass("error");
+                  $('.end_dateError').html(errors[0]['end_date']);
+            } else {
+                  $('#createAccountForm  #end_date').removeClass("error");
+                  $('.end_dateError').html('');
+            }
+   
+            // tenancy_agreement error 
+            if (errors[0]['tenancy_agreement']) {
+                  $("#createAccountForm  #tenancy_agreement").addClass("error");
+                  $('.tenancy_agreementError').html(errors[0]['tenancy_agreement']);
+            } else {
+                  $('#createAccountForm  #tenancy_agreement').removeClass("error");
+                  $('.tenancy_agreementError').html('');
+            }
+   
+            // memorandum_and_articles_of_association error 
+            if (errors[0]['memorandum_and_articles_of_association']) {
+                  $("#createAccountForm  #memorandum_and_articles_of_association").addClass("error");
+                  $('.memorandum_and_articles_of_associationError').html(errors[0]['memorandum_and_articles_of_association']);
+            } else {
+                  $('#createAccountForm  #memorandum_and_articles_of_association').removeClass("error");
+                  $('.memorandum_and_articles_of_associationError').html('');
+            }
+   
+            //annual_company_returns  error 
+            if (errors[0]['annual_company_returns']) {
+                  $("#createAccountForm  #annual_company_returns").addClass("error");
+                  $('.annual_company_returnsError').html(errors[0]['annual_company_returns']);
+            } else {
+                  $('#createAccountForm  #annual_company_returns').removeClass("error");
+                  $('.annual_company_returnsError').html('');
+            }
+   
+            //districts_of_conduction  error 
+            if (errors[0]['districts_of_conduction']) {
+                  $("#createAccountForm  #districts_of_conduction").addClass("error");
+                  $('.districts_of_conductionError').html(errors[0]['districts_of_conduction']);
+            } else {
+                  $('#createAccountForm  #districts_of_conduction').removeClass("error");
+                  $('.districts_of_conductionError').html('');
+            }     
+            
+            //crime_engagement  error 
+            if (errors[0]['crime_engagement']) {
+                  $("#createAccountForm  #crime_engagement").addClass("error");
+                  $('.crime_engagementError').html(errors[0]['crime_engagement']);
+            } else {
+                  $('#createAccountForm  #crime_engagement').removeClass("error");
+                  $('.crime_engagementError').html('');
+            }
+   
+            //crime_details error 
+            if (errors[0]['crime_details']) {
+                  $("#createAccountForm  #crime_details").addClass("error");
+                  $('.crime_detailsError').html(errors[0]['crime_details']);
+            } else {
+                  $('#createAccountForm  #crime_details').removeClass("error");
+                  $('.crime_detailsError').html('');
+            }
+   
+            //application_fee error 
+            if (errors[0]['application_fee']) {
+                  $("#createAccountForm  #application_fee").addClass("error");
+                  $('.application_feeError').html(errors[0]['application_fee']);
+            } else {
+                  $('#createAccountForm  #application_fee').removeClass("error");
+                  $('.application_feeError').html('');
+            }
+   
+            //licence_fee error 
+            if (errors[0]['licence_fee']) {
+                  $("#createAccountForm  #licence_fee").addClass("error");
+                  $('.licence_feeError').html(errors[0]['licence_fee']);
+            } else {
+                  $('#createAccountForm  #licence_fee').removeClass("error");
+                  $('.licence_feeError').html('');
+            }
+   
+            // form confirmation error 
+            if (errors[0]['form_confirmation']) {
+                  $("#createAccountForm  #form_confirmation").addClass("error");
+                  $('.form_confirmationError').html(errors[0]['form_confirmation']);
+            } else {
+                  $('#createAccountForm  #form_confirmation').removeClass("error");
+                  $('.form_confirmationError').html('');
+            }
+   
+            return false;
+   
+         } else {
+            
+         }
+
+        
+
+         form.submit();
+   
+   });
+   
+   
+</script>
+{% endblock content %}

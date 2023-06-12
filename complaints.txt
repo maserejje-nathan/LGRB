@@ -1,0 +1,16 @@
+passport number first 
+work permit 
+
+nin first 
+permit 
+
+
+
+approval date should be the date for the starting from and expires at the end of the date 
+
+on the premise licence, show the status of verification at each level which only exists on the principle and eployee licence  
+
+comment section should be madatory 
+
+email notifcation to the operator 
+and the sms gateway, 

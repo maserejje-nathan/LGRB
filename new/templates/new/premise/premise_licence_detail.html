@@ -1,0 +1,990 @@
+
+{% extends 'client/base.html'%}
+{% load static %}
+{% block content %}  
+
+
+<div class="card mt-3 mb-3">
+    <div class="card-body">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">Premise Licence</a></li>
+                <li class="breadcrumb-item active" aria-current="page"> Detail </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+   <div class="col-12 col-xl-8">
+
+      <div class="card card-body border-0 shadow mb-4">
+         <h2 class="h5 mb-4">General information</h2>
+         <div class="container-fluid  py-4 px-0 mt-1 ">
+                  
+            <div class="row mb-3 ">
+
+                     <div class="col-md-4 mb-1 ">
+                        <label for="" > Name of the operator</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{premise_licence_detail.operator_name}} ">
+                     </div>
+
+                        <div class="col-md-4 mb-1 ">
+                        <label for="" > Name of the premises</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value=" {{premise_licence_detail.premise_name}} ">
+                     </div>
+                     
+                     <div class="col-md-4 mb-1 ">
+                           <label for="">Region </label>
+                           <input class="form-control form-control-sm"  type="text" disabled value=" {{premise_licence_detail.region}} ">
+                     </div>
+
+            </div>
+
+            <div class="row">
+
+
+                     <div class="col-md-4 mb-1 ">
+                           <label for="">District</label>
+                           <input class="form-control form-control-sm"  type="text" disabled value=" {{premise_licence_detail.district}}  ">
+                     </div>
+
+                     <div class="col-md-4 mb-1 ">
+                           <label for="">Municipality</label>
+                           <input class="form-control form-control-sm"  type="text" disabled value="{{premise_licence_detail.municipality}}  ">
+                     </div>
+
+                     <div class="col-md-4 mb-3">
+                        <label for="phone">Town council</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.town_council}} ">  
+                     </div>
+                     
+
+                        <div class="col-md-4 mb-1">
+                        <label for="email">Plot Number </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.plot_number}}">  
+                     </div>
+
+                     <div class="col-md-4 mb-1">
+                        <label for="email">Location </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.location}}">  
+                     </div>
+
+                     <div class="col-md-4 mb-1">
+                        <label for="email">Building name </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.building_name}}">  
+                     </div>
+
+                     
+                     <div class="col-md-4 mb-1">
+                        <label for="email">size  </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.building_name}}">  
+                     </div>
+
+                     <div class="col-md-4 mb-1">
+                        <label for="email">equipment in the premise   </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.equipment_in_the_premise}}">  
+                     </div>
+
+                     <div class="col-md-4 mb-1">
+                        <label for="email">number of gaming devices in the premise   </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="  {{premise_licence_detail.number_of_gaming_devices}}">  
+                     </div>
+
+
+            </div>
+            
+         </div>
+   
+      </div>
+
+      {% if request.user.role == "client" %}
+      {% else %}
+            <div class="card card-body border-0 shadow mb-4 mb-xl-0">
+               <h2 class="h5 mb-4">Inspection checklist</h2>
+
+                  <div class="row mt-3">
+                     <div class="">
+                        <h3 class=""> General </h3>
+                     </div>
+                     <div class="col-6">
+                        <div class="row">
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <h5> Licence availability. </h5>
+                                 <p> Is the company/ facility licenced ?</p>
+                                 {{premise_licence_detail.licence_availability  }}
+                                 
+                              </td>
+                           </div>
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <div class="premise_licence_detail-group">
+                                    <label for="examplepremise_licence_detailControlTextarea1">Explain more ?</label>
+                                    {{premise_licence_detail.licence_availability_comments  }}
+                                 </div>
+                              </td>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="row">
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <h5>Licenceing certificate display.</h5>
+                                 <p> Is the licence displayed properly as required ?</p>
+                                 {{premise_licence_detail.licence_display  }}
+                              </td>
+                           </div>
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <div class="premise_licence_detail-group">
+                                    <label for="examplepremise_licence_detailControlTextarea1">If not displayed properly, specify how ?</label>
+                                 {{premise_licence_detail.licence_display_comments  }}
+                                 </div>
+                              </td>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6 mt-3 ">
+                        <div class="row">
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <h5>Premises</h5>
+                                 <p> Surrounding public amenities (school, hospital, markets, places  <br> of worship  or government offices)<br>  (Rule 18 of the Lotteries and gaming (licensing) regulations SI. No.7 of 2017)</p>
+                                 <div class="input-group">
+                                    {{premise_licence_detail.premises_surrounding_public_amenities  }}
+                                 </div>
+                              </td>
+                           </div>
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <div class="premise_licence_detail-group">
+                                    <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                    {{premise_licence_detail.premises_urrounding_public_amenities_comments  }}
+                                 </div>
+                              </td>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="row">
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <h5> Convenience Facilities and Common area  </h5>
+                                 <p>  (Rule 18(2)e) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) </p>
+                                 
+                                 
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <div class="">
+                                          {{premise_licence_detail.convinience_facility }}
+                                       </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                       <div class="">
+                                          {{premise_licence_detail.common_area }}
+                                       </div>
+                                    </div>
+                                 </div>
+
+                                 {% comment %} <div class="premise_licence_detail-check premise_licence_detail-check-inline">
+                                    <input class="premise_licence_detail-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                    <label class="premise_licence_detail-check-label" for="inlineCheckbox1">Convinience facility </label>
+                                 </div> {% endcomment %}
+
+                                 {% comment %} <div class="premise_licence_detail-check premise_licence_detail-check-inline">
+                                    <input class="premise_licence_detail-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                    <label class="premise_licence_detail-check-label" for="inlineCheckbox2">Common aread </label>
+                                 </div> {% endcomment %}
+
+                              </td>
+                              <td class="text-right">
+                                 <div class="premise_licence_detail-group">
+                                    {{premise_licence_detail.size_of_premises  }}
+                                 </div>
+                              </td>
+                           </div>
+                           <div class="col-sm-6">
+                              <td class="text-right">
+                                 <div class="premise_licence_detail-group">
+                                    <label for="examplepremise_licence_detailControlTextarea1">Explain findings</label>
+                                    {{premise_licence_detail.convenience_facilities_and_common_area_comments  }}
+                                 </div>
+                              </td>
+                           </div>
+                        </div>
+                     </div>
+                     <hr class="hr mt-3 mb-3">
+                     </hr>
+                     <div class="container-fluid">
+                        <div class="row mt-3">
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5>Access restriction and security (Section 57)</h5>
+                                       <p> Is any of the following available  at the premise ?</p>
+                                       
+                                       {% comment %} <div class="premise_licence_detail-check premise_licence_detail-check-inline">
+                                          <input class="premise_licence_detail-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                          <label class="premise_licence_detail-check-label" for="inlineCheckbox1">Security Guard</label>
+                                       </div>
+                                       <div class="premise_licence_detail-check premise_licence_detail-check-inline">
+                                          <input class="premise_licence_detail-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                          <label class="premise_licence_detail-check-label" for="inlineCheckbox2">Metal Detector</label>
+                                       </div> {% endcomment %}
+
+                                       <div class="row">
+                                          <div class="col-sm-6">
+                                             <div class="">
+                                                {{premise_licence_detail.metal_detector }}
+                                             </div>
+                                          </div>
+
+                                          <div class="col-sm-6">
+                                             <div class="">
+                                                {{premise_licence_detail.security_guard }}
+                                             </div>
+                                          </div>
+                                       </div>
+
+
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">Explain findings </label>
+                                          {{premise_licence_detail.access_restriction_and_security_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5>Television Sets Positioning</h5>
+                                       <p> Check based on availability </p>
+                                       <div class="input-group">
+                                          {{premise_licence_detail.television_set_positioning }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If not suitaible, Explain how </label>
+                                          {{premise_licence_detail.television_set_positioning_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <hr class="hr mt-3 mb-3">
+                     </hr>
+                     <div class="container-fluid">
+                        <div class="row mt-3">
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Display of rules on betting and gaming</h5>
+                                       <p> (Rule 18(2)g) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) </p>
+                                       <div class="input-group">
+                                       {{premise_licence_detail.display_of_rules_on_betting_and_gaming }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">Explain findings</label>
+                                          {{premise_licence_detail.display_of_rules_on_betting_and_gaming_comments  }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Display of Board Notices</h5>
+                                       <p>  Rule 18(2)g) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) <br> 
+                                          Must be displayed in a conspicuous place inside the premises      
+                                       </p>
+                                       <div class="input-group">
+                                       {{premise_licence_detail.display_of_board_notices_and_rules }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                          {{premise_licence_detail.display_of_board_notices_and_rules_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <hr class="hr casion-div mt-3 mb-3">
+                     </hr>
+                     <div class="container-fluid">
+                        <div class="row mt-3">
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Data protection and privacy policy </h5>
+                                       <p> Data protection and privacy and privacy act, 2019  </p>
+                                       <div class="input-group">
+                                          {{premise_licence_detail.data_protection_policy }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If yes insert the certificate number</label>
+                                          {{premise_licence_detail.data_protection_policy_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-6">
+                              {% comment %} <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Display of Board Notices Refactored </h5>
+                                       <p>  Rule 18(2)g) of the Lotteries and Gaming (Licensing) Regulations No. 7 of 2017) <br> 
+                                          Must be displayed in a conspicuous place inside the premises      
+                                       </p>
+                                       <div class="input-group">
+                                          <select class="premise_licence_detail-control" id="inputGroupSelect04">
+                                             <option selected>Choose display status...</option>
+                                             <option value="1">Displayed</option>
+                                             <option value="2">Not displayed </option>
+                                          </select>
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                          <textarea class="premise_licence_detail-control" id="examplepremise_licence_detailControlTextarea1" rows="5"></textarea>
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div> {% endcomment %}
+                           </div>
+                        </div>
+                     </div>
+                     <hr class="hr casion-div mt-3 mb-3">
+                     </hr>
+                     <div class="container-fluid">
+                        <div class="row mt-3">
+                           <div class="">
+                              <h3 class=""> Casino Operations and Head office </h3>
+                           </div>
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Casino Premises </h5>
+                                       <p>  (Section 29 of The Lotteries and Gaming Act,2016). Plans and diagram specifications the same as those submitted to the Board.</p>
+                                       <div class="input-group">
+                                          {{premise_licence_detail.plans_and_diagram_of_casino }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                          {{premise_licence_detail.plans_and_diagram_of_casino_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Surveillance system for monitoring operations within the Casino..</h5>
+                                       <p>  (Section 29 of The Lotteries and Gaming Act,2016).</p>
+                                       <div class="input-group">
+                                          {{premise_licence_detail.survillance_systems }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                          {{premise_licence_detail.survillance_systems_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-6 mt-3 ">
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <td class="text-right">
+                                          <h5>Counting rooms/cages available and in secure state.</h5>
+                                          <p> Lotteries and Gaming (Licensing) Regulations  </p>
+                                          <div class="input-group">
+                                             {{premise_licence_detail.counting_rooms_or_cages }}
+                                          </div>
+                                       </td>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <td class="text-right">
+                                          <div class="premise_licence_detail-group">
+                                             <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                             {{premise_licence_detail.counting_rooms_or_cages_comments }}
+                                          </div>
+                                       </td>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-6 mt-3">
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <td class="text-right">
+                                          <h5> Casino Games and rules  (Section 32(4) of The Lotteries and Gaming Act,2016)    </h5>
+                                          <p> Are Casino rules kept and exhibited in a conspicuous place in the casino. </p>
+                                          <div class="input-group">
+                                             {{premise_licence_detail.casino_and_gaming_rules }}
+                                          </div>
+                                       </td>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <td class="text-right">
+                                          <div class="premise_licence_detail-group">
+                                             <label for="examplepremise_licence_detailControlTextarea1">If yes, state the influence and approximate distance from premises</label>
+                                             {{premise_licence_detail.casino_and_gaming_rules_comments }}
+                                          </div>
+                                       </td>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="container-fluid mt-3">
+                        <div class="row mt-3">
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Communication facilities provided for persons monitoring operations. </h5>
+                                       <p>  (Section 29 of The Lotteries and Gaming Act,2016).</p>
+                                       <div class="input-group">
+                                          {{premise_licence_detail.communication_facilities }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">Explain findings</label>
+                                          {{premise_licence_detail.communication_facilities_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <h5> Anti Money Laundering(AML). / CTF </h5>
+                                       <p>  (The Anti-money laundering Laundering Act, 2013 and The Anti -money laundering regulations).</p>
+                                       <div class="input-group">
+                                          {{premise_licence_detail.anti_money_laundering_policy }}
+                                       </div>
+                                    </td>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <td class="text-right">
+                                       <div class="premise_licence_detail-group">
+                                          <label for="examplepremise_licence_detailControlTextarea1">If available, specify the AML officer</label>
+                                          {{premise_licence_detail.anti_money_laundering_policy_comments }}
+                                       </div>
+                                    </td>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+
+                  </div>
+               
+            </div>
+      {% endif %}
+
+   </div>
+
+   <div class="col-12 col-xl-4">
+
+      <div class="row">
+
+         <div class="col-12 mb-4">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Payments</h2>
+               {% if  premise_licence_detail.payment_description == "AVAILABLE"  %}
+                     <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                     <li class="list-group-item border-0 d-flex "> 
+                        <div class="d-flex align-items-center">
+                           <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                              <i class="fas fa-check" aria-hidden="true"></i>
+                           </button>
+                           <div class="d-flex flex-column">
+                              <h6 class="mb-1 text-dark text-sm"> Payment registration accepted</h6>
+                              <span class="text-xs">Accepted on {{premise_licence_detail.payment_generation_date}}, by {{premise_licence_detail.payment_made_by}}</span>
+                           </div>
+                        </div>
+                     </li>
+               {% elif premise_licence_detail.payment_description == "EXPIRED" %}
+                     <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                     <li class="list-group-item border-0 "> 
+                        <div class="d-flex align-items-center">
+                           <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                              <i class="fas fa-times" aria-hidden="true"></i>
+                           </button>
+                           <div class="d-flex flex-column">
+                              <h6 class="mb-1 text-dark text-sm">Payment registration expired</h6>
+                              <span class="text-xs">Expired on {{premise_licence_detail.payment_expiry_date}}</span>
+                           </div>
+                        </div>
+                     </li> 
+               {% elif premise_licence_detail.payment_description == "RECEIVED AND CREDITED" %}
+                  <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                     <li class="list-group-item border-0 "> 
+                     <div class="d-flex align-items-center">
+                           <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                              <i class="fas fa-check" aria-hidden="true"></i>
+                           </button>
+                           <div class="d-flex flex-column">
+                              <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                              <span class="text-xs">Paid on {{premise_licence_detail.payment_generation_date}}, by {{premise_licence_detail.payment_made_by}}</span>
+                           </div>
+                        </div>
+                     </li>
+               {% else %}
+                  <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                  <li class="list-group-item border-0 "> 
+                     <div class="d-flex align-items-center">
+                        <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                           <i class="fas fa-check" aria-hidden="true"></i>
+                        </button>
+                        <div class="d-flex flex-column">
+                           <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                           <span class="text-xs">Generated on {{premise_licence_detail.payment_generation_date}}, by {{premise_licence_detail.payment_made_by}}</span>
+                        </div>
+                     </div>
+                  </li>
+
+
+               {% endif %}
+            </div>
+         </div>
+
+         {% comment %} <div class="col-12">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Bank Guarantee</h2>
+               {% if  premise_licence_detail.payment_description == "AVAILABLE"  %}
+                     <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                     <li class="list-group-item border-0 d-flex "> 
+                        <div class="d-flex align-items-center">
+                           <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                              <i class="fas fa-check" aria-hidden="true"></i>
+                           </button>
+                           <div class="d-flex flex-column">
+                              <h6 class="mb-1 text-dark text-sm"> Payment registration accepted</h6>
+                              <span class="text-xs">Accepted on {{premise_licence_detail.payment_generation_date}}, by {{premise_licence_detail.payment_made_by}}</span>
+                           </div>
+                        </div>
+                     </li>
+               {% elif premise_licence_detail.payment_description == "EXPIRED" %}
+                     <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                     <li class="list-group-item border-0 "> 
+                        <div class="d-flex align-items-center">
+                           <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                              <i class="fas fa-times" aria-hidden="true"></i>
+                           </button>
+                           <div class="d-flex flex-column">
+                              <h6 class="mb-1 text-dark text-sm">Payment registration expired</h6>
+                              <span class="text-xs">Expired on {{premise_licence_detail.payment_expiry_date}}</span>
+                           </div>
+                        </div>
+                     </li> 
+               {% elif premise_licence_detail.payment_description == "RECEIVED AND CREDITED" %}
+                  <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                     <li class="list-group-item border-0 "> 
+                     <div class="d-flex align-items-center">
+                           <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                              <i class="fas fa-check" aria-hidden="true"></i>
+                           </button>
+                           <div class="d-flex flex-column">
+                              <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                              <span class="text-xs">Paid on {{premise_licence_detail.payment_generation_date}}, by {{premise_licence_detail.payment_made_by}}</span>
+                           </div>
+                        </div>
+                     </li>
+               {% else %}
+                  <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                  <li class="list-group-item border-0 "> 
+                     <div class="d-flex align-items-center">
+                        <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                           <i class="fas fa-check" aria-hidden="true"></i>
+                        </button>
+                        <div class="d-flex flex-column">
+                           <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                           <span class="text-xs">Generated on {{premise_licence_detail.payment_generation_date}}, by {{premise_licence_detail.payment_made_by}}</span>
+                        </div>
+                     </div>
+                  </li>
+
+
+               {% endif %}
+                     
+            </div>
+         </div> {% endcomment %}
+
+         <div class="col-12 col-sm-6 col-xl-12">
+            
+         </div>
+
+         <div class="col-12 col-sm-6 col-xl-12">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Approvals</h2>
+               <div class="row">
+                  <!-- approvers comments -->
+                        {% if request.user.role == "inspector" %}
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> INSPECTION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          {% if premise_licence_detail.inspection_authority_status == None %}
+                                             <div class="text-end"><b>Inspectors Recomendation: </b> </div>   
+                                          {% else %}
+                                             <div class="text-end"><b>Inspectors Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.inspection_authority_status}}</small></div>
+                                          {% endif %}
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Inspectors Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.inspection_authority_remarks}} </span>
+                                       </div>
+                                       
+                  
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.assigned_to_inspector}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_inspected}} </small></div>
+                                       </div>                                    
+                                    </div>
+                                 </div>
+
+                              
+                              </div>
+
+                           {% if premise_licence_detail.defer_to_inspector == True %}
+                        
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> VERIFICATION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Verifiers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.verification_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Defer Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.verification_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.verified_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_verified}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div>
+
+                              
+                              </div> 
+                           {% endif %} 
+                           
+                           </div>
+
+                        {% elif request.user.role == "verifier" %}
+                              
+                              <div  class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> INSPECTION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Inspectors Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.inspection_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Inspectors Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.inspection_authority_remarks}} </span>
+                                       </div>
+
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.assigned_to_inspector}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_inspected}} </small></div>
+                                       </div>
+
+                                       
+                                    </div>
+                                 </div>                                   
+                              </div>
+                           
+                              <div  class="list-group-item list-group-item-action border-bottom">
+                                    <div class="row align-items-center">
+                                       <div class="col ps-0 ms-2">
+                                       <h6> VERIFICATION </h6>
+
+                                          <div class="d-flex justify-content-between align-items-center">                                            
+                                             <div class="text-end"><b>Verifiers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.verification_authority_status}}</small></div>
+                                          </div>
+                                          
+                                          <div>
+                                             <b>Verifiers Comments:</b> 
+                                             <span class="font-small mt-1 mb-0" > {{premise_licence_detail.verification_authority_remarks}} </span>
+                                          </div>
+                                          
+                                          <div class="d-flex justify-content-between align-items-center">
+                                             <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.verified_by}}</small></div>
+                                             <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_verified}} </small></div>
+                                          </div>
+                                          
+                                       </div>
+                                    </div>
+                              </div>
+
+                           {% if premise_licence_detail.defer_to_verifier == True %}
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> APPROVAL </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Defer Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.approving_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.approved_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_approved}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div> 
+                              </div>
+                           {% endif %}
+                           
+
+                        {% elif request.user.role == "approver" %}
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> INSPECTION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Inspectors Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.inspection_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Inspectors Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.inspection_authority_remarks}} </span>
+                                       </div>
+                                       
+
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.assigned_to_inspector}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_inspected}} </small></div>
+                                       </div>
+
+                                       
+                                    </div>
+                                 </div>
+
+                              
+                              </div>
+                              
+                              <div  class="list-group-item list-group-item-action border-bottom">
+                                    <div class="row align-items-center">
+                                       <div class="col ps-0 ms-2">
+                                       <h6> VERIFICATION </h6>
+
+                                          <div class="d-flex justify-content-between align-items-center">                                            
+                                             <div class="text-end"><b>Verifiers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.verification_authority_status}}</small></div>
+                                          </div>
+                                          
+                                          <div>
+                                             <b>Verifiers Comments:</b> 
+                                             <span class="font-small mt-1 mb-0" > {{premise_licence_detail.verification_authority_remarks}} </span>
+                                          </div>
+                                          
+                                          <div class="d-flex justify-content-between align-items-center">
+                                             <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.verified_by}}</small></div>
+                                             <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_verified}} </small></div>
+                                          </div>
+                                          
+                                       </div>
+                                    </div>
+                              </div>
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> APPROVAL </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Approvers Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.approving_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{premise_licence_detail.approved_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_approved}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div> 
+                              </div>   
+                        {% elif request.user.role == "client" %}
+
+                           {% if premise_licence_detail.approving_authority_status == "Approved" %}
+                              <div href="#" class="list-group-item list-group-item-action border-bottom mt-3 ">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> LICENCE FINAL APPROVALS </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Approvers Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.approving_authority_remarks}} </span>
+                                       </div>
+                                    
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> Approved on:</b><small class="text-danger"> </small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_approved}} </small></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+
+                           {% elif premise_licence_detail.approving_authority_status == "Rejected" %}
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> LICENCE FINAL APPROVALS </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{premise_licence_detail.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Reasons for rejection:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{premise_licence_detail.approving_authority_remarks}} </span>
+                                       </div>
+                                    
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> rejected on:</b><small class="text-danger"> </small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{premise_licence_detail.date_approved}} </small></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              {% endif %}
+
+                        {% endif %}
+                  <!-- approvers comments -->
+
+                     <li role="separator" class="dropdown-divider mt-4 mb-4"></li>
+                        
+                  <!--admins approving buttons -->
+                        {% if request.user.role == "client" %}
+                           <li role="separator" class="dropdown-divider mt-4 mb-4"></li> 
+                        {% else %}
+                           <div class=" mb-4 mt-3 ">
+                                 
+                                 {% if request.user.role == "inspector" %}
+                                    <a href="{% url 'administrator:PremiseInspectorsUpdate'  premise_licence_detail.id %}" class=" btn btn-warning text-light"> Evaluate </a>
+                                 {% elif request.user.role == "verifier" %}
+                                    <a href="{% url 'administrator:PremiseVerifiersUpdate'  premise_licence_detail.id %}" class=" btn btn-warning text-light"> Verify </a>   
+
+                                 {% elif request.user.role == "approver" %}
+                                    <a href="{% url 'administrator:PremiseApproversUpdate'  premise_licence_detail.id %}" class=" btn btn-warning text-light"> Approve </a>
+                                 {% endif %} 
+                              
+                              </div> 
+                           </div>
+                        {% endif %}
+                  <!-- end admins approving buttons -->
+
+               </div>
+         </div>
+
+      </div>
+
+   </div>
+
+
+   
+</div>
+
+
+
+{% endblock content %}

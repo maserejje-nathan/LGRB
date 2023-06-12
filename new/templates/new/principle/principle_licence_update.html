@@ -1,0 +1,175 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+  
+
+<div class="">  
+
+<div>
+
+   <form method="POST" enctype="multipart/form-data" id="update-task">
+      {% csrf_token %}
+      {{form.errors}}
+
+      {% if request.user.role == "inspector" %}
+         <div class="ml-3 col-sm-6" id="inspector">
+            {{form.inspection_authority_status | as_crispy_field }}
+            {{form.inspection_authority_remarks | as_crispy_field }}
+            {{form.evaluation_checklist | as_crispy_field }}
+            {{form.forward_for_verification | as_crispy_field}}
+
+            {{form.defer_to_inspector | as_crispy_field}} 
+         </div>
+
+         <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+      
+      {% elif request.user.role == "verifier" %}
+
+         <div class="ml-3 col-sm-6" id="verifier">
+            {{form.verification_authority_status | as_crispy_field }}
+            {{form.verification_authority_remarks | as_crispy_field }}
+            {{form.forward_for_approval | as_crispy_field}} 
+
+            {{form.defer_to_inspector | as_crispy_field}} 
+         
+         </div>
+         
+         <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+      
+
+      {% elif request.user.role == "approver" %}
+      
+         <div class="ml-3 col-sm-6" id="approver">
+            {{form.approving_authority_status | as_crispy_field }}
+            {{form.approving_authority_remarks | as_crispy_field }}
+            {{form.approved | as_crispy_field }}
+
+            {{form.defer_to_verifier | as_crispy_field}} 
+         </div>
+
+          <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+      
+
+      {% elif request.user.role == "admin" %}
+         
+         <div class="ml-3 col-sm-6" id="admin">
+            {{form.assigned_to_inspector | as_crispy_field}}
+            {{form.manager_remarks | as_crispy_field}} 
+            {{form.date_assigned | as_crispy_field}}
+         </div>
+         
+         <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+      
+      
+      {% else %}
+         <div class="ml-3 col-sm-6" >
+           <p> Nothing to approve </p>
+         </div>
+      {% endif %}
+
+     
+   </form>
+
+      </div>
+
+   </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+      var role = "{{ request.user.role }}"
+      console.log(role)
+
+      //$("#id_defer_to_verifier").hide()
+      //$("#id_defer_to_inspector").hide()
+
+      //$("#id_forward_for_approval").hide()
+      // $("#id_approved").hide()
+
+      if( role === "verifier"){  
+         $('#id_verification_authority_status').change( function() {
+            value =  $('#id_verification_authority_status').val()
+            
+            if(value === "Defered"){
+
+               $("#id_forward_for_approval").attr("readonly", true);
+
+               $("#id_defer_to_inspector").prop("checked", true);
+
+            }else{
+
+               $("#id_defer_to_inspector").prop("checked", false);
+
+               $("#id_forward_for_approval").attr("readonly", false);
+
+               $("#id_defer_to_inspector").attr("readonly", true);
+            
+            }
+         });
+
+      }else if( role === "approver"){
+         $('#id_approving_authority_status').change( function() {
+            value =  $('#id_approving_authority_status').val()
+            
+            if(value === "Defered"){
+
+            //  $("#id_forward_for_approval").attr("disabled", true);
+            $("#id_approved").prop("checked", false);
+               $("#id_approved").attr("readonly", true);
+               
+               $("#id_defer_to_verifier").prop("checked", true);
+
+            }else{
+
+               $("#id_approved").prop("checked", true);
+
+               $("#id_approved").attr("readonly", true);
+
+               $("#id_defer_to_verifier").prop("checked", false);
+
+               $("#id_defer_to_verifier").attr("readonly", true);
+            
+            }
+         });
+
+      }else if( role === "inspector"){
+         $('#id_inspection_authority_status').change( function() {
+            value =  $('#id_inspection_authority_status').val()
+            console.log(value)
+            if(value === "Recomended for a licence"){
+
+               
+               $("#id_defer_to_inspector").prop("checked", false);
+
+            }else if(value === "Recomended for a rejection"){
+
+               $("#id_defer_to_inspector").prop("checked", false);
+
+            }else if(value === ""){
+                $("#id_defer_to_inspector").prop("checked", false);
+
+            }
+         });
+      }
+
+
+   $(document).ready(function() {
+
+
+   });
+
+</script>
+
+
+{% endblock content %}
+
+
+
+
+

@@ -1,0 +1,57 @@
+{% load static %}
+<html >
+   <head>
+      <style type="text/css">
+         @page {
+            size: a4 portrait;
+            background: url("http://uat.els.lgrb.go.ug/static/assets/img/certificate/template_employee.jpg");
+            background-repeat: no-repeat;
+            background-size: contain;
+         }
+      </style>
+   <body>
+      <div class="">
+      <div class="licence-title">
+            <p style="font-weight: bold; padding-top: 3.5rem; font-size: 2rem; margin-left: 4rem; " > {{certificate.id}} </p>
+        </div>
+         
+       
+        <div class="licence-date">
+            <p style=" margin-top: 20.8rem; font-size:1.8rem; text-align: center; ">
+               <i> (Under section 27 of the Lotteries and Gaming(Ammendment) Act, 2018) </i>  
+            </p>
+        </div>
+
+        <div class="article-section">
+            <p style=" margin-top: 3rem; font-size:1.8rem; text-align: center; "> {{certificate.operator_name}} </p>
+        </div>
+
+        <div class="licence-date">
+            <p style=" margin-top: 1rem; font-size:1.8rem; text-align: center; "> 
+               who is licenced to operate Casino, Gaming or Betting facilities within Uganda  </br>
+               is authorised to operate premises at </br>
+               plot {{certificate.plot_number}}, {{certificate.building_name}} building, {{certificate.district}} district,</br>
+               <span style="text-decoration: underline;"> {{certificate.region}}  region/{{certificate.municipality}} / {{certificate.town_council}} </span></br>
+
+            </p>
+        </div>
+
+         <div class="licence-date">
+            <p style=" margin-top: 2rem; font-size:1.8rem; text-align: center; "> 
+            from
+               <b>  {{certificate.date_created}}  </b>  <br>
+               to </br>
+                     
+               <b>  <b> Dec. 31, {{certificate.expiry_date}}   </b>  </b> 
+            </p>
+        </div>
+
+         <div class="licence-date">
+            <p style=" margin-top: 2rem; font-size:1.8rem; text-align: center; "> 
+               Dated at <b>  {{certificate.date_created}}  </b>  <br>
+            </p>
+        </div>
+
+      </div>
+   </body>
+</html>

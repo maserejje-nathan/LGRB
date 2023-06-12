@@ -1,0 +1,567 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+<!-- main content -->
+<div class=" card mt-3 mb-3 ">
+   <div class="card-body">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+            <li class="breadcrumb-item">
+               <a href="#">
+                  <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+               </a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Payments </li>
+            <li class="breadcrumb-item active" aria-current="page">premise licence fee </li>
+         </ol>
+      </nav>
+   </div>
+</div>
+<div class="row">
+   <div class="col-12 mb-4 card">
+
+
+         <form method="POST" enctype="multipart/form-data" >
+            {% csrf_token %}
+            {{ form.errors }}
+            <div class="card border-0 shadow components-section">
+
+               <div class="card-header">
+         <div class="row align-items-center">
+               
+               <div class="col">
+                  <h2 class="fs-5  mb-0"> Premise Licence Payment</h2>
+               </div>
+               
+
+               <div class="col text-end">
+
+                  <a href="{% url 'new:premise_list' %}" class="btn btn-sm btn-primary">view premises </a>
+          
+                  <a class="btn btn btn-sm btn-success show-form"  href="{% url 'payments:payment-premise' %}" > pay for premise </a>
+                  <a class="btn btn btn-sm btn-success show-form"  href="{% url 'payments:client_premise_payment_list' %}" > view payment records </a>
+                  <a class="btn btn btn-sm btn-warning show-form"  href="{% url 'payments:premise_pdf_download' %}" > download premises </a>
+
+               </div>
+
+         </div>
+   </div>
+
+               <div class="card-body">
+                
+                  
+                  <div class="row">
+                     <div class="col-sm">
+                        <div class="mb-4 tin-field">
+                           <label for=""> {{form.tin.label}}</label>
+                           {{form.tin}}
+                        </div>
+                        <div class="mb-4">
+                           <label for="">{{form.name_of_the_company.label}} </label>
+                           {{ form.name_of_the_company  }}
+                        </div>
+
+                        
+                        <div class="mb-4">
+                           <label for="state">{{form.premise.label}}</label>
+                           {{form.premise  }}
+                        </div>
+                        
+                     </div>
+                     <div class="col-sm">
+                        <div class="mb-4">
+                           <label for="">{{form.email.label}}</label>
+                           {{form.email  }}
+                        </div>
+                        <div class="mb-4">
+                           <label for="state">{{form.number_of_premises.label}}</label>
+                           {{form.number_of_premises  }}
+                        </div>
+
+
+                        
+                     </div>
+                     <div class="col-sm">
+                        <div class="mb-4">
+                           <label for="state">{{form.licence_fee.label}}</label>
+                           {{form.licence_fee  }}
+                        </div>
+                     
+                        <div class="row">
+
+                           <div class="col-sm-6 mt-3 pt-3">
+                              {{form.generate_prn}}  {{form.generate_prn.label}}
+                           </div>
+
+                           <div class="col-sm-6">
+                              {{form.prn.label}} {{form.prn}}            
+                           </div>
+                     
+                     </div>
+
+                        <div class="mb-4 errorcode-field">
+                           {{form.error_code.label}}  
+                           {{form.error_code}}
+                        </div>
+                        <div class="mb-4 errordesc-field">
+                           {{form.error_desc.label}}  
+                           {{form.error_desc}}
+                        </div>
+                        <div class="mb-4 searchcode-field">
+                           {{form.search_code.label}}  
+                           {{form.search_code}}
+                     
+                        <div class="mb-4 expirydate-field">
+                           {{form.expiry_date.label}}  
+                           {{form.expiry_date}}
+                        </div>
+                     </div>
+
+                     <div class="col-lg-6 col-sm-6">
+                        <button type="submit" class="btn  btn-primary ">submit application</button>
+                     </div>
+                     
+                  </div>
+               </div>
+         </form>
+         </div>
+      </div>
+      <!--end main content -->
+   </div>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+   {% for message in messages %}
+       Swal.fire({
+           icon: 'success',
+           title: 'Success',
+           text: ' {{message}}',
+           showConfirmButton: true,
+       })
+       
+   {% endfor %}
+   
+   {% if form.non_field_errors %}
+           Swal.fire({
+           icon: 'error',
+           title: '{{ form.non_field_errors }}',
+           showConfirmButton: true,
+       })
+   {% endif %}
+   
+   document.addEventListener("DOMContentLoaded", function(event) {
+   
+       const url =  "{% url 'new:add-premise-count' %}";
+       const email = "{{request.user.email}}"
+       document.getElementById('email').value = email
+       const nop = document.getElementById("nop").value
+       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+       
+    
+       $.ajax({
+           url: url, 
+           type: "post",
+           data: {
+               "email": email
+           },
+           dataType: "json",
+           headers: {'X-CSRFToken': csrftoken },
+           mode: 'same-origin',  
+           beforeSend: function () {},
+           success: function (backend_response) {
+   
+               const response = backend_response
+               console.log()
+               if ( response.count['message'] === "success"){
+                   console.log("success")
+                    document.getElementById('nop').value = response.count['count']
+   
+   
+                   let number_of_premises = document.getElementById("nop")
+                   let number_of_premises_value = Number(number_of_premises.value)
+                   console.log(number_of_premises_value)
+   
+                   let licence_fee_value = Number(document.getElementById("licence_fee").value)
+                   
+                   console.log(licence_fee_value)
+                   
+                   let new_licence_fee_value = (number_of_premises_value)*licence_fee_value 
+                   console.log(new_licence_fee_value)
+                   if(number_of_premises_value <= 0){
+                           console.log("please enter a vlaid number of premises")
+                           licence_fee = document.getElementById("licence_fee").value = 1000000
+                   }else{
+                           let  licence_fee = document.getElementById("licence_fee").value = new_licence_fee_value
+                   }
+               
+               }else{
+   
+               }
+               
+   
+           },
+           error: function(response) {
+               console.log(response);
+               $('.prnError').html("Invalid PRN. Try later");
+               console.log(response)
+           },
+   
+           complete: function (response) {},
+   
+       });
+   
+       document.getElementsByClassName('errorcode-field')[0].style.display = 'none';
+       document.getElementsByClassName('errordesc-field')[0].style.display = 'none';
+       document.getElementsByClassName('searchcode-field')[0].style.display = 'none';
+       document.getElementsByClassName('expirydate-field')[0].style.display = 'none';
+   
+       
+   });
+   
+   document.getElementById("nop").addEventListener("keyup", function autoFillItems(){
+       console.log("working")
+   
+       let number_of_premises = document.getElementById("nop")
+       let number_of_premises_value = Number(number_of_premises.value)
+       console.log(number_of_premises_value)
+   
+   
+   
+       let licence_fee_value = Number(document.getElementById("licence_fee").value)
+       
+       console.log(licence_fee_value)
+       
+      let new_licence_fee_value = (number_of_premises_value)*licence_fee_value 
+      console.log(new_licence_fee_value)
+      if(number_of_premises_value <= 0){
+           console.log("please enter a vlaid number of premises")
+           licence_fee = document.getElementById("licence_fee").value = 1000000
+      }else{
+           let  licence_fee = document.getElementById("licence_fee").value = new_licence_fee_value
+      }
+      
+     // const document.getElementById("licence_fee").value = new_licence_fee_value
+   
+   
+       
+   });
+   
+   const tin = document.getElementById('tin');
+   tin.addEventListener("change",  function getClientregistration(e){ 
+    
+       var tin = $("#tin").val();
+       var  csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+     
+       $.ajax({
+               url: "{% url 'payments:verify_tin' %}", 
+               type: "post",
+               data: {
+                   "tin": tin,
+               },
+               dataType: "json",
+               headers: {'X-CSRFToken': csrftoken },
+               mode: 'same-origin',  
+               beforeSend: function () {},
+               
+               success: function (ura_response) {
+                    
+                 const response = ura_response
+           
+                 let val = response[ Object.keys( response )[ 0 ] ]
+   
+                 if( Object.keys( val )[ 0 ] === "GetClientRegistrationResult" ) {
+                    console.log( '1',val[ 'GetClientRegistrationResult' ] )
+   
+                    var status = response.GetClientRegistrationResponse.GetClientRegistrationResult.ErrorDesc
+                    var status = response.GetClientRegistrationResponse.GetClientRegistrationResult.ErrorDesc
+   
+                    console.log(status)
+                    tin_response = {
+                       'status': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerName,
+                       'TaxPayerName': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerName,
+                       'ContactNumber': response.GetClientRegistrationResponse.GetClientRegistrationResult.ContactNumber,
+                       'MobileNumber': response.GetClientRegistrationResponse.GetClientRegistrationResult.MobileNumber,
+                       'TaxPayerEmail': response.GetClientRegistrationResponse.GetClientRegistrationResult.TaxPayerEmail,
+                    }
+   
+                    console.log(response);
+   
+                    if(status === "SUCCESS"){
+   
+                          $("#name_of_the_company").val(tin_response.TaxPayerName);
+   
+                    } else if (status === "INVALID TIN") {
+                 
+                          $("#tin").val('');
+                          $('#gernerate_prn').prop('checked', false)
+                          $("#prn").val('');
+                          swal.fire(status);
+                          $('.prnError').html('');
+   
+                    } else if(status === "Invalid Length of TIN Entered, please try again"){
+   
+                          swal.fire(status);
+   
+                    } else{
+   
+                          $("#tin").val('');
+                          $("#Name").val('');
+   
+                    }
+                    
+                 } 
+                 else {
+                       console.log( '2',val )
+                       console.log( '2',val[ 'GetClientRegistrationResult' ] )
+                  
+                       tin_response = {
+                          'status': val.ErrorDesc,
+                          'TaxPayerName': val.TaxPayerName,
+                          'ContactNumber': val.ContactNumber,
+                          'MobileNumber': val.MobileNumber,
+                          'TaxPayerEmail': val.TaxPayerEmail,
+                       }
+   
+                       console.log(tin_response);
+   
+                       if(tin_response.status === "SUCCESS"){
+   
+                             $("#name_of_the_company").val(tin_response.TaxPayerName);
+   
+                       } else if (status === "INVALID TIN") {
+                    
+                             $("#tin").val('');
+                             $('#gernerate_prn').prop('checked', false)
+                             $("#prn").val('');
+                             swal.fire(status);
+                             $('.prnError').html('');
+   
+                       } else if(status === "Invalid Length of TIN Entered, please try again"){
+   
+                             swal.fire(status);
+   
+                       } else{
+   
+                             $("#tin").val('');
+                             $("#name_of_the_company").val('');
+   
+                       }
+                    
+                 }
+   
+               
+               },
+               error: function(response) {
+                   console.log(response);
+                   $('.prnError').html("Invalid PRN. Try later");
+                   console.log(response)
+               },
+   
+               complete: function (response) {},
+   
+       });
+   });
+   
+   const generateprn = document.getElementById('generate_prn');
+   const checkeds = generateprn.value;
+   generateprn.addEventListener("click", async function generatePaymentRegistrationNumber(e){
+   
+       const principle_licence_certificate_number  = document.getElementById('principle_licence_certificate_number');
+       const generate_prn  = document.getElementById('generate_prn').value
+       const prn  = document.getElementById('prn').value
+       const error_code  = document.getElementById('error_code').value
+       const error_desc  = document.getElementById('error_desc').value
+       const expiry_date  = document.getElementById('expiry_date').value
+       const search_code  = document.getElementById('search_code').value
+   
+       const tin = document.getElementById('tin').value
+       const licence_fee = document.getElementById("licence_fee").value
+       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+       
+       const url = "{% url 'payments:get_prn_licence_fee' %}"
+       
+       if( tin === ''){
+           Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'TIN field can not be empty',
+               showConfirmButton: true,
+           })
+   
+           document.getElementById("generate_prn").checked = false;
+   
+       }
+   
+       if( nop.value === ''){
+           Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'Number of premises can not be empty',
+               showConfirmButton: true,
+           })
+   
+       }
+   
+   
+       if(generateprn.checked == true){
+           $.ajax({
+               url: url, 
+               type: "post",
+               data: {
+                   "licence_fee": licence_fee,
+                   "tin": tin,
+               },
+               dataType: "json",
+               headers: {'X-CSRFToken': csrftoken },
+               mode: 'same-origin',  
+   
+               beforeSend: function () {},
+   
+               success: function (ura_response) {
+                 const response = ura_response
+                 let val = response[ Object.keys( response )[ 0 ] ]
+   
+                 if( Object.keys( val )[ 0 ] === "GetPRNResult" ) {
+                    
+                    console.log( '1',val[ 'GetPRNResult' ] )
+   
+                    tin_response = {
+                       'status': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                       'prn': response.GetPRNResponse.GetPRNResult.PRN,
+                       'error_code': response.GetPRNResponse.GetPRNResult.ErrorCode,
+                       'error_desc': response.GetPRNResponse.GetPRNResult.ErrorDesc,
+                       'expiry_date': response.GetPRNResponse.GetPRNResult.ExpiryDate,
+                       'search_code': response.GetPRNResponse.GetPRNResult.SearchCode
+                    }
+                    console.log(tin_response)
+   
+                    if(tin_response.status === "SUCCESS"){
+                       $("#prn").val(tin_response.prn)
+                       $("#error_code").val(tin_response.error_code)
+                       $("#error_desc").val(tin_response.error_desc)
+                       $("#expiry_date").val(tin_response.expiry_date)
+                       $("#search_code").val(tin_response.search_code)
+                       $('#prnError').html('');
+   
+                    } else if (tin_response.status === "INVALID TIN") {
+                          $("#tin").val('');
+                          $('#gernerate_prn').prop('checked', false)
+                          $("#prn").val('');
+                          swal.fire(status);
+                          $('.prnError').html('');
+                    } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                          swal.fire(tin_response.status);
+                          $("#prn").val("");
+                          $("#error_code").val("");
+                          $("#error_desc").val("");
+                          $("#expiry_date").val("");
+                          $("#search_code").val("");
+                          // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                          $('.prnError').html('');
+                          console.log("invalid tin number");
+                    } else{
+                          $("#prn").val("");
+                          $("#error_code").val("");
+                          $("#error_desc").val("");
+                          $("#expiry_date").val("");
+                          $("#search_code").val("");
+                          $("#tSx").remove();
+                          $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                          $('.prnError ').html("Failed to generate PRN");
+                          console.log("failed to generate PRN");
+   
+                    }
+                    
+                 } 
+                 else {
+                       console.log( '2', val )
+                       
+                       tin_response = {
+                          'status': val.ErrorDesc,
+                          'prn': val.PRN,
+                          'ErrorCode': val.ErrorCode,
+                          'ErrorDesc': val.ErrorDesc,
+                          'ExpiryDate': val.ExpiryDate,
+                          'SearchCode': val.SearchCode
+                       }
+                       console.log(tin_response)
+   
+                       if(tin_response.status === "SUCCESS"){
+                          $("#prn").val(tin_response.prn)
+                          $("#error_code").val(tin_response.ErrorCode)
+                          $("#error_desc").val(tin_response.ErrorDesc)
+                          $("#expiry_date").val(tin_response.ExpiryDate)
+                          $("#search_code").val(tin_response.SearchCode)
+                          $('.prnError').html('');
+   
+                       } else if (tin_response.status === "INVALID TIN") {
+                             $("#tin").val('');
+                             $('#gernerate_prn').prop('checked', false)
+                             $("#prn").val('');
+                             swal.fire(status);
+                             $('.prnError').html('');
+                       } else if(tin_response.status === "Invalid Length of TIN Entered, please try again"){
+                             swal.fire(tin_response.status);
+                             $("#prn").val("");
+                             $("#error_code").val("");
+                             $("#error_desc").val("");
+                             $("#expiry_date").val("");
+                             $("#search_code").val("");
+                             // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                             $('.prnError').html('');
+                             console.log("invalid tin number");
+                       } else{
+                             $("#prn").val("");
+                             $("#error_code").val("");
+                             $("#error_desc").val("");
+                             $("#expiry_date").val("");
+                             $("#search_code").val("");
+                             $("#tSx").remove();
+                             $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                             $('.prnError ').html("Failed to generate PRN");
+                             console.log("failed to generate PRN");
+   
+                       }
+                       
+                 }
+   
+               },
+   
+               error: function(response) {
+                   console.log(response);
+                   $('.prnError').html("Invalid PRN. Try later");
+                   console.log(response)
+               },
+   
+               complete: function (response) {},
+   
+           });
+   
+       } else{
+           
+           document.getElementById("prn").value = ''
+           document.getElementById("error_code").value = ''
+           document.getElementById("error_desc").value = ''
+           document.getElementById("expiry_date").value = ''
+           document.getElementById("search_code").value = ''
+       }
+           
+        
+   
+   });
+   
+   
+</script>
+{% endblock content %}

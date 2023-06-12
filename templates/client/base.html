@@ -1,0 +1,530 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>LGRB</title>
+      <meta property="twitter:image" content="">
+      <link rel="apple-touch-icon" sizes="120x120" href="../../assets/img/favicon/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
+      <link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
+      <link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+      <meta name="msapplication-TileColor" content="#ffffff">
+      <meta name="theme-color" content="#ffffff">
+      <link type="text/css" href="{% static 'volt-pro/vendor/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">
+      <link type="text/css" href="{% static 'volt-pro/vendor/notyf/notyf.min.css' %} " rel="stylesheet">
+      <link type="text/css" href="{% static 'volt-pro/vendor/fullcalendar/main.min.css' %}" rel="stylesheet">
+      <link type="text/css" href="{% static 'volt-pro/vendor/apexcharts/dist/apexcharts.css' %}" rel="stylesheet">
+      <link type="text/css" href="{% static 'volt-pro/vendor/dropzone/dist/min/dropzone.min.css' %}' " rel="stylesheet">
+      {% comment %} 
+      <link type="text/css" href="{% static 'volt-pro/vendor/choices.js/public/assets/styles/choices.min.css' %}' " rel="stylesheet">
+      {% endcomment %}
+      <link type="text/css" href="{% static 'volt-pro/vendor/leaflet/dist/leaflet.css' %}" rel="stylesheet">
+      <link type="text/css" href="{% static 'volt-pro/css/volt.css' %}" rel="stylesheet">
+      <!-- Font Awesome -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"   integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="   crossorigin="anonymous"  referrerpolicy="no-referrer" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+      <!-- MDB -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css" rel="stylesheet" />
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <!-- stepper -->
+      <link rel="stylesheet" href="{% static 'stepper.min.css' %}" >
+      <script type="text/javascript" src="{% static 'stepper.min.js' %}"></script>
+   </head>
+   <body>
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THQTXJ7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
+         <a class="navbar-brand me-lg-5" href="../../index.html"><img class="navbar-brand-dark" src="../../assets/img/brand/light.svg" alt="LGRB"> <img class="navbar-brand-light" src="../../assets/img/brand/dark.svg" alt="LGRB"></a>
+         <div class="d-flex align-items-center"><button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button></div>
+      </nav>
+      <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
+         <div class="sidebar-inner px-4 pt-3">
+            <div class="user-card d-flex d-md-none justify-content-between justify-content-md-center pb-4">
+               <div class="d-flex align-items-center">
+                  <div class="avatar-lg me-4"><img src="{% static 'assets/img/brand/profile.jpg' %}" class="card-img-top rounded-circle border-white" alt="Bonnie Green"></div>
+                  <div class="d-block">
+                     <h2 class="h5 mb-3">Hi, {{request.user.first_name}} {{request.user.last_name}} </h2>
+                     <a href="/" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+                        <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Sign Out
+                     </a>
+                  </div>
+               </div>
+               <div class="collapse-close d-md-none">
+                  <a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+                     <svg class="icon icon-xs" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                     </svg>
+                  </a>
+               </div>
+            </div>
+            <ul class="nav flex-column pt-3 pt-md-0">
+               <li class="nav-item"><a href="/" class="nav-link d-flex align-items-center"><span class="sidebar-icon">
+                  {% comment %} <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="LGRB">  {% endcomment %}
+                  </span><span class="mt-1 sidebar-text"> LGRB </span></a>
+               </li>
+               {% if request.user.role == 'client' %}
+               <!--client-->
+               <li role="separator" class="dropdown-divider mt-4 mb-4 "></li>
+               <li class="nav-item  active ">
+                  <a href="{% url 'client:client_home' %}" class="nav-link">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                           <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                     </span>
+                     <span class="text-white">Dashboard</span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'profile' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Profile</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'new:new_prn_list' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Payments </span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <span class="nav-link collapsed d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#submenu-app">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Applications</span> 
+                     </span>
+                     <span class="link-arrow">
+                        <svg class="icon icon-sm" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                     </span>
+                  </span>
+                  <div class="multi-level collapse" role="list" id="submenu-app" aria-expanded="false">
+                     <ul class="flex-column nav">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'new:principle-apply' %}"><span class="sidebar-text-contracted">P</span> <span class="sidebar-text">Principle</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'new:key-employee-apply' %}"><span class="sidebar-text-contracted">E</span> <span class="sidebar-text">Employee</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'new:premise_list' %}"><span class="sidebar-text-contracted">P</span> <span class="sidebar-text">Premise</span></a></li>
+                     </ul>
+                  </div>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'new:new_certificate_list' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Certificates</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'bankguarantee:new_bank_guarantee_list' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Bank Guarantee</span>
+                     </span>
+                  </a>
+               </li>
+               <!-- end client -->
+               {% endif %}
+               {% if request.user.role == 'admin' %}
+               <!--  admin officer  -->
+               <li role="separator" class="dropdown-divider mt-4 mb-4 "></li>
+               <li class="nav-item  active ">
+                  <a href="{% url 'administrator:admin_home' %}" class="nav-link">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                           <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Dashboard</span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'profile' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Profile</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'administrator:new_inspection_assignment' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Achives</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'administrator:new_inspection_assignment' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Revenue</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <span
+                     class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                     data-bs-toggle="collapse" data-bs-target="#submenu-app">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Users</span>
+                     </span>
+                     <span class="link-arrow">
+                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                     </span>
+                  </span>
+                  <div class="multi-level  "
+                     role="list" id="submenu-app" aria-expanded="true">
+                     <ul class="flex-column nav">
+                        <li class="nav-item ">
+                           <a class="nav-link" href="{% url 'administrator:client' %}">
+                           <span class="sidebar-text">Individuals </span>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <div class="multi-level  " role="list" id="submenu-app" aria-expanded="true">
+                     <ul class="flex-column nav">
+                        <li class="nav-item ">
+                           <a class="nav-link" href="{% url 'administrator:company' %}">
+                           <span class="sidebar-text">Companies </span>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <div class="multi-level  " role="list" id="submenu-app" aria-expanded="true">
+                     <ul class="flex-column nav">
+                        <li class="nav-item ">
+                           <a class="nav-link" href="{% url 'administrator:admin' %}">
+                           <span class="sidebar-text">Admins</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </li>
+               <!-- end admin officer -->
+               {% endif %}
+               {% if request.user.role == 'inspector' %}
+               <!-- inspecting  home  -->
+               <li role="separator" class="dropdown-divider mt-4 mb-4 "></li>
+               <li class="nav-item  active ">
+                  <a href="{% url 'administrator:inspecting_officer_home' %}" class="nav-link">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                           <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Dashboard</span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'profile' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Profile</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="{% url 'administrator:new_licence_task' %}">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Achives   </span>
+                  </a>
+               </li>
+               <!-- end inspecting  officer -->
+               {% endif %}
+               {% if request.user.role == 'verifier' %}
+               <!-- verification  home  -->
+               <li role="separator" class="dropdown-divider mt-4 mb-4 "></li>
+               <li class="nav-item  active ">
+                  <a href="{% url 'administrator:verification_officer_home' %}" class="nav-link">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                           <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Dashboard</span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'administrator:licence-assign' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Tasks</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'profile' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Profile</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="{% url 'administrator:new_licence_task' %}">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Achives   </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'bankguarantee:new_bank_guarantee_list' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Bank Guarantee</span>
+                     </span>
+                  </a>
+               </li>
+               <!-- end verification  officer -->
+               {% endif %}
+               {% if request.user.role == 'approver' %}
+               <!-- approve  home  -->
+               <li role="separator" class="dropdown-divider mt-4 mb-4 "></li>
+               <li class="nav-item  active ">
+                  <a href="{% url 'administrator:approving_officer_home' %}" class="nav-link">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                           <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Dashboard</span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'profile' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Profile</span>
+                     </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="{% url 'administrator:new_licence_task' %}">
+                     <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                        </svg>
+                     </span>
+                     <span class="sidebar-text">Applications   </span>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'bankguarantee:new_bank_guarantee_list' %}" class="nav-link d-flex justify-content-between">
+                     <span>
+                        <span class="sidebar-icon">
+                           <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                           </svg>
+                        </span>
+                        <span class="sidebar-text">Bank Guarantee</span>
+                     </span>
+                  </a>
+               </li>
+               <!-- end approve  officer -->
+               {% endif %}
+               <li role="separator" class="dropdown-divider mt-4 mb-4"></li>
+         </div>
+      </nav>
+      <!--end sidenav -->
+      </ul>
+      </div>
+      </nav>
+      <main class="content">
+         <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
+            <div class="container-fluid px-0">
+               <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
+                  <div class="d-flex align-items-center">
+                     <button id="sidebar-toggle" class="sidebar-toggle me-3 btn btn-icon-only d-none d-lg-inline-block align-items-center justify-content-center">
+                        <svg class="toggle-icon" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                     </button>
+                     <form class="navbar-search form-inline" id="navbar-search-main">
+                        <div class="input-group input-group-merge search-bar">
+                           <span class="input-group-text" id="topbar-addon">
+                              <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                              </svg>
+                           </span>
+                           <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search" aria-label="Search" aria-describedby="topbar-addon">
+                        </div>
+                     </form>
+                  </div>
+                  <ul class="navbar-nav align-items-center">
+                     <li class="nav-item dropdown">
+                        <a class="nav-link text-dark notification-bell unread dropdown-toggle" data-unread-notifications="true" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                           <svg class="icon icon-sm text-gray-900" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                           </svg>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-center mt-2 py-0">
+                           <div class="list-group list-group-flush">
+                              {% comment %} <a href="#" class="text-center text-primary fw-bold border-bottom border-light py-3">Notifications</a> 
+                              <a href="../../pages/calendar.html" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col-auto"> <img alt="Image placeholder" src="../../assets/img/team/profile-picture-1.jpg" class="avatar-md rounded"></div>
+                                    <div class="col ps-0 ms-2">
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div>
+                                             <h4 class="h6 mb-0 text-small">Daniel Okot</h4>
+                                          </div>
+                                          <div class="text-end"><small class="text-danger">a few moments</small></div>
+                                       </div>
+                                       <p class="font-small mt-1 mb-0">Added </p>
+                                    </div>
+                                 </div>
+                              </a>
+                              {% endcomment %}
+                           </div>
+                        </div>
+                     </li>
+                     <li class="nav-item dropdown ms-lg-3">
+                        <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                           <div class="media d-flex align-items-center">
+                              <img class="avatar rounded-circle" alt="Image placeholder" src="{% static 'assets/img/brand/profile.jpg' %}">
+                              <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block"><span class="mb-0 font-small fw-bold text-gray-900">{{request.user.first_name}} </span></div>
+                           </div>
+                        </a>
+                        <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
+                           <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
+                              <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
+                              </svg>
+                              My Profile 
+                           </a>
+                           <div role="separator" class="dropdown-divider my-1"></div>
+                           <a class="dropdown-item d-flex align-items-center" href="/logout">
+                              <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                              </svg>
+                              Logout
+                           </a>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </nav>
+         {% block content %}
+
+         {% endblock content %}
+        
+      </main>
+      <!--jquery -->
+      <script src="{% static 'jquery-3.6.1.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/@popperjs/core/dist/umd/popper.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/onscreen/dist/on-screen.umd.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/nouislider/distribute/nouislider.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/countup.js/dist/countUp.umd.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/apexcharts/dist/apexcharts.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/vanillajs-datepicker/dist/js/datepicker.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/simple-datatables/dist/umd/simple-datatables.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+      <script src="{% static 'volt-pro/vendor/vanillajs-datepicker/dist/js/datepicker.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/fullcalendar/main.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/dropzone/dist/min/dropzone.min.js' %}"></script>
+      {% comment %} <script src="{% static 'volt-pro/vendor/choices.js/public/assets/scripts/choices.min.js' %}"></script> {% endcomment %}
+      <script src="{% static 'volt-pro/vendor/notyf/notyf.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/leaflet/dist/leaflet.js' %}"></script>
+      {% comment %} <script src="{% static 'volt-pro/vendor/svg-pan-zoom/dist/svg-pan-zoom.min.js' %}"></script> {% endcomment %}
+      <script src="{% static 'volt-pro/vendor/svgmap/dist/svgMap.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/simplebar/dist/simplebar.min.js' %}"></script>
+      <script src="{% static 'volt-pro/vendor/sortablejs/Sortable.min.js' %}"></script>
+      <script async defer="defer" src="https://buttons.github.io/buttons.js"></script>
+      <script src="{% static 'volt-pro/assets/js/volt.js' %}"></script>
+      {% comment %} <script defer src="https://static.cloudflareinsights.com/beacon.min.js' %}/v52afc6f149f6479b8c77fa569edb01181681764108816" integrity="sha512-jGCTpDpBAYDGNYR5ztKt4BQPGef1P0giN6ZGVUi835kFF88FOmmn8jBQWNgrNd8g/Yu421NdgWhwQoaOPFflDw==" data-cf-beacon='{"rayId":"7d06853cbed0d73d","version":"2023.4.0","r":1,"token":"3a2c60bab7654724a0f7e5946db4ea5a","si":100}' crossorigin="anonymous"></script> {% endcomment %}
+      <!-- Font Awesome -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"  integrity="sha512-cyAbuGborsD25bhT/uz++wPqrh5cqPh1ULJz4NSpN9ktWcA6Hnh9g+CWKeNx2R0fgQt+ybRXdabSBgYXkQTTmA=="  crossorigin="anonymous" referrerpolicy="no-referrer"> </script>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="{% static 'plugin.js' %}"></script>
+      <!-- MDB -->
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"></script>
+      <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+   </body>
+</html>

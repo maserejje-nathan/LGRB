@@ -1,0 +1,775 @@
+{% load crispy_forms_tags %} 
+{% include 'account/base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+    .error{
+      color:red; 
+        border-color: red !important
+      }
+    .readonly1 input ,.readonly select {
+        background-color:#eec !important;
+    }
+
+    .btn-red{
+    background-color: red;
+    color: white;
+    border: 1px solid red;
+}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+:root {
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+.form-field input {
+    border: solid 2px #f0f0f0;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+}
+
+.form-field input:focus {
+    outline: none;
+}
+
+.form-field.error input {
+    border-color: var(--error-color);
+}
+
+.form-field.success input {
+    border-color: var(--success-color);
+}
+
+
+.btn {
+   
+    background: red;
+    border-bottom: 2px solid red;
+   
+}
+
+.btn:hover {
+    background: rgb(216, 0, 0);
+    cursor: pointer;
+    color: white;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+</style>
+
+
+
+
+<main class="no-js">
+  <!-- Section -->
+  {% comment %} vh-lg-100 {% endcomment %}
+  <section class="mt-5 mt-lg-0 bg-soft d-flex align-items-center">
+    <div class="container">
+      <p class="text-center">
+        <a href="/" class="d-flex align-items-center justify-content-center">
+          <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" >  </svg> Back to homepage </a>
+      </p>
+      <div
+        class="row justify-content-center form-bg-image" data-background-lg="{% static 'system/assets/img/illustrations/signin.svg' %}">
+        <div class="col-12 d-flex align-items-center justify-content-center">
+          <div
+            class=" bg-white jumbotron shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500" >
+            <div class="text-center text-md-center mb-4 mt-md-0">
+              <h1 class="mb-0 h3">Create Account</h1>
+              <div class="feedback" id="feedback">  </div>
+            </div>
+
+          <form action="/register/" method="POST" id="createAccountForm" class="mt-4" autocomplete="off">
+              {% csrf_token %}
+               {{registration_form.errors}} 
+              <!-- membership -->
+                <div class="mb-4" id="legalStatus-div">
+                  <label class="my-1 me-2" for="legalStatus">Legal Status</label>
+                    {% comment %} <select name="membership" class="form-select" id="membership" aria-label="Default select example">
+                        <option value selected>Select Membership</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Company">Company</option> 
+                    </select> {% endcomment %}
+                    {{registration_form.legalStatus}}
+
+                    <div class="legalerror error"> 
+                    <small></small>
+                </div>
+              <!-- End of membership -->
+              
+              <!-- citizenship -->
+                <div class="mb-4 form-field" id="citizenship-div">
+                  <label class="my-1 me-2" for="citizenship">Citizenship</label>
+                    
+                    
+                    {{registration_form.citizenship}}
+                    <small></small>
+                </div>
+              <!-- End of citizenship -->
+                
+              <!-- sex -->
+                <div class="mb-4" id="sex-div">
+                  <label class="my-1 me-2" for="legalStatus">Sex </label>
+                  
+                  {{registration_form.sex}}
+                  <small></small>
+                </div>
+              <!-- End of sex -->
+
+              <!-- nin  -->
+                <div class="form-group mb-4 " id="nin-div">
+                    <label for="nin">NIN</label>
+                    <div class="input-group form-field">
+                        <span class="input-group-text" id="basic-addon2">
+                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </span>
+                        {% comment %} <input type="text" name="nin" placeholder="National Identification Number" class="form-control" id="nin" required> {% endcomment %}
+                    {{registration_form.nin}}
+                    <small></small>
+                    </div>  
+                    <div class="ninError error"></div>
+                    
+                </div>
+              <!-- End of nin  -->
+
+              <!-- surname -->
+                <div class="mb-4 form-field" id="first_name-div">
+                  <label class="my-1 me-2" for="first_name">Surname </label>
+                  {{registration_form.first_name}}
+                  <div class="first_nameError error"></div>
+                  <small></small>
+                </div>
+              <!-- End of surname -->
+
+              <!-- last name -->
+                <div class="mb-4 form-field " id="last_name-div">
+                  <label class="my-1 me-2" for="last_name">Given Name </label>
+                  {{registration_form.last_name}}
+                  <div class="last_nameError error"></div>
+                  <small></small>
+                </div>
+              <!-- End of last name -->
+
+              <!-- brn -->
+                <div class="form-group mb-4 " id="brn-div">
+                    <label for="brn">BRN</label>
+                    <div class="input-group form-field ">
+                        <span class="input-group-text" id="basic-addon2">
+                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </span>
+                        
+                    {{registration_form.brn}}
+                    <small></small>
+                    </div>  
+                    <div class="brnError error"></div>
+                    
+                </div>
+              <!-- End brn -->
+
+              <!-- busines_name -->
+                <div class="mb-4 form-field" id="busines_name-div">
+                  <label class="my-1 me-2" for="busines_name">Business Name </label>
+                  {{registration_form.busines_name}}
+                  <div class="busines_nameError error"></div>
+                  <small></small>
+                </div>
+              <!-- End of busines_name -->
+
+              <!-- business_type -->
+                <div class="mb-4 form-field " id="business_type-div">
+                  <label class="my-1 me-2" for="business_type">Business Type</label>
+                  {{registration_form.business_type}}
+                  <div class="business_typeError error"></div>
+                  <small></small>
+                </div>
+              <!-- End of business_type -->
+
+              <!-- business_registration_date -->
+                <div class="mb-4 form-field " id="business_registration_date-div">
+                  <label class="my-1 me-2" for="business_registration_date">Registration Date </label>
+                  {{registration_form.business_registration_date}}
+                  <div class="business_registration_dateError error"></div>
+                  <small></small>
+                </div>
+              <!-- End of business_registration_date -->
+              
+
+              <!-- work permit number -->
+                <div class="form-group mb-4 " id="wpn-div">
+                    <label for="wpn">Work Permit Number </label>
+                    <div class="input-group form-field">
+                        <span class="input-group-text" id="basic-addon2">
+                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </span>
+                    {{registration_form.wpn}}
+                    <small></small>
+                    <div class="wpnError error"></div>
+                    
+                    </div>  
+                </div>
+              <!-- End of work permit number -->
+
+              <!-- passport number -->
+                <div class="form-group mb-4" id="ppn-div">
+                    <label for="ppn">Passport Number</label>
+                    <div class="input-group form-field ">
+                        <span class="input-group-text" id="basic-addon2">
+                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </span>
+                        {{registration_form.ppn}}
+                        <div class="ppnError error"></div>
+                        <small></small>
+                    </div>  
+                </div>
+              <!-- End of work passport number -->
+
+              <!-- Phone Number -->
+                <div class="form-group mb-4" id="pn-div">
+                    <label for="phone_number">Phone Number</label>
+                    <div class="input-group form-field ">
+                        <span class="input-group-text" id="basic-addon2">
+                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </span>
+                        {% comment %} <input type="text" name="phone_number" placeholder="Phone Number " class="form-control" id="phone_number" required> {% endcomment %}
+                    {{registration_form.phone_number}}
+                    <small></small>
+                    </div>  
+                    <div class="mobilePhoneerror  error"></div>
+                    
+                </div>
+              <!-- End of Phone Number -->
+
+              <!-- Email -->
+                <div class="form-group mb-4 " id="email-div">
+                    <label for="email">Email</label>
+                    <div class="input-group form-field">
+                        <span class="input-group-text" id="basic-addon1">
+                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                        </span>
+                        {% comment %} <input type="email" name="email" class="form-control" placeholder="example@company.com" id="email"  required> {% endcomment %}
+                    {{registration_form.email}}
+                    <small></small>
+                    </div>  
+                    <div class="emailAddresserror error"></div>
+                    
+                </div>
+              <!-- End of Form -->
+
+              <!-- Address -->
+                <div class="form-group mb-4 " id="address-div">
+                    <label for="address">Address</label>
+                    <div class="input-group form-field">
+                        <span class="input-group-text" id="basic-addon1"> <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg></span>
+                    {{registration_form.address}}
+                    <small></small>
+                    </div>  
+                    <div class="addresserror error"></div>
+                    
+                </div>
+
+              <!-- End of Address -->
+
+              <!-- Password1 -->
+                  <div class="form-group mb-4 " id="password-div1">
+                      <label for="password">Your Password</label>
+                      <div class="input-group form-field">
+                          <span class="input-group-text" id="basic-addon2">
+                              <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                          </span>
+                          {% comment %} <input type="password" name="password1" placeholder="Password" class="form-control" id="password1" required> {% endcomment %}
+                         {{registration_form.password1}}
+                         <small> </small>
+                      </div>  
+                      <div class="password1error error"></div>
+                  </div>
+              <!-- End of Password -->
+                  
+              <!-- Password2 -->
+                    <div class="form-group mb-4 " id="password-div2">
+                        <label for="confirm_password">Confirm Password</label>
+                        <div class="input-group form-field ">
+                            <span class="input-group-text  " id="basic-addon2"> <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg></span>
+                        {{registration_form.password2}}
+                        <small> </small>
+                        </div> 
+                        <div class="password2error error"></div> 
+                    </div>
+              <!-- End of Password -->
+
+
+              <div class="d-grid">
+                  <button  type="submit" id="submitBtn" name="submitBtn" class="btn btn-red"  > Register </button>
+              </div>
+
+          </form>
+
+            <div class="d-flex justify-content-center align-items-center mt-4">
+              <span class="fw-normal">
+                Already have an account?
+                <a href="{% url 'login' %}" class="fw-bold">Login here</a>
+              </span>
+            </div> 
+
+         
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+{% block javascript %}
+
+
+{% endblock javascript %}
+
+<script type = "text/javascript" >
+    $(document).ready(function() {
+
+        $("#nin-div").hide();
+        $("#brn-div").hide();
+        $("#identification-div").hide();
+
+        $("#citizenship-div").hide();
+        $("#sex-div").hide();
+        $("#first_name-div").hide();
+        $("#last_name-div").hide();
+        $("#busines_name-div").hide();
+        $("#business_type-div").hide();
+        $("#business_registration_date-div").hide();
+           
+        $("select[name=legalStatus]").change( function (e) {
+          const legalStatus = $(this).val();
+          console.log(legalStatus);
+          if (legalStatus == "Individual") {
+            $("#citizenship-div").show();
+            $("#brn-div").hide();
+            $("#sex-div").show();
+
+            $("#company-div").hide();
+
+            $("#busines_name-div").hide();
+            $("#business_type-div").hide();
+            $("#business_registration_date-div").hide();
+          } else if(legalStatus == "Company") {
+            $("#nin-div").hide();
+            $("#citizenship-div").hide();
+            $("#brn-div").show();  
+            $("#sex-div").hide(); 
+
+            $("#first_name-div").hide();
+            $("#last_name-div").hide();
+
+            $("#busines_name-div").show();
+            $("#business_type-div").show();
+            $("#business_registration_date-div").show();
+
+            $("#busines_name").attr('readonly','readonly');
+            $("#business_type").attr('readonly','readonly');
+            $("#business_registration_date").attr('readonly','readonly');
+
+          }
+        });
+
+        $("select[name=citizenship]").change( function (e) {
+          const citizenshipType = $(this).val();
+          $("#nin-div").hide();
+          $("#wpn-div").hide();
+          $("#ppn-div").hide();
+
+          console.log(citizenshipType);
+          if (citizenshipType == "Ugandan") {
+            $("#nin-div").show();
+            $("#wpn-div").hide();
+            $("#ppn-div").hide();
+
+            $("#first_name-div").show();
+            $("#last_name-div").show();
+
+            $("#first_name").attr('readonly','readonly');
+            $("#last_name").attr('readonly','readonly');
+
+          }else {
+            $("#nin-div").hide();
+            $("#wpn-div").show();
+            $("#ppn-div").show();
+
+            $("#first_name-div").show();
+            $("#last_name-div").show();
+
+            $("#first_name").removeAttr('readonly','readonly');
+            $("#last_name").removeAttr('readonly','readonly');
+          }
+        });
+
+
+        $("#nin").blur( function () {
+           var nin  = $('#nin').val();
+           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+           $.ajax({
+             url: "/accounts/nira", 
+             type: "post",
+             data: {'nin': nin},
+             dataType: "json",
+             headers: {'X-CSRFToken': csrftoken },
+             mode: 'same-origin',  
+             beforeSend: function () {},
+             success: function (response) {
+                var status = response['return']['transactionStatus']
+                niraResponse = {
+                    'national_id': response['return']['nationalId'],
+                    'surname': response['return']['surname'],
+                    'givenNames': response['return']['givenNames'],
+                    'dateOfBirth': response['return']['dateOfBirth'],
+                    'gender': response['return']['gender'],
+                    'nationality': response['return']['nationality'],
+                    'livingStatus': response['return']['livingStatus'],
+                }
+                
+                if (status = "Ok") {
+
+                    $("#tSx").remove();
+                    $("#first_name").val(niraResponse.surname);
+                    $("#last_name").val(niraResponse.givenNames);
+                    $("<i id='tSx' class='green circular check mark icon'></i>" ).appendTo($("#nin").parent());
+                    $('.ninError').html('');
+
+                    
+                } else if(status = "error") {
+
+                    $("#nin").val("");
+                    $("#first_name").val("");
+
+                    $("#tSx").remove();
+                    $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#nin").parent());
+                    $('.ninError').html("Invalid NIN details");
+
+                    $("#nin").val("");
+                    $("#last_name").val("");
+
+                    $("#tSx").remove();
+                    $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#nin").parent());
+                    $('.ninError').html("Invalid NIN details");
+
+                }
+
+             },
+             error: function(response) {
+                 console.log(response);
+                   $('.ninError').html("Sorry an error has occurred. Try later");
+                   console.log(response)
+              },
+
+             complete: function (response) {},
+
+           });
+
+        });
+
+        $("#brn").blur( function () {
+           var brn  = $('#brn').val();
+           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+           $.ajax({
+             url: "/accounts/ursb", 
+             type: "post",
+             data: {'brn': brn},
+             dataType: "json",
+             headers: {'X-CSRFToken': csrftoken },
+             mode: 'same-origin',  
+             beforeSend: function () {},
+             success: function (response) {
+                var status = response['entity']['error_code']
+                ursbResponse = {
+                    'entity_name': response['entity']['entity_name'],
+                    'cert_number': response['entity']['cert_number'],
+                    'reg_date': response['entity']['reg_date'],
+                    'company_type': response['entity']['company_type']
+                    
+                }
+            
+                if (status = "Ok") {
+
+                    $("#tSx").remove();
+                    
+                    
+                    $("#busines_name").val(ursbResponse.entity_name);
+                    $("#business_registration_date").val(ursbResponse.reg_date);
+                    $("#business_type").val(ursbResponse.company_type);
+                    $("<i id='tSx' class='green circular check mark icon'></i>" ).appendTo($("#brn").parent());
+                    $('.brnError').html('');
+
+                    
+                } else if(status = "ENTITY_NOT_FOUND") {
+
+                    $("#brn").val("");
+                    $("#busines_name").val("");
+                    $("#business_registration_date").val("");
+                    $("#business_type").val("");
+                
+                    $("#tSx").remove();
+                    $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#brn").parent());
+                    $('.brnError').html("Business Not Found");
+
+                }
+
+             },
+             error: function(response) {
+                 console.log(response);
+                   $('.brnError').html("Invalid BRN. Try later");
+                   console.log(response)
+              },
+
+             complete: function (response) {},
+
+           });
+
+        });
+
+        $("#submitBtn").click(function(event) {
+            console.log("working");
+            event.preventDefault();
+            var element = {};
+            var errors = [];
+            var token = $('#createAccountForm select[name=token]').val();
+            var legalStatus = $('#createAccountForm select[name=legalStatus]').val();
+            var citizenship = $('#createAccountForm select[name=citizenship]').val();
+            var address = $('#createAccountForm input[name=address]').val();
+            var surname = $('#createAccountForm input[name=surname]').val();
+            var first_name = $('#createAccountForm input[name=first_name]').val();
+            var last_name = $('#createAccountForm input[name=last_name]').val();
+            var name = $('#createAccountForm input[name=names]').val();
+            var tin = $('#createAccountForm input[name=tinnumber]').val();
+           
+            var busines_name = $('#createAccountForm input[name=busines_name]').val();
+            var business_type = $('#createAccountForm input[name=business_type ]').val();
+            var business_registration_date = $('#createAccountForm input[name=business_registration_date]').val();
+            
+            var identificationNumber = $('#createAccountForm input[name=identificationNumber]').val();
+            var email = $('#createAccountForm input[name=email]').val();
+            var phone_number = $('#createAccountForm input[name=phone_number]').val();
+            var password1 = $('#createAccountForm input[name=password1]').val();
+            var password2 = $('#createAccountForm input[name=password2]').val();
+            
+            var form = document.querySelector('#createAccountForm');
+            
+
+            if (legalStatus == "") {
+                element.legalStatus = "Select Legal Status";
+                errors.push(element);
+            }
+            if (legalStatus == "Company") {
+                if (busines_name == "") {
+                    element.busines_name = "Provide a valid BRN to get your Business Name";
+                    errors.push(element);
+                }
+                
+                if (business_type == "") {
+                    element.business_type = "Provide a valid BRN to get your Business Type";
+                    errors.push(element);
+                }
+               
+                if (business_registration_date == "") {
+                    element.business_registration_date = "Provide a valid BRN to get your registration date";
+                    errors.push(element);
+                }
+                
+                   
+                if (brn == "") {
+                    element.brn = "This Field is required";
+                    errors.push(element);
+                }
+            } else if (legalStatus == "Individual") {
+                if (citizenship == "") {
+                    element.citizenship = "Select Appropriate Citizenship Status";
+                    errors.push(element);
+                }
+                if (first_name == "") {
+                    element.first_name = "Provide a valid NIN to get your Surname";
+                    errors.push(element);
+                }
+                if (last_name == "") {
+                    element.last_name = "Provide a valid NIN to get your Given Names";
+                    errors.push(element);
+                }
+                if (nin == "") {
+                    element.nin = "This Field is required";
+                    errors.push(element);
+                }
+            } 
+            
+            if (email == "") {
+                element.email = "Enter Email";
+                errors.push(element);
+            }
+            if (phone_number == "") {
+                element.phone_number = "Enter Mobile";
+                errors.push(element);
+            }
+            if (address == "") {
+                element.address = "Enter Address";
+                errors.push(element);
+            }
+            if (password1 == "") {
+                element.password1 = "Enter Password";
+                errors.push(element);
+            }
+            if (password2 == "") {
+                element.password2 = "Confirm Password";
+                errors.push(element);
+            }
+            if (errors.length > 0){
+
+                if (errors[0]['legalStatus']) {
+                    //$('#createAccountForm  #legalStatus').addClass("error");
+                    $("#createAccountForm  #legalStatus").addClass("error");
+                    $('.legalerror').html(errors[0]['legalStatus']);
+                } else {
+                    $('#createAccountForm  #legalStatus').removeClass("error");
+                    $('.legalerror').html('');
+                }
+
+                //business name error 
+                if (errors[0]['busines_name']) {
+                    $("#createAccountForm  #busines_name").addClass("error");
+                    $('.busines_nameError').html(errors[0]['busines_name']);
+                } else {
+                    $('#createAccountForm  #busines_name').removeClass("error");
+                    $('.busines_nameError').html('');
+                }
+                //business type error 
+                 if (errors[0]['business_type']) {
+                    $("#createAccountForm  #business_type").addClass("error");
+                    $('.business_typeError').html(errors[0]['business_type']);
+                } else {
+                    $('#createAccountForm  #business_type').removeClass("error");
+                    $('.business_typeError').html('');
+                }
+                //business registration date error 
+                 if (errors[0]['business_registration_date']) {
+                    $("#createAccountForm  #business_registration_date").addClass("error");
+                    $('.business_registration_dateError').html(errors[0]['business_registration_date']);
+                } else {
+                    $('#createAccountForm  #business_registration_date').removeClass("error");
+                    $('.business_registration_dateError').html('');
+                }
+
+                if (errors[0]['tin']) {
+                    $("#createAccountForm  #tinnumber").addClass("error");
+                    $('.tinnumbererror').html(errors[0]['tin']);
+                } else {
+                    $('#createAccountForm  #tinnumber').removeClass("error");
+                    $('.tinnumbererror').html('');
+                }
+                if (errors[0]['first_name']) {
+                    $("#createAccountForm  #first_name").addClass("error");
+                    $('.first_nameError').html(errors[0]['first_name']);
+                } else {
+                    $('#createAccountForm  #first_name').removeClass("error");
+                    $('.first_nameError').html('');
+                }
+                if (errors[0]['last_name']) {
+                    $("#createAccountForm  #last_name").addClass("error");
+                    $('.last_nameError').html(errors[0]['last_name']);
+                } else {
+                    $('#createAccountForm  #last_name').removeClass("error");
+                    $('.last_nameError').html('');
+                }
+                if (errors[0]['citizenship']) {
+                    $("#createAccountForm  #citizenship").addClass("error");
+                    $('.citizenshiperror').html(errors[0]['citizenship']);
+                } else {
+                    $('#createAccountForm  #citizenship').removeClass("error");
+                    $('.citizenshiperror').html('');
+                }
+                if (errors[0]['identificationNumber']) {
+                    $("#createAccountForm  #identificationNumber").addClass("error");
+                    $('.identificationNumbererror').html(errors[0]['identificationNumber']);
+                } else {
+                    $('#createAccountForm  #identificationNumber').removeClass("error");
+                    $('.identificationNumbererror').html('');
+                }
+
+                if (errors[0]['email']) {
+                    $("#createAccountForm  #email").addClass("error");
+                    $('.emailAddresserror').html(errors[0]['email']);
+                } else {
+                    $('#createAccountForm  #emailAddress').removeClass("error");
+                    $('.emailAddresserror').html('');
+                }
+
+                if (errors[0]['phone_number']) {
+                    $("#createAccountForm  #phone_number").addClass("error");
+                    $('.mobilePhoneerror').html(errors[0]['phone_number']);
+                } else {
+                    $('#createAccountForm  #phone_number').removeClass("error");
+                    $('.mobilePhoneerror').html('');
+                }
+                if (errors[0]['address']) {
+                    $("#createAccountForm  #address").addClass("error");
+                    $('.addresserror').html(errors[0]['address']);
+                } else {
+                    $('#createAccountForm  #address').removeClass("error");
+                    $('.addresserror').html('');
+                }
+                if (errors[0]['password1']) {
+                    $("#createAccountForm  #password1").addClass("error");
+                    $('.password1error').html(errors[0]['password1']);
+                } else {
+                    $('#createAccountForm  #password1').removeClass("error");
+                    $('.password1error').html('');
+                }
+                if (errors[0]['password2']) {
+                    $("#createAccountForm  #password2").addClass("error");
+                    $('.password2error').html(errors[0]['password2']);
+                } else {
+                    $('#createAccountForm  #password2').removeClass("error");
+                    $('.password2error').html('');
+                }
+
+                if (errors[0]['director1Tinnumber']) {
+                    $("#createAccountForm  #director1Tinnumber").addClass("error");
+                    $('.director1Tinnumbererror').html(errors[0]['director1Tinnumber']);
+                } else {
+                    $('#createAccountForm  #director1Tinnumber').removeClass("error");
+                    $('.director1Tinnumbererror').html('');
+                }
+                
+                if (errors[0]['director5Tinnumber']) {
+                    $("#createAccountForm  #director5Tinnumber").addClass("error");
+                    $('.director5Tinnumbererror').html(errors[0]['director5Tinnumber']);
+                } else {
+                    $('#createAccountForm  #director5Tinnumber').removeClass("error");
+                    $('.director5Tinnumbererror').html('');
+                }
+                return false;
+            } else {
+                
+            }
+            console.log(form);
+            form.submit();
+
+        });
+
+
+    }); 
+
+
+</script>
+
+
+
+{% endblock content %}

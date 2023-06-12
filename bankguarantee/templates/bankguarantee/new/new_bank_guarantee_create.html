@@ -1,0 +1,204 @@
+{% extends 'client/base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+<style>
+    .error{
+      color:red; 
+        border-color: red !important
+      }
+    .readonly1 input ,.readonly select {
+        background-color:#eec !important;
+    }
+
+    .btn-red{
+    background-color: red;
+    color: white;
+    border: 1px solid red;
+}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+:root {
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+.form-field input {
+    border: solid 2px #f0f0f0;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+}
+
+.form-field input:focus {
+    outline: none;
+}
+
+.form-field.error input {
+    border-color: var(--error-color);
+}
+
+.form-field.success input {
+    border-color: var(--success-color);
+}
+
+
+</style>
+
+<div class=" card mt-5 mb-3">
+   <div class="card-body">
+         <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">Bank Guarantee</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Submission</li>
+            </ol>
+        </nav>
+   </div>
+</div>
+
+<div class="col-12 mb-4">
+
+    <div class="card border-0 shadow components-section">
+    
+    <form method="POST"  enctype="multipart/form-data" >
+    {% csrf_token %}
+
+
+      <div class="card border-0 shadow components-section">
+         <div class="card-body">
+
+            <div class="row mb-4">
+               <div class="col-lg-4 col-sm-6">
+                  <!-- Form -->
+
+                  <div class="mb-4">
+                  <h6 class="text-success"><b> Bank Guarantee </b></h6>
+                     {{form.tin.label }}
+                     {{form.tin}}
+                     <small></small>
+                     <div class="first_nameError error"></div>
+                  </div>
+
+                   <div class="mb-4">
+                     
+                     {{form.principle_licence_certificate_number.label }}
+                     {{form.principle_licence_certificate_number }}
+                  </div>
+ 
+                  <div class="mb-4">
+                     
+                     {{form.Name.label }}
+                     {{form.Name }}
+                  </div>
+
+                  <div class="mb-4">
+                     {{form.email.label}}
+                     {{form.email }}
+                  </div>
+                  <div class="mb-4">
+                     {{form.bank.label }}
+                     {{form.bank }}
+                  </div>
+                  <div class="mb-4">
+                     {{form.bank_guarantee.label }}
+                     {{form.bank_guarantee }}
+                  </div>
+
+                  <button type="submit" class="btn  btn-primary btn-block ">submit</button>
+                  
+               </div>
+               
+    
+            </div>
+   </form>
+</div>
+
+
+
+<script type="text/javascript">
+    {% for message in messages %}
+       
+        Swal.fire({
+            
+            icon: 'success',
+            title: 'Success',
+            text: ' {{message}}',
+            showConfirmButton: true,
+        })
+     
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+         Swal.fire({
+            icon: 'error',
+            title: '{{ form.non_field_errors }}',
+            showConfirmButton: true,
+
+        })
+    {% endif %}
+
+$(document).ready(function() {
+  
+   document.getElementById('certificate_number').addEventListener('blur', function(){
+
+        const certificate_number = document.getElementById("certificate_number").value
+        const email = document.getElementById("email")
+        const name = document.getElementById("name_of_the_company")
+        
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        const url =  "{% url 'payments:get_new_bank_guarantee_data' %}";
+    
+        $.ajax({
+            url: url, 
+            type: "post",
+            data: {
+                "certificate_number": certificate_number
+            },
+            dataType: "json",
+            headers: {'X-CSRFToken': csrftoken },
+            mode: 'same-origin',  
+            beforeSend: function () {},
+            success: function (backend_response) {
+
+                const response = backend_response
+                console.log()
+                if ( response.data['message'] === "success"){
+                    console.log("success")
+                    document.getElementById('email').value = response.data['email']
+                    document.getElementById('name_of_the_company').value = response.data['name_of_the_company']
+
+                }else{
+
+                }
+                
+
+            },
+            error: function(response) {
+                console.log(response);
+                $('.prnError').html("Invalid. Try later");
+                console.log(response)
+            },
+
+            complete: function (response) {},
+
+        });
+
+
+    
+
+   })
+
+});
+   
+
+</script>
+{% endblock content %}
