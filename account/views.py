@@ -25,9 +25,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 
-
 from django import template
 
+from lgrb_els.utils import push_email
 from .decorators import *
 from account.forms import *
 from account.models import Account
@@ -48,10 +48,12 @@ from cryptography.hazmat.backends import default_backend
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from account.intergrations import URLS, SCOPES, PRIVATE_KEY
 from account.intergrations import URLS, SCOPES, PRIVATE_KEY
+
 
 def auth_page(request):
     return render(request, 'account/auth.html')
@@ -85,10 +87,10 @@ def client_login(request):
             user = authenticate(email=email, password=password)
 
             if user:
+                # Generate OTP And Send Email then redirect to OTP Verification Page
+
                 login(request, user)
-
                 landing_page = 'client:client_home'
-
                 if user.role == "client":
                     landing_page = 'client:client_home'
                 elif user.role == "inspector":
@@ -100,13 +102,17 @@ def client_login(request):
                 elif user.role == "admin":
                     landing_page = 'administrator:admin_home'
 
+                subject = 'LGRB Signin Notification'
+                message = f'Hi {user.email}, you have Logged into the Lotteries and Gaming Board e-licensing portal '
+                push_email(subject, message, [user.email, 'mark.maserejje@nita.go.ug'])
                 return redirect(landing_page)
     else:
+        push_email('LGRB Signin Notification', 'Login Failed ....', ['mark.maserejje@nita.go.ug'])
         form = AccountAuthenticationForm()
     context['login_form'] = form
     return render(request, "account/login.html", context)
 
-             
+
 def client_logout(request):
     logout(request)
     return redirect('/')
@@ -169,7 +175,6 @@ def admin_logout(request):
 
 
 class RegisterView(View):
-
     template_name = 'account/register.html'
 
     def get(self, request, *args, **kwargs):
@@ -178,28 +183,29 @@ class RegisterView(View):
         context['registration_form'] = form
         return render(request, self.template_name, context)
 
-
     def post(self, request, *args, **kwargs):
 
         context = {}
         form = RegistrationForm(request.POST)
 
         if form.is_valid():
-            
             form.save()
             email = form.cleaned_data.get('email')
+            subject = 'LGRB Registration Notification'
+            message = f'Hi {email}, you registered with Lotteries and Gaming Board e-licensing portal Successfully'
+            push_email(subject, message, [email, 'mark.maserejje@nita.go.ug'])
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
             return redirect('login')
-              
         else:
-            
             context['registration_form'] = form
+            subject = 'LGRB Registration Notification'
+            message = f'Registration Failed'
+            push_email(subject, message, ['mark.maserejje@nita.go.ug'])
             return render(request, self.template_name, context)
 
 
-    
 def profile(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -212,7 +218,7 @@ def profile(request):
                 "full_names": request.POST['full_names'],
                 "phone_number": request.POST['phone_number'],
                 "image": request.POST['image'],
-               
+
                 # location stuff 
                 "District": request.POST['District'],
                 "County": request.POST['County'],
@@ -222,8 +228,8 @@ def profile(request):
 
             }
             account = form.save(commit=False)
-            
-            account.full_names = str( form.cleaned_data.get('full_names')).title()
+
+            account.full_names = str(form.cleaned_data.get('full_names')).title()
             # location 
             account.District = str(form.cleaned_data.get('District')).title(),
             account.County = str(form.cleaned_data.get('County')).title(),
@@ -293,7 +299,7 @@ def PasswordResetRequestView(request):
                     html_content = htmltemp.render(c)
                     try:
                         msg = EmailMultiAlternatives(subject, text_content, 'Website <admin@example.com>', [
-                                                     user.email], headers={'Reply-To': 'admin@example.com'})
+                            user.email], headers={'Reply-To': 'admin@example.com'})
                         msg.attach_alternative(html_content, "text/html")
                         msg.send()
                     except BadHeaderError:
@@ -302,12 +308,13 @@ def PasswordResetRequestView(request):
                         request, "Password reset instructions have been sent to the email address entered.")
                     return redirect("login")
     password_reset_form = PasswordResetForm()
-    return render(request=request, template_name="account/password_reset.html", context={"password_reset_form": password_reset_form})
+    return render(request=request, template_name="account/password_reset.html",
+                  context={"password_reset_form": password_reset_form})
 
 
 def ursb_token(request):
-    headers = {  'Authorization': 'Basic d0RrdUxSM2dYUkl2dzdjVjZxZmY3Y2pKVDRVYTpoUzRPS1FacHJRSWVIMHMxQmZwemI2eUVTSFFh',  }
-    data = {  'grant_type': 'client_credentials'  }
+    headers = {'Authorization': 'Basic d0RrdUxSM2dYUkl2dzdjVjZxZmY3Y2pKVDRVYTpoUzRPS1FacHJRSWVIMHMxQmZwemI2eUVTSFFh', }
+    data = {'grant_type': 'client_credentials'}
     response = requests.post('https://api-uat.integration.go.ug/token', headers=headers, data=data, verify=False).json()
     token = response['access_token']
     print(token)
@@ -315,11 +322,10 @@ def ursb_token(request):
 
 
 def nira_token(request):
-
-    # curl -k -X POST https://api-uat.integration.go.ug/token -d "grant_type=client_credentials" -H"Authorization: 
+    # curl -k -X POST https://api-uat.integration.go.ug/token -d "grant_type=client_credentials" -H"Authorization:
     # Basic ZmtTb2NFcE56WUROWWY1cld4VW45bGxrTVNBYTpwZjlnSWYxVWZIQUZqZEh6VUlkbWlqSGdZSmdh"
 
-    headers = { 'Authorization': 'Basic ZmtTb2NFcE56WUROWWY1cld4VW45bGxrTVNBYTpwZjlnSWYxVWZIQUZqZEh6VUlkbWlqSGdZSmdh'}
+    headers = {'Authorization': 'Basic ZmtTb2NFcE56WUROWWY1cld4VW45bGxrTVNBYTpwZjlnSWYxVWZIQUZqZEh6VUlkbWlqSGdZSmdh'}
     data = {'grant_type': 'client_credentials'}
     response = requests.post('https://api-uat.integration.go.ug/token', headers=headers, data=data, verify=False).json()
     token = response['access_token']
@@ -330,7 +336,7 @@ def nira_token(request):
 def update_nira_password():
     # add a celery task to update the password after some days and also hash it 
     # query the db to return hashed password 
-    pass 
+    pass
 
 
 def nira_credentials_token(request):
@@ -339,7 +345,7 @@ def nira_credentials_token(request):
         {
             "username": "nita-u@root",
             "password": "Bsd!679"
-            
+
         }
     )
 
@@ -347,30 +353,28 @@ def nira_credentials_token(request):
         'Authorization': f'Bearer {str(nira_token(request))}',
         'Content-Type': 'application/json'
     }
-  
-    response = requests.post( url, headers=headers, data=payload, verify=False ).json()
+
+    response = requests.post(url, headers=headers, data=payload, verify=False).json()
 
     datas = json.dumps({
-        "nira_auth_forward" : response['NIRA AUTH FORWARD'],
-        "nira_nonce" : response['NONCE'],
-        "nira_created" : response['CREATED DATE'],
+        "nira_auth_forward": response['NIRA AUTH FORWARD'],
+        "nira_nonce": response['NONCE'],
+        "nira_created": response['CREATED DATE'],
     })
-   
 
     return datas
 
 
 def nira(request, *args, **kwargs):
-
-    credentials =  json.loads(nira_credentials_token(request))
+    credentials = json.loads(nira_credentials_token(request))
     nira_auth_forward = credentials['nira_auth_forward']
-    nira_nonce = credentials['nira_nonce']  
+    nira_nonce = credentials['nira_nonce']
     nira_created = credentials['nira_created']
 
     print(nira_auth_forward)
     print(nira_nonce)
     print(nira_created)
-   
+
     headers = {
         'Authorization': f'Bearer {str(nira_token(request))}',
         'nira-auth-forward': f"{str(nira_auth_forward)}",
@@ -396,8 +400,6 @@ def nira(request, *args, **kwargs):
     #     "surname": first_name
     # })
 
-    
-
     data = json.loads(request.body)
     payload = json.dumps({
         "dateOfBirth": "",
@@ -405,8 +407,8 @@ def nira(request, *args, **kwargs):
         "givenNames": data['first_name'],
         "nationalId": data['nin'],
         "surname": data['last_name']
-        })
-    print(payload )
+    })
+    print(payload)
     # print(data)
 
     url = "https://api-uat.integration.go.ug/t/nira.go.ug/nira-api/1.0.0/verifyPersonInformation"
@@ -415,15 +417,15 @@ def nira(request, *args, **kwargs):
     return HttpResponse(json.dumps(response), content_type='application/json')
 
 
-def ursb(request,  *args, **kwargs):
+def ursb(request, *args, **kwargs):
     headers = {
-    'Authorization': f'Bearer {str(ursb_token(request))}',
-    'Cookie': '__NCTRACE=52a25b5d-04b1-4f99-b48d-35249629ffa6'
+        'Authorization': f'Bearer {str(ursb_token(request))}',
+        'Cookie': '__NCTRACE=52a25b5d-04b1-4f99-b48d-35249629ffa6'
     }
-    payload={}
-    brn = request.POST.get('brn') 
+    payload = {}
+    brn = request.POST.get('brn')
     url = f"https://api-uat.integration.go.ug/t/ursb.go.ug/ursb-brs-api/1.0.0/entity/get_entity_full/{brn}/-/APS-NITA"
-    xml_server_response = requests.get( url, headers=headers, data=payload )
+    xml_server_response = requests.get(url, headers=headers, data=payload)
     response = xmltodict.parse(xml_server_response.text)
     # print(response)
     return HttpResponse(json.dumps(response), content_type='application/json')
@@ -438,15 +440,15 @@ def redirect_page(request):
 def generateRequetJWT():
     # Create request parameter JWT Payload
     payload = {
-    "iat": datetime.datetime.utcnow(),
-    "iss": SCOPES['client_id'],
-    "aud": URLS['ugpass_issuer'],
-    "sub": SCOPES['client_id'],
-    "exp":datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-    "redirect_uri": URLS['callback_uri'],
+        "iat": datetime.datetime.utcnow(),
+        "iss": SCOPES['client_id'],
+        "aud": URLS['ugpass_issuer'],
+        "sub": SCOPES['client_id'],
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        "redirect_uri": URLS['callback_uri'],
     }
 
-    #Client/Service Provider Private Key for creating JWT Token
+    # Client/Service Provider Private Key for creating JWT Token
     try:
         # Create request parameter JWT Token
         request_jwt = jwt.encode(payload, PRIVATE_KEY, algorithm='RS256')
@@ -461,16 +463,17 @@ def buildAuthorizationURL(request_jwt):
     # Server will return an authorization code after the user is
     # prompted for credentials.
 
-    #Generate state parameter(random string)
+    # Generate state parameter(random string)
     state = secrets.token_urlsafe(13)
 
-    #Generate nonce parameter(random string)
+    # Generate nonce parameter(random string)
     nonce = secrets.token_urlsafe(15)
 
-    authorization_redirect_url = URLS['authorize_url'] +'?response_type=code&client_id='+SCOPES['client_id']+'&redirect_uri='+URLS['callback_uri']+\
-    '&scope='+ SCOPES['scope'] +'&state='+state +'&nonce='+nonce+\
-    '&request='+request_jwt
-    
+    authorization_redirect_url = URLS['authorize_url'] + '?response_type=code&client_id=' + SCOPES[
+        'client_id'] + '&redirect_uri=' + URLS['callback_uri'] + \
+                                 '&scope=' + SCOPES['scope'] + '&state=' + state + '&nonce=' + nonce + \
+                                 '&request=' + request_jwt
+
     return authorization_redirect_url
 
 
@@ -481,7 +484,7 @@ def createClientAssertionToken():
         "iss": SCOPES['client_id'],
         "aud": URLS['token_url'],
         "sub": SCOPES['client_id'],
-        "exp":datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
     }
 
     try:
@@ -496,12 +499,12 @@ def createClientAssertionToken():
 def getAccessToken(authorization_code, client_assertion_jwt):
     # create Request Body
     payload = {
-         'grant_type': 'authorization_code',
-         'code': authorization_code,
-         'redirect_uri': URLS['callback_uri'],
-         'client_id':SCOPES['client_id'],
-         'client_assertion_type':'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-         'client_assertion':client_assertion_jwt
+        'grant_type': 'authorization_code',
+        'code': authorization_code,
+        'redirect_uri': URLS['callback_uri'],
+        'client_id': SCOPES['client_id'],
+        'client_assertion_type': 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+        'client_assertion': client_assertion_jwt
     }
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     try:
@@ -509,10 +512,8 @@ def getAccessToken(authorization_code, client_assertion_jwt):
         tokens = json.loads(response.text)
         access_token = tokens['access_token']
         id_token = tokens['id_token']
-        
-        
 
-        return access_token,id_token
+        return access_token, id_token
 
 
     except Exception as err:
@@ -523,7 +524,7 @@ def getAccessToken(authorization_code, client_assertion_jwt):
 def getUserInfo(access_token):
     endpoint = URLS['user_info_url']
     info_headers = {
-        "Accept": "application/jwt", 
+        "Accept": "application/jwt",
         "Authorization": "Bearer {token}".format(token=access_token)
     }
 
@@ -544,7 +545,7 @@ def handle_redirect_url(request, *args, **kwargs):
         state = request.GET.get('state', None)
         authorization_code = request.GET.get('code', None)
 
-        #validate your state key
+        # validate your state key
         client_assertion_jwt = createClientAssertionToken()
         the_access_token, id_token = getAccessToken(authorization_code, client_assertion_jwt)
         # user_data = getUserInfo(the_access_token)
@@ -565,22 +566,17 @@ def handle_redirect_url(request, *args, **kwargs):
         print(id_token)
         print(decoded_id_token)
 
-        #check if email / phone exists in your application
+        # check if email / phone exists in your application
         ugpass_email = decoded_id_token['daes_claims']['email']
         ugpass_phone = decoded_id_token['daes_claims']['phone']
         print(ugpass_email)
         landing_page = 'client:client_home'
         try:
             user = Account.objects.get(email=ugpass_email)
-            #authenticate them in LGRB
+            # authenticate them in LGRB
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
             return redirect(landing_page)
 
         except Account.DoesNotExist:
             return HttpResponse("Sorry, No Matching User Profile")
-
-
-
-
-

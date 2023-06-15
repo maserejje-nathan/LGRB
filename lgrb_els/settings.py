@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'crispy_bootstrap4',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
 
     ## custome defined apps
     'client',
@@ -57,10 +59,8 @@ INSTALLED_APPS = [
     'new',
     'reports',
     'api',
-    
+
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,8 +68,15 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'django_otp.backends.OTPAuthenticationBackend',
 ]
 
 ROOT_URLCONF = 'lgrb_els.urls'
@@ -77,7 +84,7 @@ ROOT_URLCONF = 'lgrb_els.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':  [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -93,7 +100,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'lgrb_els.wsgi.application'
 AUTH_USER_MODEL = 'account.Account'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -104,19 +110,18 @@ DATABASES = {
     }
 }
 
-# DATABASES = {        
-#     'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'lgrb_elsdb',
-#         'USER': 'postgres',
-#         'PASSWORD': 'creation',
-#         'HOST': 'localhost',
-#         'PORT': 5432
-#     }
-# }
+'''DATABASES = {
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lgrb_elsdb',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': 5434
+     }
+ }'''
 
-
-# csrftoken settings 
+# csrftoken settings
 SECURE_REFERRER_POLICY = "origin-when-cross-origin"
 
 # Password validation
@@ -137,14 +142,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# oauth stuff 
-REST_FRAMEWORK = { 
+# oauth stuff
+REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication', 
-    ), 
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ),
 
-} 
+}
 # rest framework stuff 
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -156,9 +160,7 @@ REST_FRAMEWORK = {
 # }
 
 
-
-
-# rest framework 
+# rest framework
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -167,13 +169,10 @@ REST_FRAMEWORK = {
     ),
 
     "DEFAULT_RENDERER_CLASSES": (
-    "rest_framework.renderers.JSONRenderer",
-    'rest_framework.renderers.BrowsableAPIRenderer',
+        "rest_framework.renderers.JSONRenderer",
+        'rest_framework.renderers.BrowsableAPIRenderer',
     )
 }
-
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -192,7 +191,6 @@ USE_TZ = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 6 * 3600
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -201,11 +199,19 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 MEDIAFILES_DIRS = [BASE_DIR / 'media']
 
+EMAIL_FROM = "LGRB Notifications <info@nita.go.ug>"
+EMAIL_HOST = 'smtp.umcs.go.ug'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'edoc@nita.go.ug'
+EMAIL_HOST_PASSWORD = 'P@ssw0rd'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = "lgrb@nita.go.ug"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -216,8 +222,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-
-# email backends 
+# email backends
+'''
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_FROM = "no-reply@lgrb.go.ug"
@@ -228,9 +234,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'no-reply@lgrb.go.ug'
+'''
 
-
-# celery task 
+# celery task
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERYD_HIJACK_ROOT_LOGGER = False
 CELERY_ACKS_LATE = True
