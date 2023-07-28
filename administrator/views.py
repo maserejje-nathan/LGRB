@@ -97,7 +97,7 @@ class CompanyListView(View):
 
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(admins_list, 2)
+        paginator = Paginator(admins_list, 10)
         try:
             admins = paginator.page(page)
         except PageNotAnInteger:
@@ -201,7 +201,7 @@ class IndividualListView(View):
 
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(admins_list, 2)
+        paginator = Paginator(admins_list, 10)
         try:
             admins = paginator.page(page)
         except PageNotAnInteger:
@@ -248,7 +248,7 @@ decorators = [login_required(login_url='login'), allowed_users(allowed_roles=['a
 class AdminListView(View):
     # template_name = 'administrator/users/admin.html'
     template_name = 'administrator/users/admin_new.html'
-    # paginate_by = 10
+    # paginate_by = 10 
 
     def get(self, request, *args, **kwargs):
 
@@ -304,7 +304,7 @@ class AdminListView(View):
 
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(admins_list, 2)
+        paginator = Paginator(admins_list, 10)
         try:
             admins = paginator.page(page)
         except PageNotAnInteger:
@@ -331,17 +331,17 @@ class AdminListView(View):
          })
 
 
-
 decorators = [login_required(login_url='login'), allowed_users(allowed_roles=['admin'])]
 @method_decorator(decorators, 'dispatch')
 
 class AdminDetailView(View):
     template_name = 'administrator/users/admin-detail.html'
-
-    def get(self, request, *args, **kwargs):
+    
+    def get(self, request, *args, **kwargs): 
+        
         context = {}
-        individuals = Account.objects.all()
-        context['individuals'] = individuals
+        admin = Account.objects.get(pk=kwargs.get('pk'))
+        context['admin'] = admin
         return render(request, self.template_name, context)
 
 
@@ -588,10 +588,8 @@ class InspectingAuthorityView(View):
 
         ).count()
 
-        
 
         total_licence_assigned = total_assigned_principle_licence +  total_assigned_employee_licence + total_assigned_premise_licence
-        
         context['total_assigned_principle_licence'] = total_assigned_principle_licence
         context['total_assigned_employee_licence'] = total_assigned_employee_licence
         context['total_assigned_premise_licence'] = total_assigned_premise_licence
@@ -1636,7 +1634,7 @@ class PremiseApproversUpdate(UpdateView):
 decorators = [login_required(login_url='login'),allowed_users(allowed_roles=['verifier'])]
 @method_decorator(decorators, 'dispatch')
 class LicenceAssignmentView(View):
-    template_name = 'administrator/assign/licence_assign.html'
+    template_name = 'administrator/assign/licence_assign.html' 
 
     def get(self, request):
         
@@ -1669,13 +1667,23 @@ class AdminOfficerView(View):
 
     def get(self, request):
         context = {}
+
         new_principle_licence_assignment = PrincipleLicence.objects.all()
         new_keyemployee_licence_assignment = EmployeeLicence.objects.all()
         new_premise_licence_assignment = PremiseLicence.objects.all()
+        number_of_principle = len(PrincipleLicence.objects.all())
+        number_of_employee = len(EmployeeLicence.objects.all())
+        number_of_premise = len(PremiseLicence.objects.all())
+
+        total = number_of_principle + number_of_employee + number_of_premise
 
         context['new_principle_licence_assignment'] = new_principle_licence_assignment
         context['new_keyemployee_licence_assignment'] = new_keyemployee_licence_assignment
         context['new_premise_licence_assignment'] = new_premise_licence_assignment
+        context['number_of_principle'] = number_of_principle
+        context['number_of_employee'] = number_of_employee
+        context['number_of_premise'] = number_of_premise
+        context['total'] = total
 
         return render(request, self.template_name, context)
 

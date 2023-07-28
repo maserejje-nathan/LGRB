@@ -1,0 +1,97 @@
+{% extends 'client/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+            <div class="row">
+                <div class="col-12 mb-4">
+                            <div class="card border-0 shadow">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h2 class="fs-5 fw-bold mb-0">Premise Licence Payments </h2>
+                                        </div>
+                                        <div class="col text-end">
+                                            <a href="#" class="btn btn-sm btn-primary">view all</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+
+                            <!--end task -->
+                                    <div class="card card-body shadow border-0 table-wrapper table-responsive">
+                                    <div class="d-flex mb-3">
+                                        <div class="col-xs-3"> 
+                                            <input type="search" class="form-control col-xl-3 " placeholder="search by company name" id="exampleInputIconRight" >
+                                        </div>
+                                        <button class="btn btn-sm px-3 btn-secondary ms-3">search</button>
+                                    </div>
+
+
+                                    <table class="table table-centered table-nowrap mb-0 rounded">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="border-0">ID</th>
+                                            <th class="border-0 ">Name of the company</th>
+                                            <th class="border-0">Number of the premises</th>
+                                            <th class="border-0">Fee</th>
+                                            <th class="border-0">Date applied</th>
+                                            
+                                            <th class="border-0">Payment Status</th>
+                                          
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Item -->
+                                        {% for licence in premise_payment %}
+                                        <tr>
+                                        <td >{{licence.id}}</td>
+                                        <td > {{licence.name_of_the_company}}  </td>
+                                        <td>  {{licence.number_of_premises}} </td>
+                                        <td > {{licence.licence_fee}}</td>
+                                      
+                                        <td > {{licence.date_applied}}  </td>
+
+                                       
+
+                                        <td class="border-0 fw-bold">
+                                            {% if  licence.payment_description == "AVAILABLE"  %}
+                                                    <b class="badge bg-warning">  Payment Recieved and Pending Processing  </b>
+                                            {% elif licence.payment_description == "EXPIRED" %}
+                                                    <b class="badge bg-danger"> Prn Expired  </b>
+                                            {% elif licence.payment_description == "RECEIVED AND CREDITED" %}
+                                                    <b class="badge bg-success"> Paid   </b>
+                                            {% else %}
+                                                <b class="badge bg-warning"> Pending Payment   </b>
+                                            {% endif %}
+                                        </td>
+
+                                     
+                                        {% endfor %}
+                                        </tr>
+                                        <!-- End of Item -->
+                                    </tbody>
+                                </table>
+                              
+                                    <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                                        
+                                    </div>
+                                    </div>
+
+
+
+                            <!--end task -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                
+            </div>
+            
+
+
+
+{% endblock content %}

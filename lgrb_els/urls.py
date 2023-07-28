@@ -4,6 +4,7 @@ from . import settings
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 from rest_framework import routers
 
+
 from api.views import *
 
 # swagger-ui imports
@@ -26,6 +27,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('', include('client.urls')),
     path('', include('administrator.urls' )),
@@ -34,7 +36,8 @@ urlpatterns = [
     path('', include('bankguarantee.urls' )),
     path('', include('payments.urls' )),
     path('', include('reports.urls' )),
-    path('', include('api.urls' )),
+    path('', include('api.urls')),
+
 
 
     # swagger-ui api documentation

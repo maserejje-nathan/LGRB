@@ -14,7 +14,7 @@
       <link rel="stylesheet" href="{% static 'account/fontawesome-free/all.min.css' %}" >
       <link rel="stylesheet" href="{% static 'account/custom.css' %}">
       <style>
-         .error{color:red; border-color: red !important}
+         .error{color:red; border-color: red !important} 
          .readonly1 input ,.readonly select {
          background-color:#eec !important;
          }
@@ -180,21 +180,42 @@
                         <h4 class="ui horizontal divider header">Location Information</h4>
                         <div id="Individualnames">
                            <div class="two fields">
+                            <!--
                               <div class="required field">
                                  <label> {{registration_form.District.label}}</label>
                                  {{registration_form.District}}
+                                 <div class="surnameerror error"></div>
+                              </div> -->
+
+                                <div class="required field">
+                                 <label> {{registration_form.District.label}}</label>
+                                 <select class="form-select" aria-label="Default select example" name="District" id="id_District">
+                                    <option selected>Open this select menu</option>
+                                    {%for district in districts %}
+                                    <option value={{district.id}}>{{district.name}}</option>
+                                     {%endfor%}
+                                   
+                                  </select>
                                  <div class="surnameerror error"></div>
                               </div>
 
                               <div class="required field">
                                  <label> {{registration_form.County.label}} </label>
-                                 {{registration_form.County}}
+
+
+                                <select class="form-select" aria-label="county" name="County" id="id_County">
+                                    <option selected>-----Select County------</option>
+                                </select>
+
+                                <!-- {{registration_form.County}} -->
                                  <div class="given_nameserror error"></div>
                               </div>
 
                               <div class=" field">
                                  <label>  {{registration_form.Subcounty.label}} </label>
-                                 {{registration_form.Subcounty }}
+                                 <select class="form-select" aria-label="Subcounty" name="County" id="id_Subcounty">
+                                    <option selected>-----Select Sub County------</option>
+                                </select>
                                  <div class="other_nameserror error"></div>
                               </div>
 
@@ -203,13 +224,17 @@
                         <div class="two fields">
                            <div class="required field " >
                               <label>{{registration_form.Parish.label}}</label>
-                              {{registration_form.Parish}}
+                               <select class="form-select" aria-label="Subcounty" name="Parish" id="id_Parish">
+                                    <option selected>-----Select Sub Parish------</option>
+                                </select>
                               <div class="director4Nameerror error"></div>
                            </div>
                            <div class="required field">
                               <label>{{registration_form.Village.label}}</label>
                               <div class="ui icon input">
-                                 {{registration_form.Village}}
+                                 <select class="form-select" aria-label="Village" name="Parish" id="id_Village">
+                                    <option selected>-----Select Village------</option>
+                                </select>
                               </div>
                               <div class="director4Tinnumbererror error"></div>
                            </div>
@@ -249,7 +274,181 @@
       <script src="https://bims.go.ug/static/lib/feather-icons/feather.min.js"></script>
       <script src="https://bims.go.ug/static/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+     
       <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_District').on('change', function() {
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                var distid = this.value
+                console.log("District id is ==================>" +distid )
+                $.ajax({
+                  url: "/counties", 
+                  type: "get",
+                  data: {'district_id': distid},
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select County ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+
+                    }
+                    document.getElementById("id_County").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+
+     <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_County').on('change', function() {
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                var county_id = this.value
+                var district_id = document.getElementById("id_District").value;
+
+                console.log("District id is ==================>" +district_id )
+                console.log("County id is "+ county_id)
+
+                $.ajax({
+                  url: "/subcounties", 
+                  type: "get",
+                  data: {
+                    'district_id': district_id,
+                    'county_id': county_id
+                },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select Sub County ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+                    }
+                    document.getElementById("id_Subcounty").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+
+         <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_Subcounty').on('change', function() {
+              var subcounty_id = this.value
+
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+               var district_id = document.getElementById("id_District").value;
+               var county_id = document.getElementById("id_County").value;
+               
+                
+
+                $.ajax({
+                  url: "/parishes", 
+                  type: "get",
+                  data: {
+                    'district_id': district_id,
+                    'county_id': county_id,
+                    'subcounty_id': subcounty_id
+                },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select Parish ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+                    }
+                    document.getElementById("id_Parish").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+
+     
+         <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_Parish').on('change', function() {
+              var parish_id = this.value
+
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+               var district_id = document.getElementById("id_District").value;
+               var county_id = document.getElementById("id_County").value;
+               var subcounty_id = document.getElementById("id_Subcounty").value;
+               
+                
+
+                $.ajax({
+                  url: "/villages", 
+                  type: "get",
+                  data: {
+                    'district_id': district_id,
+                    'county_id': county_id,
+                    'subcounty_id': subcounty_id,
+                    'parish_id': parish_id
+                },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select Village ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+                    }
+                    document.getElementById("id_Village").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+
+
+
+
+    <script type = "text/javascript" >
          $(document).ready(function() {
              console.log("working");
              

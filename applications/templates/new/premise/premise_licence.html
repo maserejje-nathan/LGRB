@@ -1,0 +1,357 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% block content%}
+
+
+<!-- main content -->
+
+<div class="row">
+   <h2 class="text-center mb-3 mt-3 pb-3"> Premise License Application Form</h2>
+   <div class="col-12 mb-4">
+      <form method="POST" enctype="multipart/form-data" >
+         {% csrf_token %}
+         {{ licence_form.errors }}
+         <div class="card border-0 shadow components-section">
+            <div class="card-body">
+               <div class="row mb-4">
+                  <div class="col-lg-4 col-sm-6">
+
+                  <h2 class="h5"> Premise Licence Form</h2>
+                     <div class="mb-4">
+                         <label for="">{{form.name_of_the_company.label}} </label>
+                        {{ form.name_of_the_company  }}
+                     </div>
+                     <!-- Form -->
+                     <div class="mb-4">
+                        <span >
+                        <label for="">{{form.email.label}}</label>
+                        </span>
+                        {{form.email  }}
+                     </div>
+
+                     <div class="mb-4">
+                        <label for="state">{{form.number_of_premises.label}}</label>
+                        {{form.number_of_premises  }}
+                     </div>
+
+                   
+                     <div class="mb-4">
+                        <label for="state">{{form.licence_fee.label}}</label>
+                        {{form.licence_fee  }}
+                     </div>
+                    
+
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                        <div class="mb-4 tin-field">
+                        <p> {{form.tin.label}} </p>
+                            {{form.tin}}
+                        </div>
+
+                    
+                        <div class="form-check">
+                            {{form.generate_prn}}
+                            <label class="form-check-label" for="flexCheckChecked">
+                                {{form.generate_prn.label}}
+                            </label>
+                        </div>
+
+                        <div class="mb-4">
+                        <p> {{form.prn.label}} </p>
+                            {{form.prn}}
+                        </div>
+
+                        <div class="mb-4 errorcode-field">
+                        {{form.error_code.label}}  
+                            {{form.error_code}}
+                        </div>
+
+                        <div class="mb-4 errordesc-field">
+                        {{form.error_desc.label}}  
+                            {{form.error_desc}}
+                        </div>
+                        
+                        <div class="mb-4 searchcode-field">
+                            {{form.search_code.label}}  
+                            {{form.search_code}}
+                        </div>
+
+                        <div class="mb-4 expirydate-field">
+                            {{form.expiry_date.label}}  
+                            {{form.expiry_date}}
+                        </div>
+                    
+                     
+                     
+                  </div>
+                 
+                  <div class="col-lg-6 col-sm-6">
+                     <button type="submit" class="btn  btn-primary ">submit application</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>
+<!--end main content -->
+</div>
+
+
+<script type="text/javascript">
+    {% for message in messages %}
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: ' {{message}}',
+            showConfirmButton: true,
+        })
+        
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+            Swal.fire({
+            icon: 'error',
+            title: '{{ form.non_field_errors }}',
+            showConfirmButton: true,
+        })
+    {% endif %}
+
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        console.log("done");
+
+        const url =  "{% url 'new:add-premise-count' %}";
+        const email = "{{request.user.email}}"
+        document.getElementById('email').value = email
+        const nop = document.getElementById("nop").value
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+     
+        $.ajax({
+            url: url, 
+            type: "post",
+            data: {
+                "email": email
+            },
+            dataType: "json",
+            headers: {'X-CSRFToken': csrftoken },
+            mode: 'same-origin',  
+            beforeSend: function () {},
+            success: function (backend_response) {
+
+                const response = backend_response
+                console.log()
+                if ( response.count['message'] === "success"){
+                    console.log("success")
+                     document.getElementById('nop').value = response.count['count']
+
+
+                    let number_of_premises = document.getElementById("nop")
+                    let number_of_premises_value = Number(number_of_premises.value)
+                    console.log(number_of_premises_value)
+
+                    let licence_fee_value = Number(document.getElementById("licence_fee").value)
+                    
+                    console.log(licence_fee_value)
+                    
+                    let new_licence_fee_value = (number_of_premises_value)*licence_fee_value 
+                    console.log(new_licence_fee_value)
+                    if(number_of_premises_value <= 0){
+                            console.log("please enter a vlaid number of premises")
+                            licence_fee = document.getElementById("licence_fee").value = 1000000
+                    }else{
+                            let  licence_fee = document.getElementById("licence_fee").value = new_licence_fee_value
+                    }
+                
+                }else{
+
+                }
+                
+
+            },
+            error: function(response) {
+                console.log(response);
+                $('.prnError').html("Invalid PRN. Try later");
+                console.log(response)
+            },
+
+            complete: function (response) {},
+
+        });
+
+        
+    });
+    
+    document.getElementById("nop").addEventListener("keyup", function autoFillItems(){
+        console.log("working")
+
+        let number_of_premises = document.getElementById("nop")
+        let number_of_premises_value = Number(number_of_premises.value)
+        console.log(number_of_premises_value)
+
+
+
+        let licence_fee_value = Number(document.getElementById("licence_fee").value)
+        
+        console.log(licence_fee_value)
+        
+       let new_licence_fee_value = (number_of_premises_value)*licence_fee_value 
+       console.log(new_licence_fee_value)
+       if(number_of_premises_value <= 0){
+            console.log("please enter a vlaid number of premises")
+            licence_fee = document.getElementById("licence_fee").value = 1000000
+       }else{
+            let  licence_fee = document.getElementById("licence_fee").value = new_licence_fee_value
+       }
+       
+      // const document.getElementById("licence_fee").value = new_licence_fee_value
+
+
+        
+    });
+
+   
+
+    const generateprn = document.getElementById('generate_prn');
+    const checkeds = generateprn.value;
+
+    generateprn.addEventListener("click", async function generatePaymentRegistrationNumber(e){
+
+        const principle_licence_certificate_number  = document.getElementById('principle_licence_certificate_number');
+        const generate_prn  = document.getElementById('generate_prn').value
+        const prn  = document.getElementById('prn').value
+        const error_code  = document.getElementById('error_code').value
+        const error_desc  = document.getElementById('error_desc').value
+        const expiry_date  = document.getElementById('expiry_date').value
+        const search_code  = document.getElementById('search_code').value
+
+        const tin = document.getElementById('tin').value
+        const licence_fee = document.getElementById("licence_fee").value
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        const url = new URL(`http://localhost:8000/accounts/prn/get/licence-fee`);
+        const server_payload = JSON.stringify({
+            "principle_licence_certificate_number" : principle_licence_certificate_number,
+            "generate_prn" : generate_prn,
+            "prn" : prn,
+            "error_code" : error_code,
+            "error_desc" : error_desc,
+            "expiry_date" : expiry_date,
+            "search_code" : search_code,
+        })
+        const ura_payload = JSON.stringify({
+            "licence_fee" : licence_fee,
+            "tin" : tin,
+        })
+
+        if( tin === ''){
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'TIN field can not be empty',
+                showConfirmButton: true,
+            })
+
+            document.getElementById("generate_prn").checked = false;
+
+        }
+
+        if( nop.value === ''){
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Number of premises can not be empty',
+                showConfirmButton: true,
+            })
+
+        }
+
+
+        if(generateprn.checked == true){
+            $.ajax({
+                url: url, 
+                type: "post",
+                data: {
+                    "licence_fee": licence_fee,
+                    "tin": tin,
+                },
+                dataType: "json",
+                headers: {'X-CSRFToken': csrftoken },
+                mode: 'same-origin',  
+                beforeSend: function () {},
+                success: function (ura_response) {
+
+                    const response = ura_response
+                    console.log(response)
+                    var status = response.GetPRNResponse.GetPRNResult.ErrorDesc
+                    console.log(status)
+                
+                    if (status = "SUCCESS") {
+                
+                            document.getElementById("prn").value = response.GetPRNResponse.GetPRNResult.PRN
+                            document.getElementById("error_code").value = response.GetPRNResponse.GetPRNResult.ErrorCode
+                            document.getElementById("error_desc").value = response.GetPRNResponse.GetPRNResult.ErrorDesc
+                            document.getElementById("expiry_date").value = response.GetPRNResponse.GetPRNResult.ExpiryDate
+                            document.getElementById("search_code").value = response.GetPRNResponse.GetPRNResult.SearchCode
+
+                            // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                            $('.prnError').html('');
+
+                        
+                    }else if(status = "Invalid Length of TIN Entered, please try again") {
+                
+                            $("#prn").val("");
+                            $("#error_code").val("");
+                            $("#error_desc").val("");
+                            $("#expiry_date").val("");
+                            $("#search_code").val("");
+
+                            // $("<i class='tSx' class='green circular check mark icon'></i>" ).appendTo($("#Prn").parent());
+                            $('.prnError').html('');
+                            console.log("invalid tin number");
+                        
+                    }else {
+
+                            $("#prn").val("");
+
+                            $("#error_code").val("");
+                            $("#error_desc").val("");
+                            $("#expiry_date").val("");
+                            $("#search_code").val("");
+
+                            $("#tSx").remove();
+                            $("<i id='tSx' class='red circular exclamation triangle icon'></i>").appendTo($("#Prn").parent());
+                            $('.prnError ').html("Failed to generate PRN");
+                            console.log("failed to generate PRN");
+
+                    }
+
+                },
+                error: function(response) {
+                    console.log(response);
+                    $('.prnError').html("Invalid PRN. Try later");
+                    console.log(response)
+                },
+
+                complete: function (response) {},
+
+            });
+
+        } else{
+            
+            document.getElementById("prn").value = ''
+            document.getElementById("error_code").value = ''
+            document.getElementById("error_desc").value = ''
+            document.getElementById("expiry_date").value = ''
+            document.getElementById("search_code").value = ''
+        }
+            
+            
+            
+
+    });
+   
+        
+</script>
+
+{% endblock content %}

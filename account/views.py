@@ -1,3 +1,5 @@
+import math
+import random
 from functools import reduce
 from operator import and_
 import os
@@ -5,6 +7,8 @@ import time
 import json
 import io
 from pathlib import Path
+from pprint import pprint
+import pyotp
 import xmltodict
 import requests
 from django.http import JsonResponse, HttpResponse
@@ -26,8 +30,11 @@ from django.utils.encoding import force_bytes
 from django.contrib import messages
 
 from django import template
+import requests
 
 from lgrb_els.utils import push_email
+from pyotp import totp
+
 from .decorators import *
 from account.forms import *
 from account.models import Account
@@ -49,6 +56,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 import urllib3
 
+from .forms import AccountAuthenticationForm
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from account.intergrations import URLS, SCOPES, PRIVATE_KEY
@@ -59,13 +68,135 @@ def auth_page(request):
     return render(request, 'account/auth.html')
 
 
+def molgapikey():
+    url = "https://api-uat.integration.go.ug/token?grant_type=client_credentials"
+    payload = {}
+
+    headers = {
+    'Authorization': 'Basic aDZCckZyMnpTTmtZWUZGVDJvR2llV3p4WTQ4YTpranV5TWdUd3JsOWNEeURLdnViSFZFel9leUFh'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+    res = json.loads(response.text)
+    accesstoken = res['access_token']
+    return accesstoken
+
+
+def getregions():
+    accesstoken =  molgapikey()
+    url = "https://api-uat.integration.go.ug/t/molg.go.ug/molg/1.0.0/regions?start&limit=&name"
+    payload = {}
+    headers = {
+    'MOLG-AUD-Auth-Token': 'fTydZWdaEOAwIffZqrDyO4fYU9fPwM9koikoSIIHzq0bYyO7wOQxql4QsIulkQIx',
+    'Authorization': 'Bearer '+ accesstoken }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    res = json.loads(response.text)
+    data = res['data']
+    return data
+
+
+def getdistricts():
+    accesstoken =  molgapikey()
+    url = "https://api-uat.integration.go.ug/t/molg.go.ug/molg/1.0.0/districts?start&limit&name&region_id&sub_region_id"
+    payload = {}
+    headers = {
+    'MOLG-AUD-Auth-Token': 'fTydZWdaEOAwIffZqrDyO4fYU9fPwM9koikoSIIHzq0bYyO7wOQxql4QsIulkQIx',
+    'Authorization': 'Bearer '+ accesstoken }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    res = json.loads(response.text)
+    data = res['data']
+    return data
+
+
+
+def getcounties(request, *args, **kwargs):
+        
+    district_id = request.GET.get('district_id')
+    accesstoken =  molgapikey()
+    url = "https://api-uat.integration.go.ug/t/molg.go.ug/molg/1.0.0/counties?start&limit&name&region_id&sub_region_id&district_id="+district_id
+    payload = {}
+    headers = {
+    'MOLG-AUD-Auth-Token': 'fTydZWdaEOAwIffZqrDyO4fYU9fPwM9koikoSIIHzq0bYyO7wOQxql4QsIulkQIx',
+    'Authorization': 'Bearer '+ accesstoken }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    res = response.text
+
+    return HttpResponse(json.dumps(res), content_type='application/json')
+
+
+
+def getsubcounties(request, *args, **kwargs):
+        
+    district_id = request.GET.get('district_id')
+    county_id = request.GET.get('county_id')
+    accesstoken =  molgapikey()
+    url = "https://api-uat.integration.go.ug/t/molg.go.ug/molg/1.0.0/sub_counties?start&limit&name&region_id&sub_region_id&district_id="+district_id+"&county_id="+county_id
+    payload = {}
+    headers = {
+    'MOLG-AUD-Auth-Token': 'fTydZWdaEOAwIffZqrDyO4fYU9fPwM9koikoSIIHzq0bYyO7wOQxql4QsIulkQIx',
+    'Authorization': 'Bearer '+ accesstoken }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    res = response.text
+
+    return HttpResponse(json.dumps(res), content_type='application/json')
+
+
+def getparishes(request, *args, **kwargs):
+        
+    district_id = request.GET.get('district_id')
+    county_id = request.GET.get('county_id')
+    subcounty_id = request.GET.get('subcounty_id')
+
+    accesstoken =  molgapikey()
+    url = "https://api-uat.integration.go.ug/t/molg.go.ug/molg/1.0.0/parish?start&limit&name&region_id&sub_region_id&district_id="+district_id+"&county_id="+county_id+"&constituency_id&sub_county_id="+subcounty_id
+    payload = {}
+    headers = {
+    'MOLG-AUD-Auth-Token': 'fTydZWdaEOAwIffZqrDyO4fYU9fPwM9koikoSIIHzq0bYyO7wOQxql4QsIulkQIx',
+    'Authorization': 'Bearer '+ accesstoken }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    res = response.text
+    return HttpResponse(json.dumps(res), content_type='application/json')
+
+
+
+def getvillages(request, *args, **kwargs):
+        
+    district_id = request.GET.get('district_id')
+    county_id = request.GET.get('county_id')
+    subcounty_id = request.GET.get('subcounty_id')
+    parish_id = request.GET.get('parish_id')
+    
+    accesstoken =  molgapikey()
+    url = "https://api-uat.integration.go.ug/t/molg.go.ug/molg/1.0.0/parish?start&limit&name&region_id&sub_region_id&district_id="+district_id+"&county_id="+county_id+"&constituency_id&sub_county_id="+subcounty_id+"parish_id="+parish_id
+    payload = {}
+    headers = {
+    'MOLG-AUD-Auth-Token': 'fTydZWdaEOAwIffZqrDyO4fYU9fPwM9koikoSIIHzq0bYyO7wOQxql4QsIulkQIx',
+    'Authorization': 'Bearer '+ accesstoken }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    res = response.text
+    return HttpResponse(json.dumps(res), content_type='application/json')
+
+
+
+def generate_otp():
+    totp = pyotp.TOTP('base32secret3232')
+    otp = totp.now()
+    return otp
+
+
+def verify_otp(otp):
+    totp = pyotp.TOTP('base32secret3232')
+    verif = totp.verify(otp)
+    return verif
+
+
 def client_login(request):
+  
     context = {}
+
     user = request.user
     if user.is_authenticated:
-
         landing_page = 'client:client_home'
-
         if user.role == "client":
             landing_page = 'client:client_home'
         elif user.role == "inspector":
@@ -81,14 +212,19 @@ def client_login(request):
 
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
-        if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email, password=password)
+        email = request.POST['email']
+        password = request.POST['password']
 
+        if form.is_valid():
+            otp = generate_otp()
+            message = "Your OTP is " + otp
+            subject = "OTP Verification"
+            
+            push_email(subject, message, [email, 'maserejjen@gmail.com', 'augustine.ssekyondwa@nita.go.ug'])
+            user = authenticate(email=email, password=password)
+            
             if user:
                 # Generate OTP And Send Email then redirect to OTP Verification Page
-
                 login(request, user)
                 landing_page = 'client:client_home'
                 if user.role == "client":
@@ -104,13 +240,20 @@ def client_login(request):
 
                 subject = 'LGRB Signin Notification'
                 message = f'Hi {user.email}, you have Logged into the Lotteries and Gaming Board e-licensing portal '
-                push_email(subject, message, [user.email, 'mark.maserejje@nita.go.ug'])
-                return redirect(landing_page)
+                push_email(subject, message, [user.email, 'augustine.ssekyondwa@nita.go.ug'])
+                return render(request, "account/otp.html", context)
+                #return redirect(landing_page)
     else:
         push_email('LGRB Signin Notification', 'Login Failed ....', ['mark.maserejje@nita.go.ug'])
         form = AccountAuthenticationForm()
     context['login_form'] = form
     return render(request, "account/login.html", context)
+
+
+def otp_page(request):
+    if request.POST:
+        print(request.POST['otp'])
+    return render(request, "account/otp.html")
 
 
 def client_logout(request):
@@ -122,9 +265,7 @@ def admin_login(request):
     context = {}
     user = request.user
     if user.is_authenticated:
-
         landing_page = 'client:client_home'
-
         if user.role == "client":
             landing_page = 'client:client_home'
         elif user.role == "inspector":
@@ -139,6 +280,7 @@ def admin_login(request):
         return redirect(landing_page)
 
     if request.POST:
+
         form = AccountAuthenticationForm(request.POST)
         if form.is_valid():
             email = request.POST['email']
@@ -176,9 +318,11 @@ def admin_logout(request):
 
 class RegisterView(View):
     template_name = 'account/register.html'
-
+    
     def get(self, request, *args, **kwargs):
+        districts = getdistricts()
         context = {}
+        context['districts'] = districts
         form = RegistrationForm()
         context['registration_form'] = form
         return render(request, self.template_name, context)

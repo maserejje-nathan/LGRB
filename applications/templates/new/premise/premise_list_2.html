@@ -1,0 +1,57 @@
+ {% for licence in premises %}
+    <tr>
+        <td>{{licence.operator_name}} </td>
+        <td>{{licence.premise_name}}</td>
+        <td>{{licence.region}}</td>
+        <td>{{licence.district}}</td>
+        <td>{{licence.municipality}}</td>
+        <td>{{licence.town_council}}</td>
+        <td>{{licence.plot_number}} </td>
+        <td>{{licence.location}}</td>
+        <td>{{licence.building_name}}</td>
+        
+
+
+        <td>  
+            {% comment %} <button class="btn btn-warning show-form-update" data-url="{% url 'applications:premise_update' licence.id %}">
+                <span class="glyphicon glyphicon-pencil"></span>
+                Edit 
+            </button>
+            
+            <button class="btn btn-danger show-form-delete" data-url="{% url 'applications:premise_delete' licence.id %}">
+                <span class="glyphicon glyphicon-trash"></span>
+                Delete 
+            </button> {% endcomment %}
+
+            <div class="d-flex align-items-justify ml-3 mr-3">                                                   
+                <div> 
+                <a href="{% url 'applications:new_premise_prn_pdf_view'  licence.id %}" target="_blank" class="ml-3 mr-3 "> 
+                        <span data-toggle="tooltip" data-placement="top" title="view prn slip">
+                        <i class="far fa-eye"></i>    &nbsp;  &nbsp; &nbsp; 
+                    </span>
+                </a>
+                </div>
+
+                <div>
+                <a href="{% url 'applications:new_premise_prn_pdf_download_view'  licence.id %}" class="ml-3 mr-3 "> 
+                    <span data-toggle="tooltip" data-placement="top" title="download prn slip">
+                        <i class="fas fa-download"></i>    
+                    </span>
+                </a>
+                </div> 
+            </div>
+
+
+            
+        </td>
+
+    </tr>
+
+{% empty %}
+
+    <tr>
+        <td colspan="13" class="text-center ">No premise available </td>
+    </tr>
+
+{% endfor %}
+

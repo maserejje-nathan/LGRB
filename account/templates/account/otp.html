@@ -23,36 +23,33 @@
    <body>
       <div class="signin-panel">
 
-         <img style="" class="svg-bg"  src="{% static 'assets/img/login-slider.jpg' %}" />
+         <img style="" class="svg-bg"  src="{% static 'assets/img/landing.jpg' %}" />
          <div class="signin-sidebar">
             <div class="signin-sidebar-body">
                <a href="/" class="sidebar-logo mg-b-40"><img style="height:5rem; width:18rem;" class="img-fluid"  src="{% static 'assets/img/brand/logo.png' %}" /></a>
                <h4 class="signin-title">&nbsp;</h4>
                <h4 class="signin-title">LGRB  Licencing System (ELS)</h4>
-               <h5 class="signin-subtitle">Please signin to continue.</h5>
+               <h5 class="signin-subtitle">Please Verify OTP.</h5>
+
+     
 
                <form method="POST" class="ui form mg-t-40" action="">
                   {% csrf_token %}
                   <div class="field">
-                     <label>{{login_form.email.label}}</label>
-                     {{login_form.email}}
-                  </div>
-                  <div class="field">
-                     <label class="d-flex justify-content-between">{{login_form.password.label}} <a href="{% url 'password_reset' %}" class="tx-13">Forgot password?</a> </label>
-                     {{login_form.password }}
+                       <div class="form-group d-flex mg-b-0">
+
+                          <input type="number" required maxlength="6" class="form-control" id="otp" placeholder="Enter OTP" style="margin-left:10px">
+
+                       </div>
                   </div>
                   <div class="form-group d-flex mg-b-0">
-                     <a href="{% url 'register' %}" class="btn btn-brand-01 btn-uppercase flex-fill primary" style="background:#f2711c"><i class="user add icon"></i> Create An Account</a>
-                     <button type="submit" class="btn btn-brand-01 btn-uppercase flex-fill" style="margin-left:10px"> <i class="sign in icon "></i> Sign In</button>
+
+                     <button type="submit" class="btn btn-brand-01 btn-uppercase flex-fill" style="margin-left:10px"> <i class="sign in icon "></i> Verify OTP</button>
                   </div>
-                  <div class="divider-text mg-y-30">Or</div>
 
                </form>
 
-               <p>  <a href="{% url 'ugpass' %}" class="ui fluid white basic button">
-                  <!--<i class="help circle icon"> continue with ugpass </i>Continue with UgPass </a> -->
-                  Continue with <img src="{% static 'assets/img/brand/ugpass.jpeg' %}">  </a>
-               </p>
+
 
             </div>
             <!-- signin-sidebar-body -->

@@ -215,7 +215,7 @@
                         {% if licence.applicationfeepayments.payment_description == "RECEIVED AND CREDITED" %}
                            <a href="{% url 'administrator:principle-new-assign'  licence.id %}" class=" btn btn-primary text-light"> Assign </a>    
                         {% else %}
-                           <a href="{% url 'administrator:principle-new-assign'  licence.id %}" class=" btn btn-primary text-light disabled" role="button" aria-disabled="true" > Assign </a>  
+                           <a href="{% url 'administrator:principle-new-assign'  licence.id %}" class=" btn btn-primary text-light" role="button" aria-disabled="false" > Assign </a>  
                               
                         {% endif %}
                         

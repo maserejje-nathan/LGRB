@@ -29,7 +29,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '10.255.0.74',
-    'uat.els.lgrb.go.ug'
+    '10.255.5.178',
+    'lotteries.works.go.ug',
+    'uat.els.lgrb.go.ug',
 ]
 
 # Application definition
@@ -47,9 +49,6 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'crispy_bootstrap4',
-    'django_otp',
-    'django_otp.plugins.otp_totp',
-
     ## custome defined apps
     'client',
     'administrator',
@@ -59,6 +58,7 @@ INSTALLED_APPS = [
     'new',
     'reports',
     'api',
+    'ajax_datatable',
 
 ]
 
@@ -68,16 +68,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'django_otp.backends.OTPAuthenticationBackend',
-]
 
 ROOT_URLCONF = 'lgrb_els.urls'
 
@@ -123,6 +117,8 @@ DATABASES = {
 
 # csrftoken settings
 SECURE_REFERRER_POLICY = "origin-when-cross-origin"
+
+LOGIN_URL = 'two_factor:login'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

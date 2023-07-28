@@ -33,15 +33,31 @@
 <meta property="og:description" content="LGRB is a beautiful Bootstrap 5 Admin Dashboard with a huge number of components built to fit together and look amazing." />
 <meta property="og:site_name" content="Creative Tim" />
 
-
-
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-
 <link href="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/css/nucleo-icons.css" rel="stylesheet" />
 <link href="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/css/nucleo-svg.css" rel="stylesheet" />
-
-<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
 <link href="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/css/nucleo-svg.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.5/datatables.min.css" rel="stylesheet"/>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.5/datatables.min.css" rel="stylesheet"/>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script language="javascript">
+  
+    $(document).ready(function() {
+    new DataTable('#employee', {
+    keys: true
+  });
+
+    });
+</script>
+
 
 <link id="pagestyle" href="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/css/soft-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
       <style>
@@ -57,46 +73,27 @@
 </head>
 <body class=" g-sidenav-show bg-gray-100 ">
 
+{% load static %}
+
 {% comment %} <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> {% endcomment %}
 
 {% block content %}
 
 {% endblock content %}
 
-<script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/core/popper.min.js"></script>
-<script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/core/bootstrap.min.js"></script>
-<script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/plugins/smooth-scrollbar.min.js"></script>
 
+<script src="{% static 'js/core/popper.min.js' %}"></script>
+<script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
 <script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/plugins/dragula/dragula.min.js"></script>
 <script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/plugins/jkanban/jkanban.js"></script>
 <script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/plugins/choices.min.js"></script>
+<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
 
-<script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/plugins/chartjs.min.js"></script>
-
-
-<script>
-
-  window.addEventListener('load', function() {
-    var spinner = document.getElementById('spinner');
-    spinner.parentNode.removeChild(spinner);
-  });
-
-  var spinner = document.getElementById('spinner');
-  spinner.parentNode.removeChild(spinner);
-
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-</script>
+{% block extrascript %}{% endblock extrascript %}
 
 
-<script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<script src="https://appsrv1-147a1.kxcdn.com/soft-ui-dashboard-pro/js/soft-ui-dashboard.min.js?v=1.0.1"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"78a558a0fd26f71e","version":"2022.11.3","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
 </body>
 </html>

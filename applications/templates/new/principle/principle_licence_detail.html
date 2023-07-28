@@ -1,0 +1,1114 @@
+{% extends 'client/base.html'%}
+{% load static %}
+{% block content %}  
+
+ <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_District').on('change', function() {
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                var distid = this.value
+                console.log("District id is ==================>" +distid )
+                $.ajax({
+                  url: "/counties", 
+                  type: "get",
+                  data: {'district_id': distid},
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select County ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+
+                    }
+                    document.getElementById("id_County").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+
+     <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_County').on('change', function() {
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                var county_id = this.value
+                var district_id = document.getElementById("id_District").value;
+
+                console.log("District id is ==================>" +district_id )
+                console.log("County id is "+ county_id)
+
+                $.ajax({
+                  url: "/subcounties", 
+                  type: "get",
+                  data: {
+                    'district_id': district_id,
+                    'county_id': county_id
+                },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select Sub County ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+                    }
+                    document.getElementById("id_Subcounty").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+
+         <script type = "text/javascript" >
+         $(document).ready(function() {
+          $('#id_Subcounty').on('change', function() {
+              var subcounty_id = this.value
+
+               const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+               var district_id = document.getElementById("id_District").value;
+               var county_id = document.getElementById("id_County").value;
+               
+                
+
+                $.ajax({
+                  url: "/parishes", 
+                  type: "get",
+                  data: {
+                    'district_id': district_id,
+                    'county_id': county_id,
+                    'subcounty_id': subcounty_id
+                },
+                  dataType: "json",
+                  headers: {'X-CSRFToken': csrftoken },
+                  mode: 'same-origin',  
+                  beforeSend: function () {},
+                  success: function (response) {
+                    var obj = JSON.parse(response); 
+                    var items = obj.data
+                    console.log('counties============================>'+ items)
+                    var str = "<option value=''> ---- Select Parish ---- </option>";
+
+                    var list_string = "";
+                    for (var item of items) {
+                        str += "<option value='" + item.id + "'>" + item.name + "</option>";
+                    }
+                    document.getElementById("id_Parish").innerHTML = str;
+                    }
+                
+                });
+          });   
+
+         });
+     </script>
+
+
+<div class="card mt-3 mb-3">
+    <div class="card-body">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">Principle Licence</a></li>
+                <li class="breadcrumb-item active" aria-current="page"> Detail </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+   <div class="col-12 col-xl-8">
+
+      <div class="card card-body border-0 shadow mb-4">
+         <h2 class="h5 mb-4">General information </h2>
+         
+            <div class="container-fluid  py-4 px-0 mt-1 ">
+                           
+                  <div class="row mb-3 ">
+
+                       
+                        {% if licence.applicant.legalStatus == "Company" %}
+                           <div class="col-md-4 mb-1 ">
+                              <label for="" >Company Name</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.first_name}} ">
+                           </div>
+                           
+                           <div class="col-md-4 mb-1 ">
+                                 <label for="">Company Type</label>
+                                 <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.last_name}} ">
+                           </div>
+
+                          
+
+                           <div class="col-md-4 mb-1 ">
+                                 <label for="">Business Registration Number</label>
+                                 <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.brn}} ">
+                           </div>
+
+                           <div class="col-md-4 mb-3">
+                              <label for="phone">Company Mobile Phone</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value=" {{licence.applicant.phone_number}}">  
+                           </div>
+
+                           <div class="col-md-4 mb-1">
+                              <label for="email">Company Email</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value=" {{licence.email}}">  
+                           </div>
+
+                           
+                        {% else %}
+
+
+                           <div class="col-md-4 mb-1 ">
+                              <label for="" >First Name</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.first_name}} ">
+                           </div>
+                           
+                           <div class="col-md-4 mb-1 ">
+                                 <label for="">Last Name</label>
+                                 <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.last_name}} ">
+                           </div>
+
+                         
+
+                           <div class="col-md-4 mb-3">
+                              <label for="phone">Individuals Mobile Phone</label>
+                              <input class="form-control form-control-sm"  type="text"  value=" {{licence.applicant.phone_number}}">  
+                           </div>
+
+
+                           {% if licence.appplicant.citizenship == "Ugandan" %}
+                           <div class="col-md-4 mb-0 ">
+                              <label for="">National Identification Number (NIN)</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.nin}} ">
+                           </div>
+                           {% else %}
+
+                            <div class="col-md-4 mb-0 ">
+                              <label for="">Work Permit Number</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.wpn}} ">
+                           </div>
+
+                           <div class="col-md-4 mb-0 ">
+                              <label for="">Passport Number</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.ppn}} ">
+                           </div>
+                        
+                           {% endif %}
+
+                           <div class="col-md-4 mb-0 ">
+                              <label for="">Email</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.applicant.email}} ">
+                           </div>
+
+                        {% endif %}
+
+                  </div>
+
+                  <div class="row mb-3">
+
+                    
+                        <div class="col-sm-4 ">
+
+                              <div class="required field">
+                                 <label> {{registration_form.District.label}}</label>
+                                 <select class="form-select" aria-label="Default select example" name="District" id="id_District">
+                                    <option selected>Open this select menu</option>
+                                    {%for district in districts %}
+                                    <option value={{district.id}}>{{district.name}}</option>
+                                     {%endfor%}
+                                   
+                                  </select>
+                                 <div class="surnameerror error"></div>
+                              </div>
+                           
+                           <!--<label for="state">District</label>
+                           <input class="form-control form-control-sm"  type="text" disabled value="{{licence.district}}"> -->
+                        </div>
+                     
+                     
+
+                        <div class="col-sm-4 mb-3">
+                           <label for="state">County</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.county}}">
+                        </div>
+
+                        <div class="col-sm-4 mb-3">
+                           <label for="state">Sub county</label>
+                              <input class="form-control form-control-sm"  type="text" disabled value="{{licence.sub_county}}">
+                        </div>
+
+                     <div class="col-sm-4 mb-3">
+                        <label for="state">Village</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.village}}">
+                     </div>
+
+                     <div class="col-sm-4">
+                        <label for="state">Parish</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.parish}}">
+                     </div>
+
+                     <div class="col-sm-4">
+                        <label for="state">Plot Number</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.plot_number}}">
+                     </div>
+
+                  </div>
+
+                  <div class="row mb-3">
+
+                     <div class="">
+                           <label class=" m-2">PARTICULARS OF THE LICENCE</label>
+                     </div>
+
+                    <div class="col-sm-6 ">
+                        <label for="first_name">Name of the Business/ Comapny </label>
+                        <input class="form-control form-control-sm small" id="first_name" type="text" placeholder="{{licence.name_of_the_company}}" readonly>
+                     </div>
+
+                     <div class="col-sm-3 ">
+                        <label >Purpose of application </label>
+                        <input class="form-control form-control-sm small" id="first_name" type="text" placeholder="{{licence.purpose_of_application}}" readonly>
+                     </div>
+
+
+                     <div class="col-sm-3 ">
+                        <label for="birthday">Date of application</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.date_applied}}"> 
+                     </div>
+                     
+                  
+                     <div class="col-sm-8">
+                        <label for="first_name">Type of the licence</label>
+                        <input class="form-control form-control-sm small" id="first_name" type="text" placeholder="{{licence.licence_type}}" readonly>
+                     </div>
+
+                      <div class="col-sm-4">
+                        <label for="first_name">Previous Licence Number </label>
+                        <input class="form-control form-control-sm" id="first_name" disabled type="text" placeholder=" {{licence.previous_licence_number}}" />
+                     </div>
+
+                     {% comment %} conditionals  {% endcomment %}
+
+                     {% if licence.licence_type == "Casino operating license" %}
+                        <div class="col-sm-4">
+                           <label for="first_name"> Description of the casino facility </label>
+                           <input class="form-control" id="first_name" disabled type="text" placeholder="{{licence.description}}" />
+                        </div>
+
+                        <div class="col-sm-4">
+                           <label for="first_name">Class of Casino games to be operated </label>
+                           <input class="form-control" id="first_name" disabled type="text" placeholder=" {{licence.projected_gross_turnover}}" />
+                        </div>
+
+                        <div class="col-sm-4">
+                           <label for="first_name">Categories of machines or devices to be used in the Casino </label>
+                           <input class="form-control" id="first_name" disabled type="text" placeholder=" {{licence.previous_licence_number}}" />
+                        </div>
+                     
+                     {% else %}
+                     am here 
+
+                     {% endif %}
+                     {% comment %} end conditionals  {% endcomment %}
+
+                  </div>
+                  
+                  <div class="row">
+
+                   
+
+                     <div class="col-sm-9 mb-3">
+                        <div class="form-group">
+                           <label for="address">Have the persons named in this application been engaged in
+                              any other business similar to lottery?</label>
+                           <input class="form-control form-control-sm"  type="text" disabled value="{{licence.previous_business_engagement}}">
+                        </div>
+                     </div>
+                     <div class="col-sm-3 mb-3">
+                        <label for="state">If yes, Provide particulars of the offence or crime</label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.name_of_the_business}}">
+                     </div>
+                     
+                        <div class="col-sm-4 mb-3">
+                           <label for="state">Capacity Engaged</label>
+                           <input class="form-control form-control-sm"  type="text" disabled value="{{licence.engagement_capacity}}">
+                        </div>
+
+                        <div class="container">
+                           <div class="row">
+                              
+                              <div class="col-sm mb-3">
+                                 <label for="state"> Perriod: Start Date</label>
+                                 <input class="form-control form-control-sm"  type="text" disabled value="{{licence.start_date}}">
+                              </div>
+
+                              <div class="col-sm mb-3">
+                                 <label for="state">Perriod: End Date </label>
+                                 <input class="form-control form-control-sm"  type="text" disabled value="{{licence.end_date}}">
+                              </div>
+                           </div>
+
+                        </div>
+                     
+                  </div>
+
+                  <div class="row">
+
+                     <div class="col-sm-4">
+                        <label for="state">Has the applicant ever been convicted for any offence or crime, even though subject of a pardon, amnesty, or other similar action? </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.crime_engagement}}">
+                     </div>
+
+                     <div class="col-sm-6">
+                        <label for="state">Details if yes </label>
+                        <input class="form-control form-control-sm"  type="text" disabled value="{{licence.crime_details}}">
+                     </div>
+
+                  </div>
+                     
+            </div>
+
+      </div>
+
+   
+      <div class="card card-body border-0 shadow mb-4 mb-xl-0">
+         {% comment %} <h2 class="h5 mb-4">Inspection checklist  </h2> {% endcomment %}
+      </div>
+  
+   </div>
+
+   <div class="col-12 col-xl-4">
+
+      <div class="row">
+
+
+      <div class="col-12 col-sm-6 col-xl-12">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Attachments  </h2>
+               <div class="row">
+      
+                    
+                        {% if licence.districts_of_conduction %}
+                        <div class="d-flex justify-content-between align-items-center">
+                           
+                           <div>
+                              <i class="far fa-file-pdf mr-3"></i> <!-- PDF icon -->
+                              List of Districts where the game is to be conducted.
+                           </div>
+                           <a class="" target="_blank" href="{{licence.districts_of_conduction.url}} "> 
+                              <i class="far fa-eye mr-2"></i> <!-- Eye icon -->
+                           </a>
+                        </div>
+                        {% endif %}
+                    
+
+
+                     
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div>
+                              <i class="far fa-file-pdf mr-3"></i> <!-- PDF icon -->
+                              Memorandum and articles of association
+                           </div>
+
+                           {% if licence.tenancy_agreement %}
+                              <a class="" target="_blank" href="{{licence.memorandum_and_articles_of_association.url}}"> 
+                                 <i class="far fa-eye mr-2"></i> <!-- Eye icon -->
+                              </a>
+                           {% endif %}
+
+                        </div>
+                   
+
+
+                     
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div>
+                              <i class="far fa-file-pdf mr-3"></i> <!-- PDF icon -->
+                              Annual company returns 
+                           </div>
+
+                           {% if licence.annual_company_returns %}
+                              <a class="" target="_blank" href="{{licence.annual_company_returns.url}}"> 
+                                 <i class="far fa-eye mr-2"></i> <!-- Eye icon -->
+                              </a>
+                           {% endif %}
+
+                        </div>
+                 
+                  
+                    
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div>
+                              <i class="far fa-file-pdf mr-3"></i> <!-- PDF icon -->
+                              Tenancy agreement
+                           </div>
+
+                           {% if licence.tenancy_agreement %}
+                              <a class="" target="_blank" href="{{licence.tenancy_agreement.url}}"> 
+                                 <i class="far fa-eye mr-2"></i> <!-- Eye icon -->
+                              </a>
+                           {% endif %}
+
+                        </div>
+                   
+
+               
+               </div>
+         </div>
+
+
+
+         <div class="col-12 mb-4">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Payments  </h2>
+               
+               {% if licence.purpose_of_application == "Renewal" %}
+
+                     {% if licence.licencefeepayments %} 
+
+                        {% if  licence.licencefeepayments.payment_description == "AVAILABLE"  %}
+                           <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                              <li class="list-group-item border-0 d-flex mb-3 "> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm"> Payment registration accepted</h6>
+                                       <span class="text-xs">Accepted on {{licence.applicationfeepayments.payment_generation_date}}, by {{object.payment_made_by}}</span>
+                                    </div>
+                                 </div>
+                              </li>
+                           </div>
+
+                        {% elif licence.licencefeepayments.payment_description == "EXPIRED" %}
+                              <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                              <li class="list-group-item border-0 mb-3"> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-times" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment registration expired</h6>
+                                       <span class="text-xs">Expired on {{licence.applicationfeepayments.payment_expiry_date}}</span>
+                                    </div>
+                                 </div>
+                              </li> 
+                        {% elif licence.licencefeepayments.payment_description == "RECEIVED AND CREDITED" %}
+                           <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                           <li class="list-group-item border-0 mb-3"> 
+                              <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                       <span class="text-xs">Paid on {{licence.applicationfeepayments.payment_made_on}}, by {{licence.applicationfeepayments.payment_made_by}}</span>
+                                    </div>
+                                 </div>
+                              </li>
+                        {% else %}
+                           <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                           <li class="list-group-item border-0 mb-3"> 
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                    <span class="text-xs">Generated on {{licence.applicationfeepayments.payment_generation_date}}, by {{licence.applicationfeepayments.payment_made_by}}</span>
+                                 </div>
+                              </div>
+                           </li>
+                        {% endif %} 
+
+                     {% endif %}
+
+               {% else %}
+
+                     {% if licence.applicationfeepayments %} 
+
+                        {% if  licence.applicationfeepayments.payment_description == "AVAILABLE"  %}
+                           <div class="list-group-item border-0 d-flex" > Application Fee </div>
+                              <li class="list-group-item border-0 d-flex "> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm"> Payment registration accepted</h6>
+                                       <span class="text-xs">Accepted on {{licence.applicationfeepayments.payment_generation_date}}, by {{object.payment_made_by}}</span>
+                                    </div>
+                                 </div>
+                              </li>
+                           </div>
+
+                        {% elif licence.applicationfeepayments.payment_description == "EXPIRED" %}
+                              <div class="list-group-item border-0 d-flex" > Application Fee </div>
+                              <li class="list-group-item border-0 "> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-times" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment registration expired</h6>
+                                       <span class="text-xs">Expired on {{licence.applicationfeepayments.payment_expiry_date}}</span>
+                                    </div>
+                                 </div>
+                              </li> 
+                        {% elif licence.applicationfeepayments.payment_description == "RECEIVED AND CREDITED" %}
+                           <div class="list-group-item border-0 d-flex" > Application Fee </div>
+                           <li class="list-group-item border-0 "> 
+                              <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                       <span class="text-xs">Paid on {{licence.applicationfeepayments.payment_made_on}}, by {{licence.applicationfeepayments.payment_made_by}}</span>
+                                    </div>
+                                 </div>
+                              </li>
+                        {% else %}
+                           <div class="list-group-item border-0 d-flex" > Application Fee </div>
+                           <li class="list-group-item border-0 "> 
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                    <span class="text-xs">Generated on {{licence.applicationfeepayments.payment_generation_date}}, by {{licence.applicationfeepayments.payment_made_by}}</span>
+                                 </div>
+                              </div>
+                           </li>
+                        {% endif %}
+
+                     {% endif %}
+
+                     {% if licence.licencefeepayments %}
+
+                        {% if  licence.licencefeepayments.payment_description == "AVAILABLE"  %}
+                              <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                              <li class="list-group-item border-0 d-flex "> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm"> Payment registration accepted</h6>
+                                       <span class="text-xs">Accepted on {{licence.licencefeepayments.payment_generation_date}}, by {{licence.licencefeepayments.payment_made_by}}</span>
+                                    </div>
+                                 </div>
+                              </li>
+                        {% elif licence.licencefeepayments.payment_description == "EXPIRED" %}
+                              <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                              <li class="list-group-item border-0 "> 
+                                 <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-times" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment registration expired</h6>
+                                       <span class="text-xs">Expired on {{licence.licencefeepayments.payment_expiry_date}}</span>
+                                    </div>
+                                 </div>
+                              </li> 
+                        {% elif licence.licencefeepayments.payment_description == "RECEIVED AND CREDITED" %}
+                           <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                           <li class="list-group-item border-0 "> 
+                              <div class="d-flex align-items-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                       <i class="fas fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="d-flex flex-column">
+                                       <h6 class="mb-1 text-dark text-sm">Payment submitted and cleared</h6>
+                                       <span class="text-xs">Paid on {{licence.licencefeepayments.payment_generation_date}}, by {{licence.licencefeepayments.payment_made_by}}</span>
+                                    </div>
+                                 </div>
+                              </li>
+                        {% else %}
+                           <div class="list-group-item border-0 d-flex" > Licence Fee </div>
+                           <li class="list-group-item border-0 "> 
+                              <div class="d-flex align-items-center">
+                                 <button class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                 </button>
+                                 <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm"> Payment registration pending acceptance</h6>
+                                    <span class="text-xs">Generated on {{licence.licencefeepayments.payment_generation_date}}, by {{licence.licencefeepayments.payment_made_by}}</span>
+                                 </div>
+                              </div>
+                           </li>
+                        {% endif %}
+
+                     {% endif %}
+
+               {% endif %}
+
+            </div>
+         </div>
+
+        
+         <div class="col-12">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Bank Guarantee  </h2>
+                           
+                  {% if   licence.bank_guarantee  %}
+                     <div class="">
+                        <p class=" mb-4">Name: {{ licence.bank_guarantee.Name }}</p>
+                        <p class=" mb-4 ">Issuing Bank: {{ licence.bank_guarantee.bank }}  </p>
+                        <p class=" mb-4 ">Date Submitted:  {{ licence.bank_guarantee.date_created }} </p>
+                        <p class=" mb-4 ">File: <a class="text-success" href="{{licence.bank_guarantee.bank_guarantee.url}}"> Bank guarantee</a> </p> </br>
+
+                     </div>
+                  
+                  {% else %}
+                        <div class="mb-3">
+                           ---------------
+                        </div> 
+                  {% endif %}
+
+                  {% if request.user.role == "client"  %}
+
+                     {% if licence.approved == True and licence.approving_authority_status == "Approved" %}
+
+                        {% if   licence.bank_guarantee  %}
+                        {% else %}
+
+                        <div class="mt-3 mb-3">
+                           <a href="{% url 'bankguarantee:new_bank_guarantee_create' %}" class=" btn btn-warning text-light"> Submit Bank Guarantee </a>
+                        </div>
+                        {% endif %}
+                     
+                     {% endif %}
+
+                  {% endif %}
+                     
+            </div>
+         </div>
+
+         <div class="col-12 col-sm-6 col-xl-12">
+            <div class="card card-body border-0 shadow mb-4">
+               <h2 class="h5 mb-4">Approvals  </h2>
+               <div class="row">
+
+                  <!-- approvers comments -->
+                        {% if request.user.role == "inspector" %}
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> INSPECTION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          {% if licence.inspection_authority_status == None %}
+                                             <div class="text-end"><b>Inspectors Recomendation: </b> </div>   
+                                          {% else %}
+                                             <div class="text-end"><b>Inspectors Recomendation: </b> <small class="text-danger"> {{licence.inspection_authority_status}}</small></div>
+                                          {% endif %}
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Inspectors Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.inspection_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+
+                                          {% if licence.inspection_report %}
+                                             <div class="text-end"> <b>Evaluation checklist:</b>  
+                                                <a target="_blank" href="{{licence.inspection_report.url}}" class=" text-success" > view Checklist</a>
+                                             </div>
+                                          {% else %}
+                                             <div class="text-end"> <b>Evaluation checklist:</b>  
+                                                
+                                             </div>
+                                             
+                                          {% endif %}
+
+                                       </div>
+
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.assigned_to_inspector}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_inspected}} </small></div>
+                                       </div>                                    
+                                    </div>
+                                 </div>
+
+                              
+                              </div>
+
+                           {% if licence.defer_to_inspector == True %}
+                        
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> VERIFICATION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Verifiers Recomendation: </b> <small class="text-danger"> {{licence.verification_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Defer Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.verification_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.verified_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_verified}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div>
+
+                              
+                              </div> 
+                           {% endif %} 
+                           
+                           </div>
+
+                        {% elif request.user.role == "verifier" %}
+                              
+                              <div  class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> INSPECTION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Inspectors Recomendation: </b> <small class="text-danger"> {{licence.inspection_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Inspectors Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.inspection_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+
+                                          {% if licence.inspection_report %}
+                                             <div class="text-end"> <b>Inspection checklist:</b>  <a target="_blank" href="{{licence.inspection_report.url}}" class=" text-success" > view Checklist</a></div>
+                                          {% else %}
+                                             Evaluation checklist: Not Uploaded
+                                          {% endif %}
+
+                                       </div>
+
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.assigned_to_inspector}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_inspected}} </small></div>
+                                       </div>
+
+                                       
+                                    </div>
+                                 </div>                                   
+                              </div>
+                           
+                              <div  class="list-group-item list-group-item-action border-bottom">
+                                    <div class="row align-items-center">
+                                       <div class="col ps-0 ms-2">
+                                       <h6> VERIFICATION </h6>
+
+                                          <div class="d-flex justify-content-between align-items-center">                                            
+                                             <div class="text-end"><b>Verifiers Recomendation: </b> <small class="text-danger"> {{licence.verification_authority_status}}</small></div>
+                                          </div>
+                                          
+                                          <div>
+                                             <b>Verifiers Comments:</b> 
+                                             <span class="font-small mt-1 mb-0" > {{licence.verification_authority_remarks}} </span>
+                                          </div>
+                                          
+                                          <div class="d-flex justify-content-between align-items-center">
+                                             <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.verified_by}}</small></div>
+                                             <div class="text-end"> <b></b><small class="text-danger">{{licence.date_verified}} </small></div>
+                                          </div>
+                                          
+                                       </div>
+                                    </div>
+                              </div>
+
+                           {% if licence.defer_to_verifier == True %}
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> APPROVAL </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{licence.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Defer Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.approving_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.approved_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_approved}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div> 
+                              </div>
+                           {% endif %}
+                           
+
+                        {% elif request.user.role == "approver" %}
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> INSPECTION </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Inspectors Recomendation: </b> <small class="text-danger"> {{licence.inspection_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Inspectors Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.inspection_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+
+                                          
+                                          {% if licence.inspection_report %}
+                                             <div class="text-end"> <b>Evaluation checklist:</b>  <a target="_blank" href="{{licence.inspection_report.url}}" class=" text-success" > view Checklist</a></div>
+                                          {% else %}
+                                             Evaluation checklist: Not Uploaded
+                                          {% endif %}
+
+                                          
+
+                                       </div>
+
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.assigned_to_inspector}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_inspected}} </small></div>
+                                       </div>
+
+                                       
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                              <div  class="list-group-item list-group-item-action border-bottom">
+                                    <div class="row align-items-center">
+                                       <div class="col ps-0 ms-2">
+                                       <h6> VERIFICATION </h6>
+
+                                          <div class="d-flex justify-content-between align-items-center">                                            
+                                             <div class="text-end"><b>Verifiers Recomendation: </b> <small class="text-danger"> {{licence.verification_authority_status}}</small></div>
+                                          </div>
+                                          
+                                          <div>
+                                             <b>Verifiers Comments:</b> 
+                                             <span class="font-small mt-1 mb-0" > {{licence.verification_authority_remarks}} </span>
+                                          </div>
+                                          
+                                          <div class="d-flex justify-content-between align-items-center">
+                                             <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.verified_by}}</small></div>
+                                             <div class="text-end"> <b></b><small class="text-danger">{{licence.date_verified}} </small></div>
+                                          </div>
+                                          
+                                       </div>
+                                    </div>
+                              </div>
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> APPROVAL </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{licence.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Approvers Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.approving_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.approved_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_approved}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div> 
+                              </div>   
+                        {% elif request.user.role == "client" %}
+
+                           {% if licence.approving_authority_status == "Approved" %}
+                              <div href="#" class="list-group-item list-group-item-action border-bottom mt-3 ">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> LICENCE FINAL APPROVALS </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{licence.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Approvers Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.approving_authority_remarks}} </span>
+                                       </div>
+                                    
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> Approved on:</b><small class="text-danger"> </small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_approved}} </small></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+
+                           {% elif licence.approving_authority_status == "Rejected" %}
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> LICENCE FINAL APPROVALS </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{licence.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Reasons for rejection:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.approving_authority_remarks}} </span>
+                                       </div>
+                                    
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> rejected on:</b><small class="text-danger"> </small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_approved}} </small></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+
+                           {% endif %}
+
+                           {% if licence.bank_guarantee.bank_guarantee.approving_authority_status == "Approved" %}
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> Bank Guarantee Approval </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{licence.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Approvers Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.approving_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> By:</b><small class="text-danger"> {{licence.approved_by}}</small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.date_approved}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div> 
+                              </div> 
+
+                           {% elif licence.bank_guarantee.approving_authority_status == "Rejected" %}
+
+                              <div href="#" class="list-group-item list-group-item-action border-bottom">
+                                 <div class="row align-items-center">
+                                    <div class="col ps-0 ms-2">
+                                    <h6> Bank Guarantee Approval </h6>
+
+                                       <div class="d-flex justify-content-between align-items-center">                                            
+                                          <div class="text-end"><b>Approvers Recomendation: </b> <small class="text-danger"> {{licence.bank_guarantee.approving_authority_status}}</small></div>
+                                       </div>
+                                       
+                                       <div>
+                                          <b>Approvers Comments:</b> 
+                                          <span class="font-small mt-1 mb-0" > {{licence.bank_guarantee.approving_authority_remarks}} </span>
+                                       </div>
+                                       
+                                       <div class="d-flex justify-content-between align-items-center">
+                                          <div class="text-end"> <b> </b><small class="text-danger"> </small></div>
+                                          <div class="text-end"> <b></b><small class="text-danger">{{licence.bank_guarantee.date_approved}} </small></div>
+                                       </div>
+                                       
+                                    </div>
+                                 </div> 
+                              </div>
+
+                           {% endif %}
+
+                              
+
+
+                        {% endif %}
+                  <!-- end approvers comments -->
+                     <li role="separator" class="dropdown-divider mt-4 mb-4"></li>
+                  <!--admins approving buttons -->
+                        {% if request.user.role == "client" %}
+                           <li role="separator" class="dropdown-divider mt-4 mb-4"></li> 
+                        {% else %}
+                           <div class=" mb-4 mt-3 ">
+                                 
+                                 {% if request.user.role == "inspector" %}
+                                    <a href="{% url 'administrator:PrincipleInspectorsUpdate'  licence.id %}" class=" btn btn-warning text-light"> Evaluate </a>
+                                 {% elif request.user.role == "verifier" %}
+                                    <a href="{% url 'administrator:PrincipleVerifiersUpdate'  licence.id %}" class=" btn btn-warning text-light"> Verify </a>   
+
+                                 {% elif request.user.role == "approver" %}
+                                    <a href="{% url 'administrator:PrincipleApproversUpdate'  licence.id %}" class=" btn btn-warning text-light"> Approve </a>
+                                 {% endif %} 
+                              
+                              </div> 
+                           </div>
+                        {% endif %}
+                  <!-- end admins approving buttons -->
+
+               </div>
+         </div>
+
+      </div>
+
+   </div>
+
+
+   
+</div>
+
+
+
+{% endblock content %}

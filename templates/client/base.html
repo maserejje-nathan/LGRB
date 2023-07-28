@@ -16,7 +16,7 @@
       <link type="text/css" href="{% static 'volt-pro/vendor/notyf/notyf.min.css' %} " rel="stylesheet">
       <link type="text/css" href="{% static 'volt-pro/vendor/fullcalendar/main.min.css' %}" rel="stylesheet">
       <link type="text/css" href="{% static 'volt-pro/vendor/apexcharts/dist/apexcharts.css' %}" rel="stylesheet">
-      <link type="text/css" href="{% static 'volt-pro/vendor/dropzone/dist/min/dropzone.min.css' %}' " rel="stylesheet">
+      <link type="text/css" href="{% static 'volt-pro/vendor/dropzone/dist/min/dropzone.min.css' %}" rel="stylesheet">
       {% comment %} 
       <link type="text/css" href="{% static 'volt-pro/vendor/choices.js/public/assets/styles/choices.min.css' %}' " rel="stylesheet">
       {% endcomment %}
@@ -29,7 +29,7 @@
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
       <!-- MDB -->
       <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css" rel="stylesheet" />
-      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://code.jquery.com/jquery-latest.min.js"></script>
       <!-- stepper -->
       <link rel="stylesheet" href="{% static 'stepper.min.css' %}" >
       <script type="text/javascript" src="{% static 'stepper.min.js' %}"></script>
@@ -525,6 +525,7 @@
       <script src="{% static 'plugin.js' %}"></script>
       <!-- MDB -->
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"></script>
-      <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+      <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+      {% block extrascript %}{% endblock extrascript %}
    </body>
 </html>

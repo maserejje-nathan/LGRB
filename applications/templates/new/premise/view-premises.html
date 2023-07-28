@@ -1,0 +1,213 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% block content%}
+
+
+<!-- main content -->
+<div >
+
+
+
+
+<div class="row">
+   <h2 class="text-center mb-3 mt-3 pb-3"> Add Premise Licence</h2>
+  
+   <div class="col-12 mb-4">
+      <a class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle" data-bs-toggle="modal" data-bs-target="#editTaskModal" onClick="editUser({{user.id}})">
+        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        add premise
+    </a>
+   </div>
+</div>
+<!--end main content -->
+</div>
+               
+
+    <div id="kanbanColumn4" class="list-group kanban-list">
+
+        <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-lg-3">
+                    <div class="modal-header align-items-start border-bottom">
+                    <div class="d-block">
+                        <form  id="form">
+                            {% csrf_token %}
+                            {{ licence_form.errors }}
+                            <div class="card border-0 shadow components-section">
+                                <div class="card-body">
+                                <div class="row mb-4">
+                                        {{form.errors}}
+                                        <h2 class="h5"> Premise Licence Form</h2>
+
+                                        <div class="col-lg-4 col-sm-6">
+                                        
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="operator_name" placeholder="operator_name" id="operator_name" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="premise_name" placeholder="premise_name" id="premise_name" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="equipment_in_the_premise" placeholder="equipment_in_the_premise" id="equipment_in_the_premise" required>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="number_of_gaming_devices" placeholder="number_of_gaming_devices" id="number_of_gaming_devices" required>
+                                                </div>
+                                            
+                            
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="size" placeholder="size" id="size" id="size" required>
+                                                </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="region" placeholder="region" id="region" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="district" placeholder="district" id="district" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="municipality" placeholder="municipality" id="municipality" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="town_council" placeholder="town_council" id="town_council" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="plot_number" placeholder="plot_number" id="plot_number" required>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-sm-6">
+
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="location" placeholder="location" id="location" required>
+                                                    {{ add_premise_form.location}}
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" name="building_name" placeholder="building_name" id="building_name" required>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <input class="form-control" type="email" name="email" min="10" max="100" placeholder="email" id="email" required>
+                                                </div>
+
+                                        </div>
+
+                                        <div class="col-lg-6 col-sm-6"> 
+                                            <button class="btn btn-primary " type="submit">submit application</button>
+                                        </div>
+
+                                </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body py-4">
+                    <div class="row">
+                        <div class="col-12 col-lg-9">
+                            <div class="row mb-4">
+                                
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            
+                        </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer justify-content-start border-top">
+                    <div class="d-none d-sm-flex">
+                        <a href="#" class="btn btn-gray-800 d-inline-flex align-items-center me-2">
+                            <svg class="icon icon-xs text-gray-300 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                            add premise 
+                        </a>
+                       
+                    </div>
+                    <div class="col-12 d-grid gap-2 d-sm-none"><a href="#" class="btn btn-gray-800 me-2 text-start"><span class="fas fa-arrow-right me-2"></span>Move</a> <a href="#" class="btn btn-gray-800 me-2 text-start"><span class="fas fa-archive me-2"></span>Archive</a> <a href="#" class="btn btn-gray-800 me-2 text-start"><span class="fas fa-eye me-2"></span>Watch<span class="fas fa-check-circle ms-3 text-success"></span></a> <a href="#" class="btn btn-gray-800 me-2 text-start"><span class="fas fa-share-alt me-2"></span>Share</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+     </div>
+
+
+    <div class="row">
+    <div class="col-12 mb-4">
+            <div class="card border-0 shadow components-section">
+                <div class="card-body">
+                <div class="row mb-4">
+                        {{form.errors}}
+                        <h2 class="h5"> Premise Licences</h2>
+                        <div class="table-responsive py-4">
+                            <table class="table table-flush" id="premisesTable">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th> operator name  </th>
+                                    <th> premise name </th>
+                                    <th> region </th>
+                                    <th> district </th>
+                                    <th> municipality </th>
+                                    <th> town_council </th>
+                                    <th> plot_number  </th>
+                                    <th> location </th>
+                                    <th> building name </th>
+                                    <th> size </th>
+                                    <th> equipment in the premise </th>
+                                    <th> number of_gaming devices </th>
+                                    <th> actions </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for licence in premise %}
+                                <tr>
+                                    <td>{{licence.operator_name}} </td>
+                                    <td>{{licence.premise_name}}</td>
+                                    <td>{{licence.region}}</td>
+                                    <td>{{licence.district}}</td>
+                                    <td>{{licence.municipality}}</td>
+                                    <td>{{licence.town_council}}</td>
+                                    <td>{{licence.plot_number}} </td>
+                                    <td>{{licence.location}}</td>
+                                    <td>{{licence.building_name}}</td>
+                                    <td>{{licence.size}}</td>
+                                    <td>{{licence.equipment_in_the_premise}}</td>
+                                    <td>{{licence.number_of_gaming_devices}}</td>
+
+                                    <td>    
+                                        <a class="btn btn-success " href="#" data-bs-toggle="modal" data-bs-target="#editTaskModal" onClick="editUser({{user.id}})" > Edit Task </a> 
+                                        <button class="btn btn-danger " onClick="deleteUser({{user.id}})">DELETE</button>
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<!--end main content -->
+</div>
+
+{% endblock content %}

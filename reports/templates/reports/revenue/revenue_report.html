@@ -23,10 +23,10 @@
                      </svg>
                   </a>
                </li>
-               <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Revenue</a></li>
-               <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Employee Licence Revenue</li>
+               <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Reports</a></li>
+               <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Revenue Reports</li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">Employee Licence Revenue Reports</h6>
+            <h6 class="font-weight-bolder mb-0">Revenue Reports</h6>
          </nav>
          <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none ">
             <a href="javascript:;" class="nav-link text-body p-0">
@@ -145,22 +145,28 @@
    <div class="container-fluid py-4">
    <div class="row">
       <div class="col-lg-6 col-12 d-flex ms-auto">
-         <a href="javascript:;" class="btn btn-icon btn-outline-secondary ms-auto">
+         <a href="/employees/all" class="btn btn-icon btn-outline-secondary ms-auto">
          <span class="btn-inner--text">Export</span>
          <span class="btn-inner--icon ms-2"><i class="ni ni-folder-17"></i></span>
          </a>
+
+         <!--
          <div class="dropleft ms-3">
+
             <button class="btn bg-gradient-dark dropdown-toggle" type="button" id="dropdownImport" data-bs-toggle="dropdown" aria-expanded="false">
             Today
             </button>
+
             <ul class="dropdown-menu" aria-labelledby="dropdownImport">
                <li><a class="dropdown-item" href="javascript:;">Yesterday</a></li>
                <li><a class="dropdown-item" href="javascript:;">Last 7 days</a></li>
                <li><a class="dropdown-item" href="javascript:;">Last 30 days</a></li>
             </ul>
-         </div>
+         </div> -->
+
       </div>
    </div>
+
    <div class="row">
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
          <div class="card">
@@ -168,9 +174,9 @@
                <div class="row">
                   <div class="col-8">
                      <div class="numbers">
-                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Expected NTR</p>
+                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Revenue Collected</p>
                         <h5 class="font-weight-bolder mb-0">
-                           {{total_application_fees_paid.total_amount |floatformat:"-3g" }}
+                           UGX 10,000,0000
                            <span class="text-success text-sm font-weight-bolder"></span>
                         </h5>
                      </div>
@@ -183,16 +189,18 @@
                </div>
             </div>
          </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-         <div class="card">
+    </div>
+  
+
+   <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
             <div class="card-body p-3">
                <div class="row">
                   <div class="col-8">
                      <div class="numbers">
-                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Actual NTR </p>
+                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Employee License Revenue </p>
                         <h5 class="font-weight-bolder mb-0">
-                           {{total_licence_fees_paid.total_amount |floatformat:"-3g" }}
+                           UGX 4,000,000
                            <span class="text-danger text-sm font-weight-bolder"> </span>
                         </h5>
                      </div>
@@ -205,111 +213,88 @@
                </div>
             </div>
          </div>
-      </div>
-   </div>
-   <div class="row mt-4">
-      <div class="col-lg-7 col-md-12">
-         <div class="card">
-            <div class="card-header pb-0 p-3">
-               <h6 class="mb-0">Traffic channels</h6>
-               <div class="d-flex align-items-center">
-                  <span class="badge badge-md badge-dot me-4">
-                  <i class="bg-primary"></i>
-                  <span class="text-dark text-xs">Organic search</span>
-                  </span>
-                  <span class="badge badge-md badge-dot me-4">
-                  <i class="bg-dark"></i>
-                  <span class="text-dark text-xs">Referral</span>
-                  </span>
-                  <span class="badge badge-md badge-dot me-4">
-                  <i class="bg-info"></i>
-                  <span class="text-dark text-xs">Social media</span>
-                  </span>
-               </div>
-            </div>
+ </div>
+
+<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
             <div class="card-body p-3">
-               <div class="chart">
-                  <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
-         <div class="card h-100">
-            <div class="card-header pb-0 p-3">
-               <div class="d-flex justify-content-between">
-                  <h6 class="mb-0">Revenue Chart</h6>
-                  <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="See traffic channels">
-                  <i class="fas fa-info" aria-hidden="true"></i>
-                  </button>
-               </div>
-            </div>
-            <div class="card-body pb-0 p-3 mt-4">
                <div class="row">
-                  <div class="col-7 text-start">
-                     <div class="chart">
-                        <canvas id="chart-pie" class="chart-canvas" height="200"></canvas>
+                  <div class="col-8">
+                     <div class="numbers">
+                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Premise License Revenue </p>
+                        <h5 class="font-weight-bolder mb-0">
+                           UGX 400,000
+                           <span class="text-danger text-sm font-weight-bolder"> </span>
+                        </h5>
                      </div>
                   </div>
-                  <div class="col-5 my-auto">
-
-                  
-                     <span class="badge badge-md badge-dot me-4 d-block text-start">
-                     <i class="bg-info"></i>
-
-                     <span class="text-dark text-xs">Actual NTR</span> </span>
-
-                     <span class="badge badge-md badge-dot me-4 d-block text-start">
-                     <i class="bg-primary"></i>
-
-                     <span class="text-dark text-xs">Expected NTR</span>
-                     </span>
-
-                   
-
-                    
+                  <div class="col-4 text-end">
+                     <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                        <i class="ni ni-watch-time text-lg opacity-10" aria-hidden="true"></i>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
-      </div>
-   </div>
+</div>
+
+
+<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+               <div class="row">
+                  <div class="col-8">
+                     <div class="numbers">
+                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Employee License Revenue </p>
+                        <h5 class="font-weight-bolder mb-0">
+                           UGX 1,000,000
+                           <span class="text-danger text-sm font-weight-bolder"> </span>
+                        </h5>
+                     </div>
+                  </div>
+                  <div class="col-4 text-end">
+                     <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                        <i class="ni ni-watch-time text-lg opacity-10" aria-hidden="true"></i>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+</div>
+
+</div>
+
    <div class="row mt-4">
-      <div class="col-sm-6">
+      <div class="col-sm-12">
          <div class="card h-100">
             <div class="card-header pb-0 p-3">
-               <div class="d-flex align-items-center">
-                  <h6 class="mb-0">Payments per operator </h6>
-                  <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="See how much traffic do you get from social media">
-                  <i class="fas fa-info"></i>
-                  </button>
-               </div>
+             
             </div>
             <div class="card-body px-3 pt-0 pb-2">
                <div class="table-responsive p-0">
-                  <table class="table align-items-center justify-content-center mb-0">
+                  <table id="employee" class="table align-items-center justify-content-center mb-0">
                      <thead>
                         <tr>
                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Company name</th>
-                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Number of employees</th>
-                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fee type </th>
-                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Revenue</th>
+                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PRN</th>
+                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Applied </th>
+                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Application Fees</th>
                         </tr>
                      </thead>
                      <tbody>
-                        {% for revenue in total_inspection_fees_per_company %}
+                        {% for revenue in premiselist %}
                         <tr>
                            <td>
-                              <p class="text-sm font-weight-bold mb-0"> {{revenue.name_of_the_company}}</p>
+                              <p class="text-sm font-weight-bold mb-0"> {{revenue.operator_name}}</p>
                            </td>
                            <td>
-                              <p class="text-sm font-weight-bold mb-0">   {{ revenue.total_premises }} </p>
+                              <p class="text-sm font-weight-bold mb-0">   {{ revenue.prn }} </p>
                            </td>
                            <td>
-                              <p class="text-sm font-weight-bold mb-0">Employee Fees</p>
+                              <p class="text-sm font-weight-bold mb-0">{{revenue.date_applied}}</p>
                            </td>
                            <td>
-                              <p class="text-sm font-weight-bold mb-0"> {{revenue.total_amount|floatformat:"-3g"}}  </p>
+                              <p class="text-sm font-weight-bold mb-0"> {{revenue.inspection_fee|floatformat:"-3g"}}  </p>
                            </td>
                         </tr>
                         {% endfor %}
@@ -320,11 +305,13 @@
          </div>
       </div>
 
+      <!--
+
        <div class="col-sm-6">
          <div class="card h-100">
             <div class="card-header pb-0 p-3">
                <div class="d-flex align-items-center">
-                  <h6 class="mb-0">Total employee per operator </h6>
+                  <h6 class="mb-0">Operator per region </h6>
                   <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="See how much traffic do you get from social media">
                   <i class="fas fa-info"></i>
                   </button>
@@ -336,17 +323,17 @@
                      <thead>
                         <tr>
                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Region </th>
-                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Number of Employees</th>
+                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Number of premises</th>
                         </tr>
                      </thead>
                      <tbody>
-                        {% for employee in employee_count %}
+                        {% for revenue in region_counts %}
                         <tr>
                            <td>
-                              <p class="text-sm font-weight-bold mb-0"> {{employee.name_of_the_company}}</p>
+                              <p class="text-sm font-weight-bold mb-0"> {{revenue.region}}</p>
                            </td>
                            <td>
-                              <p class="text-sm font-weight-bold mb-0">   {{ employee.count }} </p>
+                              <p class="text-sm font-weight-bold mb-0">   {{ revenue.count }} </p>
                            </td>
                           
                           
@@ -403,9 +390,9 @@
       </div>
    </div>
    <div class="table-responsive">
-   <!--end task -->
+ 
    <div class="card card-body shadow border-0 table-wrapper table-responsive">
-      <!-- Tab -->
+     
       <div class="tab-content" id="nav-tabContent">
          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="table-responsive">
@@ -460,27 +447,19 @@
                </div>
             </div>
          </div>
-         <!--end task -->
+         -->
       </div>
       <footer class="footer pt-3  ">
          <div class="container-fluid">
             <div class="row align-items-center justify-content-lg-between">
                <div class="col-lg-6 mb-lg-0 mb-4">
                   <div class="copyright text-center text-sm text-muted text-lg-start">
-                     &copy; Creative Tim - Coded by AppSeed.
+                     &copy; Lotteries And Gaming Board 2023.
                   </div>
                </div>
                <div class="col-lg-6">
                   <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                     <li class="nav-item">
-                        <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                     </li>
-                     <li class="nav-item">
-                        <a href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-django" class="nav-link text-muted" target="_blank">Product</a>
-                     </li>
-                     <li class="nav-item">
-                        <a href="https://appseed.us" class="nav-link text-muted" target="_blank">AppSeed</a>
-                     </li>
+
                   </ul>
                </div>
             </div>

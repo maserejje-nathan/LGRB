@@ -14,6 +14,7 @@ temp_three = os.path.join(BASE_DIR, 'account/templates/account/password_reset_co
 
 
 urlpatterns = [
+
     path('', auth_page, name="auth-page"),
     path('', enablejs, name="enablejs"),
     path('login/', client_login, name="login"),
@@ -22,6 +23,13 @@ urlpatterns = [
     path('logout/admin', admin_logout, name="admin_logout"),
     
     path('profile/', profile, name="profile"),
+    path('apikey/',molgapikey, name="apikey"),
+    path('counties/',getcounties, name="counties"),
+    path('subcounties/',getsubcounties, name="subcounties"),
+    path('parishes/',getparishes, name="parishes"),
+    path('villages/',getvillages, name="villages"),
+
+    
     
     # path('register/', csrf_exempt(RegisterView.as_view()), name="register"),
     path('register/', RegisterView.as_view(), name="register"),
@@ -42,6 +50,12 @@ urlpatterns = [
     
     path('accounts/ugpass/login', ugpass, name="ugpass"),
     path('daes_redirect/', redirect_page, name="daes_redirect"),
+
+
+    #OTP PAGE
+
+    path('otp/', otp_page, name='otp_page'),
+
 
 
 ]

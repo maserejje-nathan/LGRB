@@ -47,7 +47,6 @@ class MyAccountManager(BaseUserManager):
             first_name=first_name.title(),
             last_name=last_name.title(),
             phone_number=phone_number,
-
             District=District,
             County=County,
             Subcounty=Subcounty,
@@ -63,6 +62,11 @@ class MyAccountManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
+
+
+class Otp():
+    otp = models.CharField(max_length=200, null=True, blank=True, )
+    email = models.EmailField(verbose_name="email", max_length=255, unique=True)
 
 
 class Account(AbstractBaseUser, PermissionsMixin):

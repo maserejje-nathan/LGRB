@@ -267,17 +267,6 @@ class EmployeeLicence(models.Model):
     expiry_date = models.CharField(max_length=30, null=True, blank=True)
     validity = models.CharField(max_length=30, choices=validity,  verbose_name="premise_licence_validity", null=True, blank=True)
 
-    
-
-    def __repr__(self):
-        return self.name_of_the_company
-
-    def get_employee_detail_url(self, *args, **kwargs):
-        return reverse('new:employee-detail', kwargs= {'pk': self.pk} )
-    
-    def get_employee_update_url(self, *args, **kwargs):
-        return reverse('new:employee-update', kwargs= {'pk': self.pk} )
-
     class  Meta:
         db_table = 'Employee Licence'
         managed = True

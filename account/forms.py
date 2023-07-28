@@ -6,15 +6,24 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from config.choices import legalStatus, citizenship, sex, roles_trimed
 
-from account.models import Account
+from account.models import Account, Otp
 from crispy_forms.layout import Layout, Submit, Row, Column, ButtonHolder
 from django.contrib.auth.models import User
+
 
 log = logging.getLogger(__name__)
 
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
+DISTRICT_CHOICE = (
+    ('Kampala','Kampala'),
+    ('Wakiso', 'Wakiso'),
+    ('Mukono','Mukono'),
+)
+
+
 
 
 class RegistrationForm(UserCreationForm):
@@ -108,7 +117,6 @@ class RegistrationForm(UserCreationForm):
             'password2',
             'first_name',
             'last_name',
-
             'District',
             'County',
             'Subcounty',
@@ -173,8 +181,9 @@ class AccountUpdateForm(forms.ModelForm):
         attrs={'placeholder': 'e.g. Mackinon Road, Plot 4, Kampala-Uganda'}))
 
     # location 
-    District = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control ', 'name': 'District', 'id': 'District', 'type': 'text'}))
+    District = forms.CharField(widget=forms.Select(choices=DISTRICT_CHOICE))
+        #widget=forms.TextInput(attrs={'class': 'form-control ', 'name': 'District', 'id': 'District', 'type': 'text'})
+
     County = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control ', 'name': 'County', 'id': 'County', 'type': 'text'}))
     Subcounty = forms.CharField(widget=forms.TextInput(
@@ -234,12 +243,6 @@ class AccountAuthenticationForm(forms.ModelForm):
     layout = Layout('email', 'password')
 
 
-class OtpForm(forms.ModelForm):
-    otp = forms.CharField(widget=forms.EmailInput(
-        attrs={'class': 'form-control ', 'name': 'otp', 'id': 'otp', 'type': 'text'}))
 
-    class Meta:
-        # model = Account
-        fields = ('otp',)
 
     layout = Layout('otp')

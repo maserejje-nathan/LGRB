@@ -1,5 +1,9 @@
 
+
+
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+   <div class="card">
+   <div class="card-content">
    <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="/">
@@ -33,7 +37,7 @@
             </a>
             
          </li>
-         <li class="nav-item mt-3"> <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">USERS</h6>  </li> 
+
          
          {% comment %} <li class="nav-item">
             <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link " aria-expanded=" false " aria-controls="pagesExamples" role="button">
@@ -163,7 +167,7 @@
                               <a class="nav-link " href="/projects-new-project.html">
                               <span class="sidenav-mini-icon text-xs"> N </span>
                               <span class="sidenav-normal"> New Project </span>
-                              </a>
+                              </a> 
                            </li>
                         </ul>
                      </div>
@@ -179,51 +183,7 @@
             </div>
          </li> {% endcomment %}
 
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link  active " aria-expanded=" true " aria-controls="applicationsExamples" role="button">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                     <title>settings</title>
-                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                           <g transform="translate(1716.000000, 291.000000)">
-                              <g transform="translate(304.000000, 151.000000)">
-                                 <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
-                                 <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
-                                 <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
-                              </g>
-                           </g>
-                        </g>
-                     </g>
-                  </svg>
-               </div>
-               <span class="nav-link-text ms-1">Users</span>
-            </a>
-            <div class="collapse  show " id="applicationsExamples">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item ">
-                     <a class="nav-link " href="{% url 'administrator:client' %}">
-                     <span class="sidenav-mini-icon"> I </span>
-                     <span class="sidenav-normal"> Individuals </span>
-                     </a>
-                  </li>
-                  <li class="nav-item ">
-                     <a class="nav-link " href="{% url 'administrator:admin' %}">
-                     <span class="sidenav-mini-icon"> A </span>
-                     <span class="sidenav-normal"> Admins </span>
-                     </a>
-                  </li>
-                  <li class="nav-item ">
-                     <a class="nav-link " href="{% url 'administrator:company' %}">
-                     <span class="sidenav-mini-icon"> C </span>
-                     <span class="sidenav-normal"> Companies </span>
-                     </a>
-                  </li>
 
-
-               </ul>
-            </div>
-         </li>
          
          <li class="nav-item mt-3"> <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>  </li> 
          
@@ -244,29 +204,37 @@
                      </g>
                   </svg>
                </div>
-               <span class="nav-link-text ms-1">Revenue</span>
+               <span class="nav-link-text ms-1">Reports</span>
             </a>
-            <div class="collapse  false " id="ecommerceExamples">
+            <div class="collapse  show " id="ecommerceExamples">
                <ul class="nav ms-4 ps-3">
                   
                   <li class="nav-item ">
                      <a class="nav-link " href="{% url 'reports:employee_revenue' %}">
                      <span class="sidenav-mini-icon"> O </span>
-                     <span class="sidenav-normal"> Employee Licence </span>
+                     <span class="sidenav-normal"> Application Report</span>
                      </a>
                   </li>
                  
                   <li class="nav-item ">
                      <a class="nav-link " href="{% url 'reports:principle_revenue' %}">
                      <span class="sidenav-mini-icon"> R </span>
-                     <span class="sidenav-normal"> principle Licence </span>
+                     <span class="sidenav-normal"> Licensing Report</span>
                      </a>
                   </li>
 
                   <li class="nav-item ">
                      <a class="nav-link " href="{% url 'reports:premise_revenue' %}">
                      <span class="sidenav-mini-icon"> R </span>
-                     <span class="sidenav-normal"> Premise Licence </span>
+                     <span class="sidenav-normal"> Evaluation Report </span>
+                     </a>
+                  </li>
+
+
+                  <li class="nav-item ">
+                     <a class="nav-link " href="{% url 'reports:revenue_report' %}">
+                     <span class="sidenav-mini-icon"> R </span>
+                     <span class="sidenav-normal"> Revenue Report </span>
                      </a>
                   </li>
 
@@ -274,6 +242,8 @@
                </ul>
             </div>
          </li>
+
+         <!--
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#authExamples" class="nav-link " aria-controls="authExamples" role="button" aria-expanded="false">
                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
@@ -319,9 +289,67 @@
                </ul>
             </div>
          </li>
+      -->
+
+
+
+
+<li class="nav-item mt-3"> <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">USER MANAGEMENT</h6>  </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link  active " aria-expanded=" true " aria-controls="applicationsExamples" role="button">
+               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                  <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                     <title>settings</title>
+                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                           <g transform="translate(1716.000000, 291.000000)">
+                              <g transform="translate(304.000000, 151.000000)">
+                                 <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
+                                 <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
+                                 <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+                              </g>
+                           </g>
+                        </g>
+                     </g>
+                  </svg>
+               </div>
+
+
+               <span class="nav-link-text ms-1">Users</span>
+            </a>
+            <div class="collapse" id="applicationsExamples">
+               <ul class="nav ms-4 ps-3">
+
+                  <li class="nav-item ">
+                     <a class="nav-link " href="{% url 'administrator:admin' %}">
+                     <span class="sidenav-mini-icon"> A </span>
+                     <span class="sidenav-normal"> System Users </span>
+                     </a>
+                  </li>
+
+
+                  <li class="nav-item ">
+                     <a class="nav-link " href="{% url 'administrator:client' %}">
+                     <span class="sidenav-mini-icon"> I </span>
+                     <span class="sidenav-normal"> Individual Customers </span>
+                     </a>
+                  </li>
+                 
+                  <li class="nav-item ">
+                     <a class="nav-link " href="{% url 'administrator:company' %}">
+                     <span class="sidenav-mini-icon"> C </span>
+                     <span class="sidenav-normal">Registered Companies </span>
+                     </a>
+                  </li>
+
+
+               </ul>
+            </div>
+         </li>
       
 
       </ul>
    </div>
-
+</div>
+</div>
 </aside>

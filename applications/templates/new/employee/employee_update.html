@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+  
+
+<div class="">  
+
+<div>
+
+
+
+   <form method="POST" enctype="multipart/form-data" id="update-task">
+      {% csrf_token %}
+
+      <div class="ml-3 col-sm-6" id="inspector">
+         {{form.inspection_authority_status | as_crispy_field }}
+         {{form.inspection_authority_remarks | as_crispy_field }}
+         {{form.forward_for_verification | as_crispy_field}}
+      </div>
+     
+      <div class="ml-3 col-sm-6" id="verifier">
+            {{form.verification_authority_status | as_crispy_field }}
+            {{form.verification_authority_remarks | as_crispy_field }}
+            {{form.forward_for_approval | as_crispy_field}} 
+      </div>
+     
+      <div class="ml-3 col-sm-6" id="approver">
+         {{form.approving_authority_status | as_crispy_field }}
+         {{form.approved | as_crispy_field }}
+      
+      </div>
+
+      <div class="ml-3 col-sm-6" id="admin">
+         {{form.assigned_to_inspector | as_crispy_field}}
+         {{form.manager_remarks | as_crispy_field}} 
+         {{form.date_assigned | as_crispy_field}}
+      </div>
+
+      <button type="submit" id="submit" class="btn btn-primary" value="apply" > submit</button> 
+   </form>
+
+      </div>
+
+   </div>
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+   var role = "{{ request.user.role }}"
+   console.log(role)
+   if( role == "inspector"){
+     $('#inspector').show();
+     $('#approver').hide();
+     $('#verifier').hide();
+
+   }else if(role == "verifier"){
+     $('#verifier').show();
+     $('#approver').hide();
+     $('#inspector').hide();
+   }else if( role == "approver"){
+     $('#approver').show();
+     $('#inspector').hide();
+     $('#verifier').hide();
+     
+   }else if( role == "admin"){
+     $('#admin').show();
+     $('#approver').hide();
+     $('#inspector').hide();
+     $('#verifier').hide();
+   
+   }else{
+      console.log("nothing")
+   }
+
+
+});
+
+
+</script>
+{% endblock content %}
+
+
+

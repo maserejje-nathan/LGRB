@@ -1,0 +1,210 @@
+
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="card mt-3 mb-3">
+   <div class="card-body">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
+            <li class="breadcrumb-item">
+               <a href="#">
+                  <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                     </path>
+                  </svg>
+               </a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Certificates</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Licence Certificates  </li>
+         </ol>
+      </nav>
+   </div>
+</div>
+
+<div class="row">
+   <div class="col-12 ">
+      <div class="card card-body border-0 shadow mb-4">
+         <h2 class="h5 mb-4">Certificates  </h2>
+         <div class="row">
+            <div class="col-12">
+               <!-- Tab -->
+               <nav>
+                  <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+                     <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Principle Licence</a>
+                     <a class="nav-item nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Premise Licence</a>
+                     <a class="nav-item nav-link" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Key Employee Licence</a>
+                  </div>
+               </nav>
+
+               <div class="tab-content" id="nav-tabContent">
+
+                  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="table-responsive">
+                     
+                                    <table class="table table-centered table-nowrap mb-0 rounded">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="border-0 rounded-start">Id</th>
+                                                <th class="border-0">Name of the Licence </th>
+                                                <th class="border-0">Type of the Licence </th>
+                                                <th class="border-0">Date Applied</th>
+                                                 <th class="border-0">Status </th>
+                                                <th class="border-0">Certificate</th>
+                                            </tr>
+                                        </thead>
+                                    
+                                        <tbody>
+                                            <!-- Item -->
+
+                                            {% for licence in new_principle_certificate %}
+
+                                            <tr>
+                                                <td> {{licence.id}} </td>
+                                                <td> {{licence.applicant}}   </td>
+                                                <td> {{licence.licence_type}} </td>
+                                                <td> {{licence.date_applied}} </td> 
+                                                <td class="text-success">  {{licence.approving_authority_status}} &nbsp; &nbsp;   </td>
+                                                <td>
+                                                    <a href="{% url 'applications:new_principle_certificate_pdf_view' licence.id %}" class="btn btn-primary" target="_blank" >View </a>
+                                                        
+                                                    <a href="{% url 'applications:new_principle_certificate_pdf_download_view' licence.id %}" class="btn btn-success">Download</a>  
+                                                     
+                                                </td>
+                                                 
+                                            </tr>
+                                            <!-- End of Item -->
+
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                
+                                    </table>
+                                </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap mb-0 rounded">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="border-0">ID</th>
+                                            <th class="border-0 ">Operator Name</th>
+                                            <th class="border-0">Premise Name</th>
+                                            
+                                            <th class="border-0">Region </th>
+                                            <th class="border-0">District</th>
+                                            <th class="border-0">Municipality</th>
+                                            <th class="border-0">Town Council</th>
+                                            <th class="border-0">Plot number</th>
+                                            <th class="border-0 ">Location</th>
+
+                                            <th class="border-0 ">Building Name</th>
+                                            <th class="border-0 ">Size</th>
+                                            <th class="border-0 ">Equipment</th>
+                                            <th class="border-0 ">Gaming Devices</th>
+                                            <th class="border-0 ">Action</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <!-- Item -->
+                                        {% for licence in new_premise_certificate %}
+                                        <tr>
+                                            <td> {{licence.id}}</td>
+                                            <td> {{licence.operator_name}} </td>
+                                            <td> {{licence.premise_name}} </td>
+                                            <td> {{licence.region}}</td>
+                                            <td> {{licence.district}} </td>
+                                            <td> {{licence.municipality}}  </td>
+                                            <td> {{licence.town_council}}  </td>
+
+                                            <td> {{licence.plot_number}} </td>
+                                            <td> {{licence.location}} </td>
+                                            <td> {{licence.building_name}} </td>
+                                            <td> {{licence.size}} </td>
+                                            <td> {{licence.equipment_in_the_premise}} </td>
+                                            <td> {{licence.number_of_gaming_devices}} </td>
+
+                                            <td>
+                                                <a href="{% url 'applications:new_premise_certificate_pdf_view' licence.id %}" class="btn btn-primary" target="_blank"> View </a>
+                                                <a href="{% url 'applications:new_premise_certificate_pdf_download_view' licence.id %}" class="btn btn-success"> Download </a>
+                                                
+                                            </td>
+                                            {% endfor %}
+                                        </tr>
+                                        <!-- End of Item -->
+                                    </tbody>
+                                </table>
+                                    
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div class="table-responsive">
+                     
+                                    <table class="table table-centered table-nowrap mb-0 rounded">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="border-0 rounded-start">#</th>
+                                                <th class="border-0">Name of the Employee</th>
+                                                <th class="border-0">Name of the Company</th>
+                                                <th class="border-0">Type of the Licence</th>
+                                                <th class="border-0">Status</th>
+                                                <th class="border-0 ">Certificate</th>
+                                                <th class="border-0 ">Renewal</th>
+                                            </tr>
+                                        </thead>
+                                    
+                                        <tbody>
+                                            <!-- Item -->
+
+                                            {% for licence in new_keyemployee_certificate %}
+
+                                            
+                                            <tr>
+                                                <td><a href="#" class="text-primary fw-bold">{{licence.id}}</a> </td>
+                                               
+                                                <td> {{licence.name_of_the_employee}} </td>
+                                                <td> {{licence.name_of_the_company}} </td>
+                                                <td> {{licence.licence_type}} </td>
+                                                
+                                                <td>
+                                                    <div class="text-success">
+                                                        {{licence.approving_authority_status}} 
+                                                    </div>   
+                                                </td>
+                                                <td class="text-success">                                               
+                                                    <a href="{% url 'applications:new_employee_certificate_pdf_view' licence.id %}" target="_blank" class="btn btn-primary">View </a>  &nbsp; &nbsp; &nbsp;  
+                                                    <a href="{% url 'applications:new_employee_certificate_pdf_download_view' licence.id %}" class="btn btn-success">Download</a>  
+                                                </td>
+
+                                                <td>  
+                                                    {% comment %} <a href="{% url 'reapplications:renewed_key_employee' %}" class="btn btn-success">Renew</a>  {% endcomment %}
+                                                </td>
+                                            </tr>
+                                            <!-- End of Item -->
+
+
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                
+                                    </table>
+                                </div>
+                        </div>
+
+
+               </div>
+
+               <!-- End of tab -->
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+
+
+

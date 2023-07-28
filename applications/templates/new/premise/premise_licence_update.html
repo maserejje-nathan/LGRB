@@ -1,0 +1,49 @@
+ {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+  
+
+<div class="">  
+
+<div>
+
+
+   <form method="POST" enctype="multipart/form-data"  id="update-task">
+      {% csrf_token %}
+
+      <div class="ml-3 col-sm-6" id="inspector">
+            {{form.inspection_authority_status | as_crispy_field }}
+            {{form.inspection_authority_remarks | as_crispy_field }}
+            {{form.inspection_report | as_crispy_field}}
+            {{form.forward_for_verification | as_crispy_field}}
+      </div>
+     
+      <div class="ml-3 col-sm-6" id="verifier">
+            {{form.verification_authority_status | as_crispy_field }}
+            {{form.verification_authority_remarks | as_crispy_field }}
+            {{form.forward_for_approval | as_crispy_field}} 
+      </div>
+     
+      <div class="ml-3 col-sm-6" id="approver">
+         {{form.approving_authority_status | as_crispy_field }}
+         {{form.approved | as_crispy_field }}
+      </div>
+      
+      <button type="submit" id="submit" class="btn btn-primary" value="apply" > Apply</button> 
+   </form>
+
+      </div>
+
+   </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+

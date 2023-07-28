@@ -13,6 +13,8 @@ urlpatterns = [
     path('principle/revenue/', PrincipleLicencerevenueView.as_view(), name="principle_revenue"),
     path('premise/revenue/', PremiseLicenceRevenueView.as_view(), name="premise_revenue"),
     path('employee/revenue/', EmployeeLicenceRevenueView.as_view(), name="employee_revenue"),
+    path('revenue/report', RevenueReportView.as_view(), name="revenue_report"),
+    
 
     # premise applcation
     path('premise/approvals', PremiseApprovalsView.as_view(), name="all_premise_approvals"),
@@ -31,7 +33,6 @@ urlpatterns = [
 
     path('employees/all', AllEmployees.as_view(), name="employees-all-op"),
     path('principle/all', AllPrincipleLicences.as_view(), name="principle-all-op"),
-
     path('principle/csv', AllPrincipleCsvReport.as_view(), name="principle-all-op"),
 
 
